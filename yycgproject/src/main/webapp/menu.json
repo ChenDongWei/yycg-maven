@@ -1,0 +1,30 @@
+{
+   "menus" : [{"icon" : "icon-cog","menuid" : "1","menuname" : "系统管理","url" : "","menus" : [
+                 {"icon" : "icon-users","menuid" : "1_1","menuname" : "用户管理","url" : "/yycg/user/queryuser.action"
+                 }] 
+               },
+               {"icon" : "icon-creditcards","menuid" : "1","menuname" : "药品目录","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "药品目录导出","url" : "/yycg/ypml/exportypxx.action"
+                 },{"icon" : "icon-log","menuid" : "1_1","menuname" : "药品目录导 入","url" : "/yycg/ypml/importypxx.action"
+                 },{"icon" : "icon-log","menuid" : "1_1","menuname" : "供货商药品目录维护","url" : "/yycg/ypml/querygysypml.action"
+                 }] 
+               },
+               {"icon" : "icon-cart","menuid" : "1","menuname" : "采购单管理","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "创建采购单","url" : "/yycg/cgd/addcgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单维护","url" : "/yycg/cgd/querycgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/yycg/cgd/querycheckcgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单受理","url" : "/yycg/cgd/disposecgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "入库","url" : "/yycg/cgd/receivecgd.action"
+                 }] 
+               },
+               {"icon" : "icon-chart-curve","menuid" : "1","menuname" : "统计分析","url" : "","menus" : [
+                 {"icon" : "icon-application-form-edit","menuid" : "1_1","menuname" : "交易明细查询","url" : "/yycg/statistics/businesslist.action"
+                 }, {"icon" : "icon-log","menuid" : "1_1","menuname" : "按药品统计","url" : "/yycg/statistics/businessypxxsum.action"
+                 }] 
+               }
+             ]
+}
