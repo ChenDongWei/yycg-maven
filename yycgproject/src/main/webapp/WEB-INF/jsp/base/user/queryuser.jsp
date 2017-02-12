@@ -68,8 +68,9 @@
 				handler : function() {
 					//打开一个窗口，用户添加页面
 					//参数：窗口的title、宽、高、url地址
-					createmodalwindow("添加用户信息", 700, 250,
+				    createmodalwindow("添加用户信息", 700, 250,
 							'${baseurl}user/addsysuser.action');
+					
 				}
 			},
 			{
@@ -133,12 +134,13 @@
 				<!-- 查询条件 -->
 				<div class="chen-toolbar-search">
 					<label>用户账号：</label><input class="chen-text" type="text"
-						name="sysuserCustom.userid" style="width: 100px"> <label>用户名称：</label><input
-						class="easyui-text" type="text" name="sysuserCustom.username"
-						style="width: 100px"> <label>单位名称：</label><input
-						class="easyui-text" type="text" name="sysuserCustom.sysmc"
-						style="width: 100px"> <label>用户类型：</label> <select
-						class="easyui-combobox" name="sysuserCustom.groupid"
+						name="sysuserCustom.userid" style="width: 100px"> 
+					<label>用户名称：</label><input class="easyui-text" type="text" 
+						name="sysuserCustom.username" style="width: 100px"> 
+					<label>单位名称：</label><input class="easyui-text" type="text" 
+					name="sysuserCustom.sysmc" style="width: 100px"> 
+					<label>用户类型：</label> 
+					<select class="easyui-combobox" name="sysuserCustom.groupid"
 						panelHeight="auto" style="width: 100px">
 						<option value="">--请选择--</option>
 						<option value="1">卫生局</option>

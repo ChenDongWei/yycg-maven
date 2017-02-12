@@ -1,6 +1,8 @@
 package yycg.base.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +36,6 @@ public class UserAction {
 	 */
 	@RequestMapping("/queryuser")
 	public String queryUser(Model model) throws Exception{
-		//将页面所需的数据取出，传到页面
 		
 		return "/base/user/queryuser";
 	}
@@ -69,5 +70,36 @@ public class UserAction {
 		//填充rows
 		dataGridResultInfo.setRows(list);
 		return dataGridResultInfo;
+	}
+	
+	//添加用户页面
+	@RequestMapping("/addsysuser")
+	public String addSysuser(Model model) throws Exception{
+		
+		return "/base/user/addsysuser";
+	}
+	
+	//添加用户提交，结果转json输出页面
+	@RequestMapping("/addsysusersubmit")
+	public @ResponseBody Map<String, Object> addSysuserSubmit(SysuserQueryVo sysuserQueryVo) throws Exception{
+		//提示给用户的信息
+		String message = "操作成功！";
+		int type = 0;//成功
+		try {
+			//调用service执行用户添加
+			userService.insertSysuser(sysuserQueryVo.getSysuserCustom());
+		} catch (Exception e) {
+			// 输出异常信息
+			e.printStackTrace();
+			//对异常信息进行解析
+			message = e.getMessage();
+			type = 1;//失败
+		}
+		//将执行的结果返回页面
+		Map<String, Object> result_map = new HashMap<String, Object>();
+		result_map.put("type", type);
+		result_map.put("message", message);
+		
+		return result_map;
 	}
 }
