@@ -89,22 +89,9 @@ public class UserAction {
 		//默认为成功
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setType(ResultInfo.TYPE_RESULT_SUCCESS);
-		try {
-			//调用service执行用户添加
-			userService.insertSysuser(sysuserQueryVo.getSysuserCustom());
-		} catch (Exception e) {
-			// 输出异常信息
-			e.printStackTrace();
-			//解析系统自定义异常
-			if (e instanceof ExceptionResultInfo) {
-				//系统自定义异常
-				resultInfo = ((ExceptionResultInfo)e).getResultInfo();
-			}else {
-				//重新构造“未知错误”异常
-				resultInfo = new ResultInfo();
-				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
-			}
-		}
+		//调用service执行用户添加
+		userService.insertSysuser(sysuserQueryVo.getSysuserCustom());
+
 		//将执行的结果返回页面
 		SubmitResultInfo submitResultInfo = new SubmitResultInfo(resultInfo);
 		
