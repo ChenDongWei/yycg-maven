@@ -19,6 +19,8 @@ import yycg.base.pojo.po.Useryy;
 import yycg.base.pojo.po.UseryyExample;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
+import yycg.base.process.result.ExceptionResultInfo;
+import yycg.base.process.result.ResultInfo;
 import yycg.base.service.UserService;
 import yycg.util.UUIDBuild;
 
@@ -127,8 +129,11 @@ public class UserServiceImpl implements UserService {
 
 		Sysuser sysuser = this.findSysuserByUserid(sysuserCustom.getUserid());
 		if (sysuser != null) {// 帐号重复
-			// 抛出自定义异常
-			throw new Exception("帐号重复");
+			//使用系统自定义异常类
+			ResultInfo resultInfo = new ResultInfo();
+			resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
+			resultInfo.setMessage("帐号重复");
+			throw new ExceptionResultInfo(resultInfo);
 		}
 
 		// 根据用户类型，输入单位名称必须存在对应的单位表

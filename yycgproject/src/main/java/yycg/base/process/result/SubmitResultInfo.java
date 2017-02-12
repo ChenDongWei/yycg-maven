@@ -3,8 +3,8 @@ package yycg.base.process.result;
 
 /**
  * 系统提交结果结果类型
- * @author Thinkpad
- *
+ * @author dongwei
+ * @date 2017年2月12日
  */
 public class SubmitResultInfo {
 

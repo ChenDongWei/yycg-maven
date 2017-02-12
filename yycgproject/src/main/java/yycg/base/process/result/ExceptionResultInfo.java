@@ -3,6 +3,8 @@ package yycg.base.process.result;
 
 /**
  * 自定义系统异常类
+ * @author dongwei
+ * @date 2017年2月12日
  */
 public class ExceptionResultInfo extends Exception {
 

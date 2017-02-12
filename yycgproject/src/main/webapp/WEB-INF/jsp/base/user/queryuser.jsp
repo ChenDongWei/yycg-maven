@@ -68,7 +68,7 @@
 				handler : function() {
 					//打开一个窗口，用户添加页面
 					//参数：窗口的title、宽、高、url地址
-				    createmodalwindow("添加用户信息", 700, 250,
+				    createmodalwindow("添加用户信息", 600, 250,
 							'${baseurl}user/addsysuser.action');
 					
 				}

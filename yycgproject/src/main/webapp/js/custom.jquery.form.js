@@ -1,7 +1,6 @@
 var pathName = window.location.pathname.substring(1); 
 var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/')); 
 var BaseUrl= window.location.protocol + '//' + window.location.host + '/'+ webName + '/'; 
-
 /*
 *jquery预读方法
 */
@@ -9,7 +8,7 @@ jQuery(document).ready(function(){
 	loadingReady();
 }); 
 function loading(){
-	$("body").append('<div  id="load" style="width:100%;position:absolute;top:250px;text-align:center;"><img src="' + BaseUrl +'images/loading2.gif"/></div>');
+	$("body").append('<div id="load" style="width:100%;position:absolute;top:250px;text-align:center;"><img src="' + BaseUrl +'images/loading2.gif"/></div>');
 }
 function removeLoading(){
 	$("#load").remove();

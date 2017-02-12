@@ -28,33 +28,7 @@
 	//ajax调用的回调函数，ajax请求完成调用此函数，传入的参数是action返回的结果
 	function sysusersave_callback(data) {
 
-		//message_alert(data);
-		if(data.type=='0'){
-		  $.messager.alert('提示信息',data.message,'success');
-		}else{
-		  $.messager.alert('提示信息',data.message,'error');
-		}
-
-		//action返回的是json数据
-		//如果是成功显示一个对号
-		//如果是错误信息
-		//提交结果类型
-		//data中存放的是action返回Resultinfo，有一个type
-		/* var type=data.resultInfo.type;
-		//结果提示信息
-		var message=data.resultInfo.message;
-		//alert(message);
-		if(type==0){
-			//如果type等于0表示失败，调用 jquery easyui的信息提示组件
-			$.messager.alert('提示信息',message,'error');
-		}else if(type==1){
-			$.messager.alert('提示信息',message,'success');
-		}else if(type==2){
-			$.messager.alert('提示信息',message,'warning');
-		}else if(type==3){
-			$.messager.alert('提示信息',message,'info');
-		}
-		 */
+		message_alert(data);
 
 	}
 </script>

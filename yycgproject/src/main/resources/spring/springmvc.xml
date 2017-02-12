@@ -28,8 +28,18 @@
 		<property name="prefix" value="/WEB-INF/jsp" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<!-- json转换器 -->
+     <bean id="jsonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	</bean>
 
-
+	<!-- 统一异常处理类 -->
+	<bean id="handlerExceptionResolver"
+		class="yycg.base.process.exception.ExceptionResolverCustom">
+		<!-- 注入一个json转换器 -->
+		<property name="jsonMessageConverter" ref="jsonMessageConverter" />
+	</bean>
 
 
 </beans>

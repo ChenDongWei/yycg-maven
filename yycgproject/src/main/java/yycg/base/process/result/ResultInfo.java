@@ -8,8 +8,8 @@ import yycg.util.ResourcesUtil;
 
 /**
  * 系统提示信息封装类
- * @author mrt
- *
+ * @author dongwei
+ * @date 2017年2月12日
  */
 public class ResultInfo
 {

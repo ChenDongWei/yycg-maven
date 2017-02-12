@@ -22,20 +22,9 @@ import yycg.base.process.result.ExceptionResultInfo;
 import yycg.base.process.result.ResultInfo;
 
 /**
- * 
- * <p>
- * Title: ExceptionResolverCustom
- * </p>
- * <p>
- * Description:全局异常处理器
- * </p>
- * <p>
- * Company: www.itcast.com
- * </p>
- * 
- * @author 苗润土
- * @date 2014年11月26日下午5:36:56
- * @version 1.0
+ * 全局异常处理器
+ * @author dongwei
+ * @date 2017年2月13日
  */
 public class ExceptionResolverCustom implements HandlerExceptionResolver {
 

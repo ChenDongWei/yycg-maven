@@ -14,6 +14,9 @@ import yycg.base.pojo.vo.PageQuery;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
 import yycg.base.process.result.DataGridResultInfo;
+import yycg.base.process.result.ExceptionResultInfo;
+import yycg.base.process.result.ResultInfo;
+import yycg.base.process.result.SubmitResultInfo;
 import yycg.base.service.UserService;
 
 /**
@@ -81,25 +84,30 @@ public class UserAction {
 	
 	//添加用户提交，结果转json输出页面
 	@RequestMapping("/addsysusersubmit")
-	public @ResponseBody Map<String, Object> addSysuserSubmit(SysuserQueryVo sysuserQueryVo) throws Exception{
+	public @ResponseBody SubmitResultInfo addSysuserSubmit(SysuserQueryVo sysuserQueryVo) throws Exception{
 		//提示给用户的信息
-		String message = "操作成功！";
-		int type = 0;//成功
+		//默认为成功
+		ResultInfo resultInfo = new ResultInfo();
+		resultInfo.setType(ResultInfo.TYPE_RESULT_SUCCESS);
 		try {
 			//调用service执行用户添加
 			userService.insertSysuser(sysuserQueryVo.getSysuserCustom());
 		} catch (Exception e) {
 			// 输出异常信息
 			e.printStackTrace();
-			//对异常信息进行解析
-			message = e.getMessage();
-			type = 1;//失败
+			//解析系统自定义异常
+			if (e instanceof ExceptionResultInfo) {
+				//系统自定义异常
+				resultInfo = ((ExceptionResultInfo)e).getResultInfo();
+			}else {
+				//重新构造“未知错误”异常
+				resultInfo = new ResultInfo();
+				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
+			}
 		}
 		//将执行的结果返回页面
-		Map<String, Object> result_map = new HashMap<String, Object>();
-		result_map.put("type", type);
-		result_map.put("message", message);
+		SubmitResultInfo submitResultInfo = new SubmitResultInfo(resultInfo);
 		
-		return result_map;
+		return submitResultInfo;
 	}
 }
