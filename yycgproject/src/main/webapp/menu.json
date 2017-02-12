@@ -1,6 +1,6 @@
 {
    "menus" : [{"icon" : "icon-cog","menuid" : "1","menuname" : "系统管理","url" : "","menus" : [
-                 {"icon" : "icon-users","menuid" : "1_1","menuname" : "用户管理","url" : "/yycg/user/queryuser.action"
+                 {"icon" : "icon-users","menuid" : "1_1","menuname" : "用户管理","url" : "/user/queryuser.action"
                  }] 
                },
                {"icon" : "icon-creditcards","menuid" : "1","menuname" : "药品目录","url" : "","menus" : [

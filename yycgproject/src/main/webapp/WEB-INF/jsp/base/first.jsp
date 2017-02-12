@@ -7,8 +7,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 
-<link rel="stylesheet" type="text/css"
-	href="${baseurl}js/easyui/styles/default.css">
+<link rel="stylesheet" type="text/css" href="${baseurl}js/easyui/styles/default.css">
 <%@ include file="/WEB-INF/jsp/base/common_css.jsp"%>
 <%@ include file="/WEB-INF/jsp/base/common_js.jsp"%>
 <script type="text/javascript">
@@ -75,9 +74,6 @@
 	}
 </script>
 
-
-
-<meta name="GENERATOR" content="MSHTML 9.00.8112.16540">
 </head>
 
 <body style="overflow-y: hidden;" class="easyui-layout" scroll="no">
@@ -119,9 +115,9 @@
 	</div>
 	<!-- end of sidebar -->
 
-	<div style="background: #eeeeee; overflow-y: hidden;"
-		id="mainPanle" region="center">
-		<div id="tabs" class="easyui-tabs" border="false" fit="true"></div>
+	<div class="chen-main" style="background: #eeeeee;" id="mainPanle" data-options="region:'center'">
+		<div id="tabs" class="easyui-tabs" data-options="border:false,fit:true">
+		</div>
 	</div>
 
 

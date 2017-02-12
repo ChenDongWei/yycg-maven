@@ -93,7 +93,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from SYSUSER
+    from YYCG.SYSUSER
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -104,21 +104,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from SYSUSER
+    from YYCG.SYSUSER
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from SYSUSER
+    delete from YYCG.SYSUSER
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="yycg.base.pojo.po.SysuserExample" >
-    delete from SYSUSER
+    delete from YYCG.SYSUSER
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="yycg.base.pojo.po.Sysuser" >
-    insert into SYSUSER (ID, USERID, USERNAME, 
+    insert into YYCG.SYSUSER (ID, USERID, USERNAME, 
       GROUPID, PWD, CONTACT, 
       ADDR, EMAIL, USERSTATE, 
       REMARK, CREATETIME, SEX, 
@@ -136,7 +136,7 @@
       #{sysid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="yycg.base.pojo.po.Sysuser" >
-    insert into SYSUSER
+    insert into YYCG.SYSUSER
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -275,13 +275,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="yycg.base.pojo.po.SysuserExample" resultType="java.lang.Integer" >
-    select count(*) from SYSUSER
+    select count(*) from YYCG.SYSUSER
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update SYSUSER
+    update YYCG.SYSUSER
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
@@ -355,7 +355,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update SYSUSER
+    update YYCG.SYSUSER
     set ID = #{record.id,jdbcType=VARCHAR},
       USERID = #{record.userid,jdbcType=VARCHAR},
       USERNAME = #{record.username,jdbcType=VARCHAR},
@@ -383,7 +383,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="yycg.base.pojo.po.Sysuser" >
-    update SYSUSER
+    update YYCG.SYSUSER
     <set >
       <if test="userid != null" >
         USERID = #{userid,jdbcType=VARCHAR},
@@ -452,7 +452,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="yycg.base.pojo.po.Sysuser" >
-    update SYSUSER
+    update YYCG.SYSUSER
     set USERID = #{userid,jdbcType=VARCHAR},
       USERNAME = #{username,jdbcType=VARCHAR},
       GROUPID = #{groupid,jdbcType=CHAR},

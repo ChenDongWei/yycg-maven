@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 引用jquery easy ui的js库及css -->
-<LINK rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
 	href="${baseurl}js/easyui/styles/default.css">
 <%@ include file="/WEB-INF/jsp/base/common_css.jsp"%>
 <%@ include file="/WEB-INF/jsp/base/common_js.jsp"%>
@@ -60,27 +60,40 @@
 	} ] ];
 
 	//定义 datagird工具
-	var toolbar_v = [ {//工具栏
-		id : 'btnadd',
-		text : '添加用户',
-		iconCls : 'icon-add',
-		handler : function() {
-			//打开一个窗口，用户添加页面
-			//参数：窗口的title、宽、高、url地址
-			createmodalwindow("添加用户信息", 700, 250,
-					'${baseurl}user/addsysuser.action');
-		}
-	}, {
-		id : 'btnadd',
-		text : '编辑用户',
-		iconCls : 'icon-edit',
-		handler : function() {
-			//打开一个窗口，用户添加页面
-			//参数：窗口的title、宽、高、url地址
-			createmodalwindow("编辑用户信息", 700, 250,
-					'${baseurl}user/addsysuser.action');
-		}
-	} ];
+	var toolbar_v = [
+			{//工具栏
+				id : 'btnadd',
+				text : '添加用户',
+				iconCls : 'icon-add',
+				handler : function() {
+					//打开一个窗口，用户添加页面
+					//参数：窗口的title、宽、高、url地址
+					createmodalwindow("添加用户信息", 700, 250,
+							'${baseurl}user/addsysuser.action');
+				}
+			},
+			{
+				id : 'btnedit',
+				text : '编辑用户',
+				iconCls : 'icon-edit',
+				handler : function() {
+					//打开一个窗口，用户添加页面
+					//参数：窗口的title、宽、高、url地址
+					createmodalwindow("编辑用户信息", 700, 250,
+							'${baseurl}user/addsysuser.action');
+				}
+			},
+			{
+				id : 'btndelete',
+				text : '删除用户',
+				iconCls : 'icon-edit',
+				handler : function() {
+					//打开一个窗口，用户添加页面
+					//参数：窗口的title、宽、高、url地址
+					createmodalwindow("编辑用户信息", 700, 250,
+							'${baseurl}user/addsysuser.action');
+				}
+			} ];
 
 	//加载datagrid
 	$(function() {
@@ -91,13 +104,16 @@
 			url : '${baseurl}user/queryuser_result.action',//加载数据的连接，引连接请求过来是json数据
 			idField : 'id',//此字段很重要，数据结果集的唯一约束(重要)，如果写错影响 获取当前选中行的方法执行
 			loadMsg : '',
+			singleSelect:false,//如果是true只允许选中一行
+			//fit:true,
 			columns : columns_v,
 			pagination : true,//是否显示分页
 			rownumbers : true,//是否显示行号
 			pageList : [ 15, 30, 50 ],
 			toolbar : toolbar_v,
-			onDblClickRow:function(rowIndex, rowData){
-		        alert('----------双击编辑----------');}
+			onDblClickRow : function(rowIndex, rowData) {
+				alert('----------双击编辑----------');
+			}
 		});
 	});
 
@@ -111,44 +127,33 @@
 </script>
 </head>
 <body>
-	<form id="sysuserqueryForm">
-		<!-- 查询条件 -->
-		<table>
-			<tbody>
-				<tr>
-					<td class="left">用户账号：</td>
-					<td><INPUT type="text" name="sysuserCustom.userid" /></td>
-					<td class="left">用户名称：</td>
-					<td><INPUT type="text" name="sysuserCustom.username" /></td>
+	<div class="easyui-layout table_search" data-options="fit:true,border:false">
+		<div data-options="region:'center',border:false">
+			<form id="sysuserqueryForm">
+				<!-- 查询条件 -->
+				<div class="chen-toolbar-search">
+					<label>用户账号：</label><input class="chen-text" type="text"
+						name="sysuserCustom.userid" style="width: 100px"> <label>用户名称：</label><input
+						class="easyui-text" type="text" name="sysuserCustom.username"
+						style="width: 100px"> <label>单位名称：</label><input
+						class="easyui-text" type="text" name="sysuserCustom.sysmc"
+						style="width: 100px"> <label>用户类型：</label> <select
+						class="easyui-combobox" name="sysuserCustom.groupid"
+						panelHeight="auto" style="width: 100px">
+						<option value="">--请选择--</option>
+						<option value="1">卫生局</option>
+						<option value="2">卫生院</option>
+						<option value="3">卫生室</option>
+						<option value="4">供货商</option>
+						<option value="0">系统管理员</option>
+					</select> <a href="#" class="easyui-linkbutton" id="btn"
+						iconCls="icon-search" onclick="queryuser()">查询</a>
+				</div>
 
-					<td class="left">单位名称：</td>
-					<td><INPUT type="text" name="sysuserCustom.sysmc" /></td>
-					<td class="left">用户类型：</td>
-					<td><select name="sysuserCustom.groupid">
-							<option value="">请选择</option>
-							<option value="1">卫生局</option>
-							<option value="2">卫生院</option>
-							<option value="3">卫生室</option>
-							<option value="4">供货商</option>
-							<option value="0">系统管理员</option>
-
-					</select></td>
-					<td><a id="btn" href="#" onclick="queryuser()"
-						class="easyui-linkbutton" iconCls='icon-search'>查询</a></td>
-				</tr>
-			</tbody>
-		</table>
-
-		<!-- 查询列表 -->
-		<table border=0 cellSpacing=0 cellPadding=0 width="99%" align=center>
-			<tbody>
-				<tr>
-					<td>
-						<table id="sysuserlist"></table>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
+				<!-- 查询列表 -->
+				<table id="sysuserlist"></table>
+			</form>
+		</div>
+	</div>
 </body>
 </html>
