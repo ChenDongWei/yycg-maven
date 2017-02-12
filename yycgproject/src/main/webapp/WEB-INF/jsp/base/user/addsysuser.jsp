@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/base/tag.jsp"%>
-<!DOCTYPE html PUBLIC "-//W3C//Dtd HTML 4.01 transitional//EN" "http://www.w3.org/tr/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/tr/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,12 +29,11 @@
 	function sysusersave_callback(data) {
 
 		//message_alert(data);
-		alert(data.message);
-		/* if(data.type=='0'){
+		if(data.type=='0'){
 		  $.messager.alert('提示信息',data.message,'success');
 		}else{
 		  $.messager.alert('提示信息',data.message,'error');
-		} */
+		}
 
 		//action返回的是json数据
 		//如果是成功显示一个对号
