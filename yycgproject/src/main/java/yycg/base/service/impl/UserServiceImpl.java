@@ -19,9 +19,12 @@ import yycg.base.pojo.po.Useryy;
 import yycg.base.pojo.po.UseryyExample;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
+import yycg.base.process.context.Config;
 import yycg.base.process.result.ExceptionResultInfo;
 import yycg.base.process.result.ResultInfo;
+import yycg.base.process.result.ResultUtil;
 import yycg.base.service.UserService;
+import yycg.util.ResourcesUtil;
 import yycg.util.UUIDBuild;
 
 public class UserServiceImpl implements UserService {
@@ -129,11 +132,8 @@ public class UserServiceImpl implements UserService {
 
 		Sysuser sysuser = this.findSysuserByUserid(sysuserCustom.getUserid());
 		if (sysuser != null) {// 帐号重复
-			//使用系统自定义异常类
-			ResultInfo resultInfo = new ResultInfo();
-			resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
-			resultInfo.setMessage("帐号重复");
-			throw new ExceptionResultInfo(resultInfo);
+			//抛出异常
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 213, null));
 		}
 
 		// 根据用户类型，输入单位名称必须存在对应的单位表
@@ -144,30 +144,24 @@ public class UserServiceImpl implements UserService {
 			//根据单位名称查询单位信息
 			Userjd userjd = this.findUserjdByMc(sysmc);
 			if (userjd == null) {
-				ResultInfo resultInfo = new ResultInfo();
-				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
-				resultInfo.setMessage("单位名称输入错误");
-				throw new ExceptionResultInfo(resultInfo);
+				//抛出异常
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 217, null));
 			}
 			sysid = userjd.getId();
 		}else if (groupid.equals("3")) {//卫生室
 			//根据单位名称查询单位信息
 			Useryy useryy = this.findUseryyByMc(sysmc);
 			if (useryy == null) {
-				ResultInfo resultInfo = new ResultInfo();
-				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
-				resultInfo.setMessage("单位名称输入错误");
-				throw new ExceptionResultInfo(resultInfo);
+				//抛出异常
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 217, null));
 			}
 			sysid = useryy.getId();
 		}else if (groupid.equals("4")) {//供药商
 			//根据单位名称查询单位信息
 			Usergys usergys = this.findUsergysByMc(sysmc);
 			if (usergys == null) {
-				ResultInfo resultInfo = new ResultInfo();
-				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
-				resultInfo.setMessage("单位名称输入错误");
-				throw new ExceptionResultInfo(resultInfo);
+				//抛出异常
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 217, null));
 			}
 			sysid = usergys.getId();
 		}

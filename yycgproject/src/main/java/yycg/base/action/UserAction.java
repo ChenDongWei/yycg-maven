@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import yycg.base.pojo.vo.PageQuery;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
+import yycg.base.process.context.Config;
 import yycg.base.process.result.DataGridResultInfo;
 import yycg.base.process.result.ExceptionResultInfo;
 import yycg.base.process.result.ResultInfo;
+import yycg.base.process.result.ResultUtil;
 import yycg.base.process.result.SubmitResultInfo;
 import yycg.base.service.UserService;
 
@@ -85,17 +87,10 @@ public class UserAction {
 	//添加用户提交，结果转json输出页面
 	@RequestMapping("/addsysusersubmit")
 	public @ResponseBody SubmitResultInfo addSysuserSubmit(SysuserQueryVo sysuserQueryVo) throws Exception{
-		//提示给用户的信息
-		//默认为成功
-		ResultInfo resultInfo = new ResultInfo();
-		resultInfo.setType(ResultInfo.TYPE_RESULT_SUCCESS);
-		resultInfo.setMessage("操作成功");
 		//调用service执行用户添加
 		userService.insertSysuser(sysuserQueryVo.getSysuserCustom());
 
 		//将执行的结果返回页面
-		SubmitResultInfo submitResultInfo = new SubmitResultInfo(resultInfo);
-		
-		return submitResultInfo;
+		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
 	}
 }
