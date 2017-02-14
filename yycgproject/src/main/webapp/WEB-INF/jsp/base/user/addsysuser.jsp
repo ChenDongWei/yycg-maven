@@ -67,7 +67,7 @@
 											<input type="text" id="sysuser_userid"
 												name="sysuserCustom.userid" />
 										</div> <!-- sysuser_useridTip用于显示提示信息，提示div的id等于校验input的id+Tip -->
-										<div id="sysuser_useridTip"></div>
+										<div id="sysuser_useridTip"></div><span style="color:red"> * </span>
 									</td>
 									<td height=30 width="15%" align=right>用户名称：</td>
 									<td class=category width="35%">
@@ -75,7 +75,7 @@
 											<input type="text" id="sysuser_username"
 												name="sysuserCustom.username" />
 										</div>
-										<div id="sysuser_usernameTip"></div>
+										<div id="sysuser_usernameTip"></div><span style="color:red"> * </span>
 									</td>
 								</tr>
 								<tr>
@@ -85,7 +85,7 @@
 											<input type="password" id="sysuser_password"
 												name="sysuserCustom.pwd" />
 										</div>
-										<div id="sysuser_passwordTip"></div>
+										<div id="sysuser_passwordTip"></div><span style="color:red"> * </span>
 									</td>
 									<td height=30 width="15%" align=right>用户类型：</td>
 									<td class=category width="35%">
@@ -101,7 +101,7 @@
 
 											</select>
 										</div>
-										<div id="sysuser_groupidTip"></div>
+										<div id="sysuser_groupidTip"></div><span style="color:red"> * </span>
 									</td>
 
 

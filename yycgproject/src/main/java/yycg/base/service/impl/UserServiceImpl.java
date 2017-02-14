@@ -144,21 +144,30 @@ public class UserServiceImpl implements UserService {
 			//根据单位名称查询单位信息
 			Userjd userjd = this.findUserjdByMc(sysmc);
 			if (userjd == null) {
-				throw new Exception("单位名称输入错误错误");
+				ResultInfo resultInfo = new ResultInfo();
+				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
+				resultInfo.setMessage("单位名称输入错误");
+				throw new ExceptionResultInfo(resultInfo);
 			}
 			sysid = userjd.getId();
 		}else if (groupid.equals("3")) {//卫生室
 			//根据单位名称查询单位信息
 			Useryy useryy = this.findUseryyByMc(sysmc);
 			if (useryy == null) {
-				throw new Exception("单位名称输入错误错误");
+				ResultInfo resultInfo = new ResultInfo();
+				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
+				resultInfo.setMessage("单位名称输入错误");
+				throw new ExceptionResultInfo(resultInfo);
 			}
 			sysid = useryy.getId();
 		}else if (groupid.equals("4")) {//供药商
 			//根据单位名称查询单位信息
 			Usergys usergys = this.findUsergysByMc(sysmc);
 			if (usergys == null) {
-				throw new Exception("单位名称输入错误错误");
+				ResultInfo resultInfo = new ResultInfo();
+				resultInfo.setType(ResultInfo.TYPE_RESULT_FAIL);
+				resultInfo.setMessage("单位名称输入错误");
+				throw new ExceptionResultInfo(resultInfo);
 			}
 			sysid = usergys.getId();
 		}
