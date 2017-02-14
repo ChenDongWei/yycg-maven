@@ -89,6 +89,7 @@ public class UserAction {
 		//默认为成功
 		ResultInfo resultInfo = new ResultInfo();
 		resultInfo.setType(ResultInfo.TYPE_RESULT_SUCCESS);
+		resultInfo.setMessage("操作成功");
 		//调用service执行用户添加
 		userService.insertSysuser(sysuserQueryVo.getSysuserCustom());
 
