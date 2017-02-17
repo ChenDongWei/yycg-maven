@@ -2,6 +2,7 @@ package yycg.base.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import yycg.base.dao.mapper.SysuserMapper;
@@ -170,6 +171,106 @@ public class UserServiceImpl implements UserService {
 		//设置单位id
 		sysuserCustom.setSysid(sysid);
 		sysuserMapper.insert(sysuserCustom);
+	}
+
+	@Override
+	public void deleteSysuser(String id) throws Exception {
+		//判断用户是否存在
+		Sysuser sysuser = sysuserMapper.selectByPrimaryKey(id);
+		if (sysuser == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 212, null));
+		}
+		//删除用户
+		sysuserMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public void updateSysuser(String id, SysuserCustom sysuserCustom)
+			throws Exception {
+		//非空校验
+		
+		//获取页面传回来的userid
+		String userid_page = sysuserCustom.getUserid();
+		
+		Sysuser sysuser = sysuserMapper.selectByPrimaryKey(id);
+		if (sysuser == null) {//数据库找不到用户信息
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 215, null));
+		}else {
+			//根据页面提交的单位名称查询单位id
+			String groupid = sysuserCustom.getGroupid();// 用户类型
+			String sysmc = sysuserCustom.getSysmc();//单位名称
+			String sysid = null;//单位id
+			if (groupid.equals("1") || groupid.equals("2")) {//监督单位
+				//根据单位名称查询单位信息
+				Userjd userjd = this.findUserjdByMc(sysmc);
+				if (userjd == null) {
+					//抛出异常
+					ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 217, null));
+				}
+				sysid = userjd.getId();
+			}else if (groupid.equals("3")) {//卫生室
+				//根据单位名称查询单位信息
+				Useryy useryy = this.findUseryyByMc(sysmc);
+				if (useryy == null) {
+					//抛出异常
+					ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 217, null));
+				}
+				sysid = useryy.getId();
+			}else if (groupid.equals("4")) {//供药商
+				//根据单位名称查询单位信息
+				Usergys usergys = this.findUsergysByMc(sysmc);
+				if (usergys == null) {
+					//抛出异常
+					ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 217, null));
+				}
+				sysid = usergys.getId();
+			}
+			//更新用户信息
+			sysuser.setUsername(sysuserCustom.getUsername());
+			sysuser.setUserstate(sysuserCustom.getUserstate());
+			sysuser.setGroupid(sysuserCustom.getGroupid());
+			sysuser.setSysid(sysid);//单位id
+			sysuserMapper.updateByPrimaryKey(sysuser);
+		}
+	}
+
+	@Override
+	public SysuserCustom findSysuserById(String id) throws Exception {
+		// 从数据库查询用户
+		Sysuser sysuser = sysuserMapper.selectByPrimaryKey(id);
+		
+		//根据id查询单位名称
+		String groupid = sysuser.getGroupid();// 用户类型
+		String sysid = sysuser.getSysid();//单位id
+		String sysmc = null;//单位名称
+		if (groupid.equals("1") || groupid.equals("2")) {//监督单位
+			//根据单位名称查询单位信息
+			Userjd userjd = userjdMapper.selectByPrimaryKey(sysid);
+			if (userjd != null) {
+				sysmc = userjd.getMc();
+			}
+			
+		}else if (groupid.equals("3")) {//卫生室
+			//根据单位名称查询单位信息
+			Useryy useryy = useryyMapper.selectByPrimaryKey(sysid);
+			if (useryy != null) {
+				sysmc = useryy.getMc();
+			}
+			
+		}else if (groupid.equals("4")) {//供药商
+			//根据单位名称查询单位信息
+			Usergys usergys = usergysMapper.selectByPrimaryKey(sysid);
+			if (usergys != null) {
+				sysmc = usergys.getMc();
+			}
+			
+		}
+		
+		SysuserCustom sysuserCustom = new SysuserCustom();
+		//将sysuser中数据设置到sysuserCustom
+		BeanUtils.copyProperties(sysuser, sysuserCustom);
+		sysuserCustom.setSysmc(sysmc);
+		return sysuserCustom;
 	}
 
 }

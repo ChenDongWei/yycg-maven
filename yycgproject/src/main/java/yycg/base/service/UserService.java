@@ -30,4 +30,13 @@ public interface UserService {
 	
 	//添加用户
 	public void insertSysuser(SysuserCustom sysuserCustom) throws Exception;
+	
+	//删除用户
+	public void deleteSysuser(String id) throws Exception;
+	
+	//修改用户
+	public void updateSysuser(String id, SysuserCustom sysuserCustom) throws Exception;
+	
+	//根据用户id获取用户信息
+	public SysuserCustom findSysuserById(String id) throws Exception;
 }

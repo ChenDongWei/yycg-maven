@@ -35,9 +35,7 @@
 </head>
 <body>
 
-
-	<form id="userform" action="${baseurl}user/addsysusersubmit.action"
-		method="post">
+	<form id="userform" action="${baseurl}user/addsysusersubmit.action" method="post">
 		<table border=0 cellSpacing=0 cellPadding=0 width="100%"
 			bgColor=#c4d8ed>
 
@@ -109,8 +107,9 @@
 								<tr>
 									<td height=30 width="15%" align=right>用户单位名称：</td>
 									<!-- 用处：根据名称获取单位id -->
-									<td class=category width="35%"><input type="text"
-										name="sysuserCustom.sysmc" /></td>
+									<td class=category width="35%">
+										<input type="text" name="sysuserCustom.sysmc"/><span style="color:red"> * </span>
+									</td>
 									<td height=30 width="15%" align=right>用户状态：</td>
 									<td class=category width="35%"><input type="radio"
 										name="sysuserCustom.userstate" value="1" checked="checked" />正常

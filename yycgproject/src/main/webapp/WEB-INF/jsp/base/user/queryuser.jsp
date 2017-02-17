@@ -14,9 +14,6 @@
 <script type="text/javascript">
 	//datagrid列定义
 	var columns_v = [ [ {
-		field : 'ck',//全选按钮
-		checkbox : true
-	}, {
 		field : 'userid',//对应json中的key
 		title : '账号',
 		width : 120
@@ -57,6 +54,20 @@
 				return "暂停";
 			}
 		}
+	}, {
+		field : 'delete',
+		title : '删除',
+		width : 100,
+		formatter : function(value, row, index) {
+			return "<a href=javascript:deleteSysuser('"+row.id+"')>删除</a>";
+		}
+	}, {
+		field : 'update',
+		title : '修改',
+		width : 100,
+		formatter : function(value, row, index) {
+			return "<a href=javascript:updateSysuser('"+row.id+"')>修改</a>";
+		}
 	} ] ];
 
 	//定义 datagird工具
@@ -70,31 +81,8 @@
 					//参数：窗口的title、宽、高、url地址
 				    createmodalwindow("添加用户信息", 600, 250,
 							'${baseurl}user/addsysuser.action');
-					
 				}
-			},
-			{
-				id : 'btnedit',
-				text : '编辑用户',
-				iconCls : 'icon-edit',
-				handler : function() {
-					//打开一个窗口，用户添加页面
-					//参数：窗口的title、宽、高、url地址
-					createmodalwindow("编辑用户信息", 700, 250,
-							'${baseurl}user/addsysuser.action');
-				}
-			},
-			{
-				id : 'btndelete',
-				text : '删除用户',
-				iconCls : 'icon-edit',
-				handler : function() {
-					//打开一个窗口，用户添加页面
-					//参数：窗口的title、宽、高、url地址
-					createmodalwindow("编辑用户信息", 700, 250,
-							'${baseurl}user/addsysuser.action');
-				}
-			} ];
+			}];
 
 	//加载datagrid
 	$(function() {
@@ -118,12 +106,47 @@
 		});
 	});
 
-	//查询方法
+	//查询用户
 	function queryuser() {
 		//datagrid的方法load方法要求传入json数据，最终将 json转成key/value数据传入action
 		//将form表单数据提取出来，组成一个json
 		var formdata = $("#sysuserqueryForm").serializeJson();
 		$('#sysuserlist').datagrid('load', formdata);
+	}
+	
+	//删除用户
+	function deleteSysuser(id) {
+		//第一个参数是提示信息，第二个参数，取消执行的函数指针，第三个参是，确定执行的函数指针
+		_confirm('您确认删除吗？',null,function (){
+
+			//将要删除的id赋值给deleteid，deleteid在sysuserdeleteform中
+			$("#delete_id").val(id);
+			//使用ajax的from提交执行删除
+			//sysuserdeleteform：form的id，userdel_callback：删除回调函数，
+			//第三个参数是url的参数
+			//第四个参数是datatype，表示服务器返回的类型
+			jquerySubByFId('sysuserdeleteFrom',userdel_callback,null,"json");
+			
+		});
+	}
+	
+	//删除用户的回调
+	function userdel_callback(data){
+		message_alert(data);
+		//刷新 页面
+		//在提交成功后重新加载 datagrid
+		//取出提交结果
+		var type=data.resultInfo.type;
+		if(type==1){
+			//成功结果
+			//重新加载 datagrid
+			queryuser();
+		}
+	}
+	
+	//修改用户
+	function updateSysuser(id) {
+		createmodalwindow("修改用户信息", 600, 250, '${baseurl}user/editsysuser.action?id='+id);
 	}
 </script>
 </head>
@@ -154,6 +177,9 @@
 
 				<!-- 查询列表 -->
 				<table id="sysuserlist"></table>
+			</form>
+			<form id="sysuserdeleteFrom" action="${baseurl}user/deletesysuser.action" method="post">
+				<input type="hidden" id="delete_id" name="id">
 			</form>
 		</div>
 	</div>

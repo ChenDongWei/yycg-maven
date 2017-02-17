@@ -93,4 +93,29 @@ public class UserAction {
 		//将执行的结果返回页面
 		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
 	}
+	
+	//删除用户
+	@RequestMapping("deletesysuser")
+	public @ResponseBody SubmitResultInfo deleteSysuser(String id) throws Exception{
+		userService.deleteSysuser(id);
+		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
+	}
+	
+	//修改用户页面
+	@RequestMapping("/editsysuser")
+	public String editSysuser(Model model, String id) throws Exception{
+		//通过id取出用户信息，转向页面
+		SysuserCustom sysuserCustom = userService.findSysuserById(id);
+		model.addAttribute("sysuserCustom", sysuserCustom);
+		
+		return "/base/user/editsysuser";
+	}
+	
+	//修改用户提交
+	@RequestMapping("/editsysusersubmit")
+	public @ResponseBody SubmitResultInfo editSysuserSubmit(String id, SysuserQueryVo sysuserQueryVo) throws Exception{
+		userService.updateSysuser(id, sysuserQueryVo.getSysuserCustom());
+		
+		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
+	}
 }
