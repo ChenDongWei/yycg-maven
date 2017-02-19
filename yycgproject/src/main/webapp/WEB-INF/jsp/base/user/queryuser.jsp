@@ -22,23 +22,9 @@
 		title : '名称 ',
 		width : 160
 	}, {
-		field : 'groupid',//对应json中的key
+		field : 'groupname',//对应json中的key
 		title : '用户类型',
 		width : 120,
-		formatter : function(value, row, index) {//通过此方法格式化显示内容,value表示从json中取出该单元格的值，row表示这一行的数据，是一个对象,index:行的序号
-			if (value == '1') {
-				return "卫生局";
-			} else if (value == '2') {
-				return "卫生院";
-			} else if (value == '3') {
-				return "卫生室";
-			} else if (value == '4') {
-				return "供货商";
-			} else if (value == '0') {
-				return "系统管理员";
-			}
-		}
-
 	}, {
 		field : 'sysmc',//对应json中的key
 		title : '所属单位',
@@ -166,12 +152,11 @@
 					<select class="easyui-combobox" name="sysuserCustom.groupid"
 						panelHeight="auto" style="width: 100px">
 						<option value="">--请选择--</option>
-						<option value="1">卫生局</option>
-						<option value="2">卫生院</option>
-						<option value="3">卫生室</option>
-						<option value="4">供货商</option>
-						<option value="0">系统管理员</option>
-					</select> <a href="#" class="easyui-linkbutton" id="btn"
+						<c:forEach items="${groupList}" var="dictinfo">
+						   <option value="${dictinfo.dictcode }">${dictinfo.info}</option>
+						</c:forEach>
+					</select>
+					<a href="#" class="easyui-linkbutton" id="btn"
 						iconCls="icon-search" onclick="queryuser()">查询</a>
 				</div>
 

@@ -18,6 +18,7 @@ import yycg.base.pojo.po.Userjd;
 import yycg.base.pojo.po.UserjdExample;
 import yycg.base.pojo.po.Useryy;
 import yycg.base.pojo.po.UseryyExample;
+import yycg.base.pojo.vo.ActiveUser;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
 import yycg.base.process.context.Config;
@@ -25,6 +26,7 @@ import yycg.base.process.result.ExceptionResultInfo;
 import yycg.base.process.result.ResultInfo;
 import yycg.base.process.result.ResultUtil;
 import yycg.base.service.UserService;
+import yycg.util.MD5;
 import yycg.util.ResourcesUtil;
 import yycg.util.UUIDBuild;
 
@@ -170,6 +172,7 @@ public class UserServiceImpl implements UserService {
 		sysuserCustom.setId(UUIDBuild.getUUID());
 		//设置单位id
 		sysuserCustom.setSysid(sysid);
+		sysuserCustom.setPwd(new MD5().getMD5ofStr(sysuserCustom.getPwd()));//明文密码转换成MD5密文存储
 		sysuserMapper.insert(sysuserCustom);
 	}
 
@@ -271,6 +274,67 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(sysuser, sysuserCustom);
 		sysuserCustom.setSysmc(sysmc);
 		return sysuserCustom;
+	}
+
+	@Override
+	public ActiveUser checkUserInfo(String userid, String pwd) throws Exception {
+		// 校验用户是否存在
+		Sysuser sysuser = this.findSysuserByUserid(userid);
+		if (sysuser == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 101, null));
+		}
+		String pwd_db = sysuser.getPwd();//从数据库取出的md5密文密码
+		String pwd_md5 = new MD5().getMD5ofStr(pwd);
+		//校验用户密码是否合法
+		if (!pwd_db.equalsIgnoreCase(pwd_md5)) {//用户名密码错误
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 114, null));
+		}
+		
+		//构建用户身份信息
+		ActiveUser activeUser = new ActiveUser();
+		activeUser.setUserid(userid);
+		activeUser.setUsername(sysuser.getUsername());
+		activeUser.setGroupid(sysuser.getGroupid());
+		activeUser.setSysid(sysuser.getSysid());// 单位id（重要）
+		String sysmc = null;// 单位名称
+		// 根据sysid查询单位名称
+		String groupid = sysuser.getGroupid();
+		String sysid = sysuser.getSysid();// 单位id
+		if (groupid.equals("1") || groupid.equals("2")) {
+			// 监督单位
+			// 根据单位id查询单位信息
+			Userjd userjd = userjdMapper.selectByPrimaryKey(sysid);
+			if (userjd == null) {
+				// 抛出异常，可预知异常
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE,
+						217, null));
+			}
+			sysmc = userjd.getMc();
+		} else if (groupid.equals("3")) {
+			// 卫生室
+			// 根据单位id查询单位信息
+			Useryy useryy = useryyMapper.selectByPrimaryKey(sysid);
+			if (useryy == null) {
+				// 抛出异常，可预知异常
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE,
+						217, null));
+			}
+			sysmc = useryy.getMc();
+		} else if (groupid.equals("4")) {
+			// 供货商
+			// 根据单位id查询单位信息
+			Usergys usergys = usergysMapper.selectByPrimaryKey(sysid);
+			if (usergys == null) {
+				// 抛出异常，可预知异常
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE,
+						217, null));
+			}
+			sysmc = usergys.getMc();
+		}
+
+		activeUser.setSysmc(sysmc);// 单位名称
+
+		return activeUser;
 	}
 
 }

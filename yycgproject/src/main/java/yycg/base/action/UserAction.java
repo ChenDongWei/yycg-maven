@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import yycg.base.pojo.po.Dictinfo;
 import yycg.base.pojo.vo.PageQuery;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
@@ -19,6 +20,7 @@ import yycg.base.process.result.ExceptionResultInfo;
 import yycg.base.process.result.ResultInfo;
 import yycg.base.process.result.ResultUtil;
 import yycg.base.process.result.SubmitResultInfo;
+import yycg.base.service.SystemConfigService;
 import yycg.base.service.UserService;
 
 /**
@@ -33,6 +35,9 @@ public class UserAction {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private SystemConfigService systemConfigService;
+	
 	/**
 	 * 用户查询页面
 	 * @param model
@@ -41,6 +46,10 @@ public class UserAction {
 	 */
 	@RequestMapping("/queryuser")
 	public String queryUser(Model model) throws Exception{
+		//将页面所需的数据取出，传到页面
+		//用户类型
+		List<Dictinfo> groupList = systemConfigService.findDictinfoByType("s01");
+		model.addAttribute("groupList", groupList);
 		
 		return "/base/user/queryuser";
 	}

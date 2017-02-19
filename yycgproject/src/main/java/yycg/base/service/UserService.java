@@ -6,10 +6,14 @@ import yycg.base.pojo.po.Sysuser;
 import yycg.base.pojo.po.Usergys;
 import yycg.base.pojo.po.Userjd;
 import yycg.base.pojo.po.Useryy;
+import yycg.base.pojo.vo.ActiveUser;
 import yycg.base.pojo.vo.SysuserCustom;
 import yycg.base.pojo.vo.SysuserQueryVo;
 
 public interface UserService {
+	//校验用户信息
+	public ActiveUser checkUserInfo(String userid, String pwd)throws Exception;
+	
 	//根据条件查询用户信息
 	public List<SysuserCustom> findSysuserList(SysuserQueryVo sysuserQueryVo) throws Exception;
 	

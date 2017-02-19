@@ -72,7 +72,7 @@ public class ResourcesUtil implements Serializable {
 		return value;
 	}
 
-	public static List<String> gekeyList(String baseName) {
+	public static List<String> getkeyList(String baseName) {
 		Locale locale = getLocale();
 		ResourceBundle rb = ResourceBundle.getBundle(baseName, locale);
 

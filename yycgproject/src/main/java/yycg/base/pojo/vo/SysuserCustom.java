@@ -7,8 +7,11 @@ import yycg.base.pojo.po.Sysuser;
  * @date 2017年2月9日
  */
 public class SysuserCustom extends Sysuser {
+	//单位名称
+	private String sysmc;
 	
-	private String sysmc;//单位名称
+	//用户类型名称
+	private String groupname;
 
 	public String getSysmc() {
 		return sysmc;
@@ -16,6 +19,14 @@ public class SysuserCustom extends Sysuser {
 
 	public void setSysmc(String sysmc) {
 		this.sysmc = sysmc;
+	}
+
+	public String getGroupname() {
+		return groupname;
+	}
+
+	public void setGroupname(String groupname) {
+		this.groupname = groupname;
 	}
 	
 }
