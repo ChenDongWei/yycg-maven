@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import yycg.base.pojo.vo.ActiveUser;
 import yycg.base.process.context.Config;
+import yycg.base.process.result.ResultUtil;
 import yycg.util.ResourcesUtil;
 /**
  * 用户身份校验
@@ -38,8 +39,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-		//拦截用户操作，跳转到登录页面
-		request.getRequestDispatcher("/WEB-INF/jsp/base/login.jsp").forward(request, response);
+		//拦截用户，抛出异常
+		ResultUtil.throwExcepion(ResultUtil.createWarning(Config.MESSAGE, 106, null));
 		return false;
 	}
 

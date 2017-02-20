@@ -12,6 +12,7 @@
 		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
-
-
+	
+	<!-- 药品目录 -->
+	<bean id="ypxxService" class="yycg.business.service.impl.YpxxServiceImpl"></bean>
 </beans>

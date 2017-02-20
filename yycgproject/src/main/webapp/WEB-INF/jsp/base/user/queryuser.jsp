@@ -87,7 +87,7 @@
 			pageList : [ 15, 30, 50 ],
 			toolbar : toolbar_v,
 			onDblClickRow : function(rowIndex, rowData) {
-				alert('----------双击编辑----------');
+				updateSysuser(rowData.id);
 			}
 		});
 	});
