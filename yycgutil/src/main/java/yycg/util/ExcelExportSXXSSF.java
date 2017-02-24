@@ -291,7 +291,7 @@ public class ExcelExportSXXSSF {
 		 * 			  导出数据对象的字段名称     
 		 * @param flushRows*/
 		//导出文件存放的路径，并且是虚拟目录指向的路径
-		String filePath = "d:/upload/linshi/";
+		String filePath = "e:/upload/linshi/";
 		//导出文件的前缀
 		String filePrefix="ypxx";
 		//-1表示关闭自动刷新，手动控制写磁盘的时机，其它数据表示多少数据在内存保存，超过的则写入磁盘

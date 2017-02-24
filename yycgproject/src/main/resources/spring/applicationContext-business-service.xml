@@ -15,4 +15,6 @@
 	
 	<!-- 药品目录 -->
 	<bean id="ypxxService" class="yycg.business.service.impl.YpxxServiceImpl"></bean>
+	<!-- 药品目录导入 -->
+	<bean id="ypxxImportService" class="yycg.business.service.impl.YpxxImportServiceImpl"></bean>
 </beans>

@@ -27,9 +27,11 @@
 	}
 	//ajax调用的回调函数，ajax请求完成调用此函数，传入的参数是action返回的结果
 	function sysusersave_callback(data) {
-
 		message_alert(data);
-
+		if(data.resultInfo.type == '1'){
+			  //延迟1秒执行关闭方法
+			  setTimeout("parent.closemodalwindow()", 1000);
+		  }
 	}
 </script>
 </head>

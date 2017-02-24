@@ -43,22 +43,32 @@ input,select {
 	vertical-align: middle;
 }
 
+/*登陆框*/
 .logincon {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	width: 1034px;
-	height: 418px;
+	height: 530px;
 	margin-left: -517px;
 	margin-top: -209px;
 	text-align: center;
 }
 
 .title {
-	width: 322px;
-	height: 40px;
-	margin: 0 auto;
-	margin-bottom: 40px;
+	position:absolute; 
+	left:280px; 
+	top:105px; 
+	width:329px; 
+	height:62px;
+}
+
+.logo{
+	position:absolute; 
+	left:265px; 
+	top:7px; 
+	width:68px; 
+	height:72px; 
 }
 
 .cen_con {
@@ -67,17 +77,22 @@ input,select {
 	margin: 0 auto;
 }
 
-.tab_con {
-	position: absolute;
-	top: 60%;
-	left: 51%;
-	margin-top: -110px;
-	margin-left: -115px;
-}
+.tab_con .input{position:absolute; left:344px; width:60px; height:39px;}
+.tab_con .input label{height:37px; line-height:37px; font-size:14px;}
+.tab_con .input input{position:absolute; left:67px; top:0; width:244px; height:39px; line-height:39px;  padding:0 20px 0 48px; border:none; outline:none; }
+.username{ top:193px;}
+.username input{background:url(../images/login/userinput.png);font-size:14px; font-weight:bold;color:#33AED8;}
+.psw{ top:240px;}
+.psw input { background:url(../images/login/passwordinput.png);}
+.validate{ position:relative; top:288px;}
+.tab_con .validate input{width:204px; padding:0 20px 0 20px; background:url(../images/login/yzminput.png);font-size:14px;}
+.validate .value{ position:absolute; right:-250px; top:0px; height:16px; line-height:16px; color:#fff; font-size:16px;}
 
-.tab {
-	
-}
+/*登录按钮*/
+.loginButton{ position:absolute; left:370px; top:344px;}
+#btn input{ width:133px; height:39px; background:url(../images/login/loginbtn.png); border:none; outline:none; cursor:pointer; font-size:16px; font-weight:bold;}
+#btn input:hover{background:url(../images/login/loginbtn_active.png);}
+.resetButton{ position:absolute; left:530px; top:344px;}
 
 .tab tr {
 	line-height: 30px;
