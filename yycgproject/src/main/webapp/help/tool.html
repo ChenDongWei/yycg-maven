@@ -1,0 +1,78 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<TITLE>tool</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+
+<SCRIPT>
+var imgLt = new Image();
+imgLt.src = "p_1.jpg";
+var imgRt = new Image();
+imgRt.src = "p_2.jpg";
+function itask_tool(){
+
+    var left = window.parent.document.getElementById("left").style.width;
+	if(left=="0%"){
+
+		frameshow.src=imgLt.src;
+		itask_tree.title="隐藏工具栏"
+		window.parent.document.getElementById("left").style.width="25%";
+		window.parent.document.getElementById("right").style.width="74.5%";
+	}else{
+
+		frameshow.src=imgRt.src;
+		itask_tree.title="显示工具栏"
+		window.parent.document.getElementById("left").style.width="0%";
+		window.parent.document.getElementById("right").style.width="99.5%";
+	}
+}
+function TurnPic()
+{
+if(window.parent.document.getElementById("left").style.width=="25%")
+ {
+   frameshow.src="p_1_a.jpg";
+  }
+  else
+  {
+   frameshow.src="p_2_a.jpg";
+  }
+
+}
+function TurnPic1()
+{
+if(window.parent.document.getElementById("left").style.width=="25%")
+ {
+   frameshow.src="p_1.jpg";
+  }
+  else
+  {
+   frameshow.src="p_2.jpg";
+  }
+}
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1400" name=GENERATOR><style type="text/css">
+<!--
+body {
+
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style></head>
+<BODY bgcolor="#C4D6EC">
+<TABLE  height=100% cellSpacing=0 cellPadding=0 width=100% align=center border=0>
+  <TBODY>
+  <TR align=middle>
+    <TD align="center" valign="middle" style="CURSOR: hand" onclick=itask_tool()>
+      <DIV id=itask_tree title=隐藏工具栏>
+   	  <IMG src="p_1.jpg" name="frameshow" width="6" height="57" id=frameshow style="CURSOR: hand"  onmousedown=TurnPic() onmouseup=TurnPic1() onmousemove=TurnPic() onmouseout=TurnPic1()></DIV></TD> 
+  </TR>
+  </TBODY>
+</TABLE>
+</BODY>
+</HTML>
