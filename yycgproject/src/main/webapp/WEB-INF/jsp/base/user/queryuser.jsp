@@ -81,6 +81,7 @@
 			loadMsg : '',
 			singleSelect:false,//如果是true只允许选中一行
 			//fit:true,
+			singleSelect : true,
 			columns : columns_v,
 			pagination : true,//是否显示分页
 			rownumbers : true,//是否显示行号
@@ -134,6 +135,13 @@
 	function updateSysuser(id) {
 		createmodalwindow("修改用户信息", 600, 250, '${baseurl}user/editsysuser.action?id='+id);
 	}
+	
+	//注册键盘事件
+	document.onkeyup = function (event) {
+        if(event.keyCode == 13){
+        	$("#btn").click();
+        }
+    }
 </script>
 </head>
 <body>

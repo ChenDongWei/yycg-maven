@@ -6,7 +6,10 @@
                {"icon" : "icon-creditcards","menuid" : "1","menuname" : "药品目录","url" : "","menus" : [
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "药品目录导出","url" : "/ypml/exportypxx.action"
                  },{"icon" : "icon-log","menuid" : "1_1","menuname" : "药品目录导入","url" : "/ypml/importypxx.action"
-                 },{"icon" : "icon-log","menuid" : "1_1","menuname" : "供货商药品目录维护","url" : "/ypml/querygysypml.action"
+                 }] 
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "供货商药品目录 ","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "供货商药品目录维护","url" : "/ypml/querygysypml.action"
                  }] 
                },
                {"icon" : "icon-cart","menuid" : "1","menuname" : "采购单管理","url" : "","menus" : [

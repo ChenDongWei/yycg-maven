@@ -113,6 +113,12 @@
 				}  
 				//window.location='${baseurl}first.action';
 			}
+			//注册键盘事件
+			document.onkeyup = function (event) {
+	            if(event.keyCode == 13){
+	            	$("#login").click();
+	            }
+	        }
 		</script>
 	</head>
 	<body style="background: #f6fdff url(${baseurl}images/login/bg1.jpg) repeat-x;">
@@ -151,7 +157,7 @@
 						</div>
 	                </div>
 	                <div id="btn" class="loginButton">
-	                    <input type="button" class="button" onclick="loginsubmit()" value="登录" />
+	                    <input id="login" type="button" class="button" onclick="loginsubmit()" value="登录" />
 	                </div>
                 	<div id="btn" class="resetButton">
                     	<input type="reset" class="button" value="重置" />

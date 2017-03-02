@@ -4,7 +4,7 @@
 
 	<!-- 药品目录查询条件 -->
 	<sql id="query_ypxx_where">
-		<if test="ypxxCustom!=null">
+		<if test="ypxxCustom != null">
 			<if test="ypxxCustom.bm != null and ypxxCustom.bm != ''">
 				and ypxx.bm = #{ypxxCustom.bm}
 			</if>
@@ -13,6 +13,11 @@
 			</if>
 			<if test="ypxxCustom.jyzt != null and ypxxCustom.jyzt != ''">
 				and ypxx.jyzt = #{ypxxCustom.jyzt}
+			</if>
+			<!-- gys药品目录查询条件等待添加 -->
+			
+			<if test="ypxxCustom.lb != null and ypxxCustom.lb != ''">
+				and ypxx.lb = #{ypxxCustom.lb}
 			</if>
 		</if>
 	</sql>

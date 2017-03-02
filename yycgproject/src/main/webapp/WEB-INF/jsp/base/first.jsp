@@ -67,7 +67,7 @@
 			location.href = '${baseurl}logout.action';
 		})
 	}
-
+	
 	//帮助
 	function showhelp() {
 		window.open('${baseurl}help/help.html', '帮助文档');
@@ -89,7 +89,7 @@
 			</p>
 			<p>
 				<a href="#">网站首页</a>|
-				<a title='修改密码' ref='modifypwd' href="#" rel='${baseurl}user/updatepwd.action' icon='icon-null' id="modifypwd">修改密码</a>|
+				<a title='修改密码' ref='modifypwd' href=javascript:updatePwd() rel='${baseurl}user/updatepwd.action' icon='icon-null' id="modifypwd">修改密码</a>|
 				<a href=javascript:showhelp()>帮助中心</a>|
 				<a id="loginOut" href=javascript:logout()>安全退出</a>
 			</p>
