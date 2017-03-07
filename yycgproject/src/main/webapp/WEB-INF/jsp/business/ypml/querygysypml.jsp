@@ -59,7 +59,7 @@ function ypxxinfo(id){
 }
 var gysypmladd = function (){
 	//alert(id);
-	var sendUrl = "${baseurl}ypml/querygysypmladd.action";
+	var sendUrl = "${baseurl}ypml/gysypmladd.action";
 	createmodalwindow("供货药品添加", 1000, 500, sendUrl);
 	
 };

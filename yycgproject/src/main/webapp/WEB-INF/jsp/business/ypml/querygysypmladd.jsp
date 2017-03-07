@@ -139,7 +139,7 @@ var dataGrid_obj;//datagrid的对象
 			//nowrap : false,
 			striped : true,
 			//collapsible : true,
-			url : '${baseurl}ypml/querygysypmladd_result.action',
+			url : '${baseurl}ypml/queryaddgysypml_result.action',
 			//sortName : 'code',
 			//sortOrder : 'desc',
 			//remoteSort : false,

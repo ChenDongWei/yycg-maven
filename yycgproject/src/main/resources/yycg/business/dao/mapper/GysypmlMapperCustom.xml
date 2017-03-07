@@ -93,8 +93,8 @@
 	 		]]>
 		</if>
 	</select>
-	
-	<!-- 供货商药品目录查询总数 -->
+
+	<!-- 供应商药品目录查询总数 -->
 	<select id="findGysypmlCount" parameterType="yycg.business.pojo.vo.GysypmlQueryVo"
 		resultType="int">
 
@@ -102,14 +102,83 @@
 		select count(1)
 
 		from gysypml, usergys, gysypml_control, ypxx
-		where gysypml.usergysid = usergys.id
-		and gysypml.ypxxid = gysypml_control.ypxxid
-		and gysypml.usergysid = gysypml_control.usergysid
+		where
+		gysypml.usergysid = usergys.id
+		and gysypml.ypxxid =
+		gysypml_control.ypxxid
+		and gysypml.usergysid =
+		gysypml_control.usergysid
 		and gysypml.ypxxid = ypxx.id
 
 		<include refid="query_gysypml_where" />
 		<include refid="query_gysypmlcontrol_where" />
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+	</select>
+
+	<!-- 供应商 -->
+	<select id="findAddGysypmlList" parameterType="yycg.business.pojo.vo.GysypmlQueryVo"
+		resultType="yycg.business.pojo.vo.GysypmlCustom">
+		<!-- 分页头 -->
+		<if test="pageQuery!=null">
+			select page_2.*
+			from (select page_1.*, rownum page_num
+			from
+			(
+		</if>
+
+		select ypxx.id,
+		ypxx.bm,
+		ypxx.mc,
+		ypxx.jx,
+		ypxx.gg,
+		ypxx.zhxs,
+		ypxx.scqymc,
+		ypxx.spmc,
+		ypxx.zbjg,
+		ypxx.jyzt,
+
+		(select info
+		from dictinfo
+		where ypxx.jyzt
+		= dictcode
+		and typecode = '003') jyztmc
+		from ypxx
+		where not exists
+		(select id
+		from gysypml
+		where usergysid = #{gysypmlCustom.usergysid}
+		and
+		ypxx.id = gysypml.ypxxid)
+
+		<!-- 药品查询条件 -->
+		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+		<!-- 分页尾 -->
+		<if test="pageQuery!=null">
+			) page_1
+	        <![CDATA[
+	         where rownum <= ${pageQuery.PageQuery_end}) page_2
+			 where page_2.page_num >= ${pageQuery.PageQuery_start}
+			 ]]>
+		</if>
+	</select>
+
+	<!-- 供应商添加药品目录查询列表总数 -->
+	<select id="findAddGysypmlCount" parameterType="yycg.business.pojo.vo.GysypmlQueryVo"
+		resultType="int">
+
+
+		select count(*)
+		from ypxx
+
+		where not exists (select id
+		from gysypml
+		where
+		usergysid = #{gysypmlCustom.usergysid}
+		and ypxx.id = gysypml.ypxxid)
+
+		<!-- 药品查询条件 -->
+		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+
 	</select>
 </mapper>

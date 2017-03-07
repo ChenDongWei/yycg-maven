@@ -25,47 +25,85 @@ import yycg.business.service.YpmlService;
 public class YpmlAction {
 	@Autowired
 	private SystemConfigService systemConfigService;
-	
+
 	@Autowired
 	private YpmlService ypmlService;
-	
-	//查询页面
+
+	// 查询页面
 	@RequestMapping("/querygysypml")
-	public String queryGysypml(Model model) throws Exception{
-		//药品类型
+	public String queryGysypml(Model model) throws Exception {
+		// 药品类型
 		List<Dictinfo> yplblist = systemConfigService.findDictinfoByType("001");
 		model.addAttribute("yplblist", yplblist);
 		return "/business/ypml/querygysypml";
 	}
-	
-	//查询列表结果集
+
+	// 查询列表结果集
 	@RequestMapping("/querygysypml_result")
 	public @ResponseBody DataGridResultInfo queryGysypml_result(
-			HttpSession session,
-			GysypmlQueryVo gysypmlQueryVo,
-			int page,
-			int rows
-			) throws Exception{
-		//当前用户
-		ActiveUser activeUser = (ActiveUser) session.getAttribute(Config.ACTIVEUSER_KEY);
-		//用户所属单位
-		String usergysId = activeUser.getSysid();//单位id
-		
-		//列表总数
+			HttpSession session, GysypmlQueryVo gysypmlQueryVo, int page,
+			int rows) throws Exception {
+		// 当前用户
+		ActiveUser activeUser = (ActiveUser) session
+				.getAttribute(Config.ACTIVEUSER_KEY);
+		// 用户所属单位
+		String usergysId = activeUser.getSysid();// 单位id
+
+		// 列表总数
 		int total = ypmlService.findGysypmlCount(usergysId, gysypmlQueryVo);
-		
-		//分页参数
+
+		// 分页参数
 		PageQuery pageQuery = new PageQuery();
 		pageQuery.setPageParams(total, rows, page);
 		gysypmlQueryVo.setPageQuery(pageQuery);
-		
-		//分页查询列表
-		List<GysypmlCustom> list = ypmlService.findGysypmlList(usergysId, gysypmlQueryVo);
-		
+
+		// 分页查询列表
+		List<GysypmlCustom> list = ypmlService.findGysypmlList(usergysId,
+				gysypmlQueryVo);
+
 		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
 		dataGridResultInfo.setTotal(total);
 		dataGridResultInfo.setRows(list);
-		
+
+		return dataGridResultInfo;
+	}
+
+	// 添加页面
+	@RequestMapping("/gysypmladd")
+	public String queryAddGysypml(Model model) throws Exception {
+		// 药品类型
+		List<Dictinfo> yplblist = systemConfigService.findDictinfoByType("001");
+		model.addAttribute("yplblist", yplblist);
+		return "/business/ypml/querygysypmladd";
+	}
+
+	// 查询列表结果集
+	@RequestMapping("/queryaddgysypml_result")
+	public @ResponseBody DataGridResultInfo queryAddGysypml_result(
+			HttpSession session, GysypmlQueryVo gysypmlQueryVo, int page,
+			int rows) throws Exception {
+		// 当前用户
+		ActiveUser activeUser = (ActiveUser) session
+				.getAttribute(Config.ACTIVEUSER_KEY);
+		// 用户所属单位
+		String usergysId = activeUser.getSysid();// 单位id
+
+		// 列表总数
+		int total = ypmlService.findAddGysypmlCount(usergysId, gysypmlQueryVo);
+
+		// 分页参数
+		PageQuery pageQuery = new PageQuery();
+		pageQuery.setPageParams(total, rows, page);
+		gysypmlQueryVo.setPageQuery(pageQuery);
+
+		// 分页查询列表
+		List<GysypmlCustom> list = ypmlService.findAddGysypmlList(usergysId,
+				gysypmlQueryVo);
+
+		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+		dataGridResultInfo.setTotal(total);
+		dataGridResultInfo.setRows(list);
+
 		return dataGridResultInfo;
 	}
 }

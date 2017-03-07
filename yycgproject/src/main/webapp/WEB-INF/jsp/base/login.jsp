@@ -37,10 +37,10 @@
 				formID : "loginform",
 				mode:'AlertTip',
 				onError : function(msg) {
-					alert(msg);
+					$.messager.alert('提示信息',msg,'warning');
 				},
 				onAlert : function(msg) {
-					alert(msg);
+					$.messager.alert('提示信息',msg,'info');
 				}
 			});
 			$("#userid").formValidator({

@@ -45,8 +45,42 @@ public class YpmlServiceImpl implements YpmlService {
 		// 设置数据范围权限
 		gysypmlCustom.setUsergysid(usergysId);
 		gysypmlQueryVo.setGysypmlCustom(gysypmlCustom);
-		
+
 		return gysypmlMapperCustom.findGysypmlCount(gysypmlQueryVo);
+	}
+
+	@Override
+	public List<GysypmlCustom> findAddGysypmlList(String usergysId,
+			GysypmlQueryVo gysypmlQueryVo) throws Exception {
+		// 非空判断
+		gysypmlQueryVo = gysypmlQueryVo != null ? gysypmlQueryVo
+				: new GysypmlQueryVo();
+
+		GysypmlCustom gysypmlCustom = gysypmlQueryVo.getGysypmlCustom();
+		if (gysypmlCustom == null) {
+			gysypmlCustom = new GysypmlCustom();
+		}
+		// 设置数据范围权限
+		gysypmlCustom.setUsergysid(usergysId);
+		gysypmlQueryVo.setGysypmlCustom(gysypmlCustom);
+		return gysypmlMapperCustom.findAddGysypmlList(gysypmlQueryVo);
+	}
+
+	@Override
+	public int findAddGysypmlCount(String usergysId,
+			GysypmlQueryVo gysypmlQueryVo) throws Exception {
+		// 非空判断
+				gysypmlQueryVo = gysypmlQueryVo != null ? gysypmlQueryVo
+						: new GysypmlQueryVo();
+
+				GysypmlCustom gysypmlCustom = gysypmlQueryVo.getGysypmlCustom();
+				if (gysypmlCustom == null) {
+					gysypmlCustom = new GysypmlCustom();
+				}
+				// 设置数据范围权限
+				gysypmlCustom.setUsergysid(usergysId);
+				gysypmlQueryVo.setGysypmlCustom(gysypmlCustom);
+				return gysypmlMapperCustom.findAddGysypmlCount(gysypmlQueryVo);
 	}
 
 }

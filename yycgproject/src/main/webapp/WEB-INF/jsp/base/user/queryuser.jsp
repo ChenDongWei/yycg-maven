@@ -82,6 +82,7 @@
 			singleSelect:false,//如果是true只允许选中一行
 			//fit:true,
 			singleSelect : true,
+			pagination : true,
 			columns : columns_v,
 			pagination : true,//是否显示分页
 			rownumbers : true,//是否显示行号
@@ -167,10 +168,11 @@
 					<a href="#" class="easyui-linkbutton" id="btn"
 						iconCls="icon-search" onclick="queryuser()">查询</a>
 				</div>
-
-				<!-- 查询列表 -->
-				<table id="sysuserlist"></table>
 			</form>
+			<!-- 查询列表 -->
+			<div region="center" split="true" style="border:0">
+				<table id="sysuserlist"></table>
+			</div>
 			<form id="sysuserdeleteFrom" action="${baseurl}user/deletesysuser.action" method="post">
 				<input type="hidden" id="delete_id" name="id">
 			</form>

@@ -10,4 +10,8 @@ public interface GysypmlMapperCustom {
 	public List<GysypmlCustom> findGysypmlList(GysypmlQueryVo gysypmlQueryVo) throws Exception;
 	//供应商药品总数
 	public int findGysypmlCount(GysypmlQueryVo gysypmlQueryVo) throws Exception;
+	//供应商药品目录添加查询
+	public List<GysypmlCustom> findAddGysypmlList(GysypmlQueryVo gysypmlQueryVo) throws Exception;
+	//供应商添加目录总数
+	public int findAddGysypmlCount(GysypmlQueryVo gysypmlQueryVo) throws Exception;
 }
