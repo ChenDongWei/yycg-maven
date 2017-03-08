@@ -9,15 +9,37 @@
 				and ypxx.bm = #{ypxxCustom.bm}
 			</if>
 			<if test="ypxxCustom.mc != null and ypxxCustom.mc != ''">
-				and ypxx.mc = #{ypxxCustom.mc}
+				and ypxx.mc like '%${ypxxCustom.mc}%'
+			</if>
+			<if test="ypxxCustom.jx != null and ypxxCustom.jx != ''">
+				and ypxx.jx like '%${ypxxCustom.jx}%'
+			</if>
+			<if test="ypxxCustom.gg != null and ypxxCustom.gg != ''">
+				and ypxx.gg like '%${ypxxCustom.gg}%'
+			</if>
+			<if test="ypxxCustom.zhxs != null and ypxxCustom.zhxs != ''">
+				and ypxx.zhxs like '%${ypxxCustom.zhxs}%'
+			</if>
+			<if test="ypxxCustom.bm != null and ypxxCustom.bm != ''">
+				and ypxx.bm like '%${ypxxCustom.bm}%'
+			</if>
+			<if test="ypxxCustom.scqymc != null and ypxxCustom.scqymc != ''">
+				and ypxx.scqymc like '%${ypxxCustom.scqymc}%'
+			</if>
+			<if test="ypxxCustom.spmc != null and ypxxCustom.spmc != ''">
+				and ypxx.spmc like '%${ypxxCustom.spmc}%'
+			</if>
+			<if test="ypxxCustom.price_start != null and ypxxCustom.end != ''">
+				and ypxx.zbjg between #{ypxxCustom.price_start} and #{ypxxCustom.end}
+			</if>
+			<if test="ypxxCustom.lb != null and ypxxCustom.lb != ''">
+				and ypxx.lb = #{ypxxCustom.lb}
 			</if>
 			<if test="ypxxCustom.jyzt != null and ypxxCustom.jyzt != ''">
 				and ypxx.jyzt = #{ypxxCustom.jyzt}
 			</if>
-			<!-- gys药品目录查询条件等待添加 -->
-			
-			<if test="ypxxCustom.lb != null and ypxxCustom.lb != ''">
-				and ypxx.lb = #{ypxxCustom.lb}
+			<if test="ypxxCustom.zlcc != null and ypxxCustom.zlcc != ''">
+				and ypxx.zlcc = #{ypxxCustom.zlcc}
 			</if>
 		</if>
 	</sql>

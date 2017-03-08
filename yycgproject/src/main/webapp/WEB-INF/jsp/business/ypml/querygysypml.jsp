@@ -58,7 +58,6 @@ function ypxxinfo(id){
 	createmodalwindow("药品信息查看", 900, 500, sendUrl);
 }
 var gysypmladd = function (){
-	//alert(id);
 	var sendUrl = "${baseurl}ypml/gysypmladd.action";
 	createmodalwindow("供货药品添加", 1000, 500, sendUrl);
 	
@@ -199,43 +198,43 @@ function initGrid(){
 <div id="ypxxquery_div">
     <form id="gysypmldeleteForm" name="gysypmldeleteForm" action="${baseurl}ypml/deletegysypmlsubmit.action" method="post">
 			<input type="hidden" name="indexs" id="indexs" />
-			<TABLE  class="table_search">
-				<TBODY>
-					<TR>
+			<table  class="table_search">
+				<tbody>
+					<tr>
 						
-						<TD class="left">通用名：</td>
-						<td><INPUT type="text"  name="ypxxCustom.mc" /></TD>
+						<td class="left">通用名：</td>
+						<td><input type="text"  name="ypxxCustom.mc" /></td>
 						<!-- 自行添加 -->
-						<TD class="left">剂型：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.jx" /></td>
+						<td class="left">剂型：</td>
+						<td ><input type="text" name="ypxxCustom.jx" /></td>
 						<!-- 自行添加 -->
-						<TD class="left">规格：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.gg" /></td>
+						<td class="left">规格：</td>
+						<td ><input type="text" name="ypxxCustom.gg" /></td>
 						<!-- 自行添加 -->
-						<TD class="left">转换系数：</TD>
+						<td class="left">转换系数：</td>
 						<td ><INPUT type="text" name="ypxxCustom.zhxs" /></td>
-					</TR>
-					<TR>
-						<TD class="left">流水号：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.bm" /></td>
+					</tr>
+					<tr>
+						<td class="left">流水号：</td>
+						<td ><input type="text" name="ypxxCustom.bm" /></td>
 						<!-- 自行添加 -->
-						<TD class="left">生产企业：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.scqymc" /></td>
+						<td class="left">生产企业：</td>
+						<td ><input type="text" name="ypxxCustom.scqymc" /></td>
 						<!-- 自行添加 -->
-						<TD class="left">商品名称：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.spmc" /></td>
+						<td class="left">商品名称：</td>
+						<td ><input type="text" name="ypxxCustom.spmc" /></td>
 						<!-- 自行添加 -->
 						 <td class="left">价格范围：</td>
 				  		<td>
-				      		<INPUT id="ypxxCustom.zbjglower" name="ypxxCustom.price_start" style="width:70px"/>
+				      		<input id="ypxxCustom.zbjglower" name="ypxxCustom.price_start" style="width:70px"/>
 							至
-							<INPUT id="ypxxCustom.zbjgupper" name="ypxxCustom.price_end" style="width:70px"/>
+							<input id="ypxxCustom.zbjgupper" name="ypxxCustom.price_end" style="width:70px"/>
 							
 				 		 </td>
 					</tr>
 					<tr>
 					   <!-- 自行添加 -->
-						<TD class="left">药品类别：</TD>
+						<td class="left">药品类别：</td>
 						<td >
 							<select id="ypxxCustom_lb" name="ypxxCustom.lb" style="width:150px">	
 							    <option value="">全部</option> 
@@ -244,7 +243,7 @@ function initGrid(){
 								</c:forEach>
 							</select>
 						</td>
-						<TD class="left">交易状态：</TD>
+						<td class="left">交易状态：</td>
 						<td >
 							<select id="ypxxCustom.jyzt" name="ypxxCustom.jyzt" style="width:150px">
 							     <option value="">全部</option>
@@ -276,24 +275,24 @@ function initGrid(){
 						<a id="btn" href="#" onclick="gysypmlquery()" class="easyui-linkbutton" iconCls='icon-search'>查询</a>
 				  		</td>
 						
-					</TR>
+					</tr>
 					
-				</TBODY>
-			</TABLE>
+				</tbody>
+			</table>
 	   
-		<TABLE border=0 cellSpacing=0 cellPadding=0 width="99%" align=center>
-			<TBODY>
-				<TR>
-					<TD>
+		<table border=0 cellSpacing=0 cellPadding=0 width="99%" align=center>
+			<tbody>
+				<tr>
+					<td>
 						<table id="gysypmllist"></table>
-					</TD>
-				</TR>
-			</TBODY>
-		</TABLE>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		 </form>
 	</div>
 
 
-</BODY>
-</HTML>
+</body>
+</html>
 

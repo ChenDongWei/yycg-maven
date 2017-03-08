@@ -34,7 +34,17 @@ public class YpmlAction {
 	public String queryGysypml(Model model) throws Exception {
 		// 药品类型
 		List<Dictinfo> yplblist = systemConfigService.findDictinfoByType("001");
+		// 交易状态
+		List<Dictinfo> jyztlist = systemConfigService.findDictinfoByType("003");
+		// 质量层次
+		List<Dictinfo> zlcclist = systemConfigService.findDictinfoByType("004");
+		// 供货状态
+		List<Dictinfo> controllist = systemConfigService.findDictinfoByType("008");
 		model.addAttribute("yplblist", yplblist);
+		model.addAttribute("jyztlist", jyztlist);
+		model.addAttribute("zlcclist", zlcclist);
+		model.addAttribute("controllist", controllist);
+		
 		return "/business/ypml/querygysypml";
 	}
 
@@ -73,7 +83,17 @@ public class YpmlAction {
 	public String queryAddGysypml(Model model) throws Exception {
 		// 药品类型
 		List<Dictinfo> yplblist = systemConfigService.findDictinfoByType("001");
+		// 交易状态
+		List<Dictinfo> jyztlist = systemConfigService.findDictinfoByType("003");
+		// 质量层次
+		List<Dictinfo> zlcclist = systemConfigService.findDictinfoByType("004");
+		// 供货状态
+		List<Dictinfo> controllist = systemConfigService.findDictinfoByType("008");
 		model.addAttribute("yplblist", yplblist);
+		model.addAttribute("jyztlist", jyztlist);
+		model.addAttribute("zlcclist", zlcclist);
+		model.addAttribute("controllist", controllist);
+		
 		return "/business/ypml/querygysypmladd";
 	}
 

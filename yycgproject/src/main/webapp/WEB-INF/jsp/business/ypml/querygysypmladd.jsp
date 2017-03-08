@@ -172,43 +172,43 @@ var dataGrid_obj;//datagrid的对象
 		dataGrid_obj.datagrid('load', formdata);
 	}
 </script>
-</HEAD>
-<BODY>
+</head>
+<body>
 <div id="ypxxquery_div">
     <form id="gysypmladdqueryForm" name="gysypmladdqueryForm" action="${baseurl}ypml/addgysypmlsubmit.action" method="post">
 			<!-- indexs中存储就是选中的行的序号中间以逗号分隔 -->
 			<input type="hidden" name="indexs" id="indexs" />
-			<TABLE  class="table_search">
-				<TBODY>
-					<TR>
+			<table  class="table_search">
+				<tbody>
+					<tr>
 						
-						<TD class="left">通用名：</td>
-						<td><INPUT type="text"  name="ypxxCustom.mc" /></TD>
-						<TD class="left">剂型：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.jx" /></td>
-						<TD class="left">规格：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.gg" /></td>
-						<TD class="left">转换系数：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.zhxs" /></td>
-					</TR>
-					<TR>
-						<TD class="left">流水号：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.bm" /></td>
-						<TD class="left">生产企业：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.scqymc" /></td>
+						<td class="left">通用名：</td>
+						<td><input type="text"  name="ypxxCustom.mc" /></td>
+						<td class="left">剂型：</td>
+						<td ><input type="text" name="ypxxCustom.jx" /></td>
+						<td class="left">规格：</td>
+						<td ><input type="text" name="ypxxCustom.gg" /></td>
+						<td class="left">转换系数：</td>
+						<td ><input type="text" name="ypxxCustom.zhxs" /></td>
+					</tr>
+					<tr>
+						<td class="left">流水号：</td>
+						<td ><input type="text" name="ypxxCustom.bm" /></td>
+						<td class="left">生产企业：</td>
+						<td ><input type="text" name="ypxxCustom.scqymc" /></td>
 						<TD class="left">商品名称：</TD>
-						<td ><INPUT type="text" name="ypxxCustom.spmc" /></td>
+						<td ><input type="text" name="ypxxCustom.spmc" /></td>
 						 <td class="left">价格范围：</td>
 				  		<td>
-				      		<INPUT id="ypxxCustom.zbjglower" name="ypxxCustom.zbjglower" style="width:70px"/>
+				      		<input id="ypxxCustom.zbjglower" name="ypxxCustom.zbjglower" style="width:70px"/>
 							至
-							<INPUT id="ypxxCustom.zbjgupper" name="ypxxCustom.zbjgupper" style="width:70px"/>
+							<input id="ypxxCustom.zbjgupper" name="ypxxCustom.zbjgupper" style="width:70px"/>
 							
 				 		 </td>
 					</tr>
 					<tr>
 					  
-						<TD class="left">药品类别：</TD>
+						<td class="left">药品类别：</td>
 						<td >
 							<select id="ypxxCustom.lb" name="ypxxCustom.lb" style="width:150px">
 								<option value="">全部</option>
@@ -217,7 +217,7 @@ var dataGrid_obj;//datagrid的对象
 								</c:forEach>
 							</select>
 						</td>
-						<TD class="left">交易状态：</TD>
+						<td class="left">交易状态：</td>
 						<td >
 							<select id="ypxxCustom.jyzt" name="ypxxCustom.jyzt" style="width:150px">
 								<option value="">全部</option>
@@ -242,23 +242,23 @@ var dataGrid_obj;//datagrid的对象
 						<a id="btn" href="#" onclick="gysypmladdquery()" class="easyui-linkbutton" iconCls='icon-search'>查询</a>
 				  		</td>
 						
-					</TR>
+					</tr>
 					
-				</TBODY>
-			</TABLE>
+				</tbody>
+			</table>
 	    
-		<TABLE border=0 cellSpacing=0 cellPadding=0 width="99%" align=center>
-			<TBODY>
-				<TR>
-					<TD>
+		<table border=0 cellSpacing=0 cellPadding=0 width="99%" align=center>
+			<tbody>
+				<tr>
+					<td>
 						<table id="gysypmladdlist"></table>
-					</TD>
-				</TR>
-			</TBODY>
-		</TABLE>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		</form>
 	</div>
 
-</BODY>
-</HTML>
+</body>
+</html>
 

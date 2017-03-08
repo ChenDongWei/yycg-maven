@@ -143,6 +143,13 @@
         	$("#btn").click();
         }
     }
+	
+	function doClean() {
+		$("#userid").val("");
+		$("#username").val("");
+		$("#sysmc").val("");
+		$("#groupid").combobox("setValue", "");
+	}
 </script>
 </head>
 <body>
@@ -151,14 +158,14 @@
 			<form id="sysuserqueryForm">
 				<!-- 查询条件 -->
 				<div class="chen-toolbar-search">
-					<label>用户账号：</label><input class="chen-text" type="text"
+					<label>用户账号：</label><input id="userid" class="chen-text" type="text"
 						name="sysuserCustom.userid" style="width: 100px"> 
-					<label>用户名称：</label><input class="easyui-text" type="text" 
+					<label>用户名称：</label><input id="username" class="easyui-text" type="text" 
 						name="sysuserCustom.username" style="width: 100px"> 
-					<label>单位名称：</label><input class="easyui-text" type="text" 
+					<label>单位名称：</label><input id="sysmc" class="easyui-text" type="text" 
 					name="sysuserCustom.sysmc" style="width: 100px"> 
 					<label>用户类型：</label> 
-					<select class="easyui-combobox" name="sysuserCustom.groupid"
+					<select id="groupid" class="easyui-combobox" name="sysuserCustom.groupid"
 						panelHeight="auto" style="width: 100px">
 						<option value="">--请选择--</option>
 						<c:forEach items="${groupList}" var="dictinfo">
@@ -167,6 +174,8 @@
 					</select>
 					<a href="#" class="easyui-linkbutton" id="btn"
 						iconCls="icon-search" onclick="queryuser()">查询</a>
+					<a href="#" class="easyui-linkbutton" id="btn"
+						iconCls="icon-search" onclick="doClean()">清空条件</a>
 				</div>
 			</form>
 			<!-- 查询列表 -->
