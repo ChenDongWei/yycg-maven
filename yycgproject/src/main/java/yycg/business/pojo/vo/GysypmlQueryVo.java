@@ -1,5 +1,7 @@
 package yycg.business.pojo.vo;
 
+import java.util.List;
+
 import yycg.base.pojo.vo.PageQuery;
 /**
  * 供应商药品目录查询VO
@@ -7,6 +9,9 @@ import yycg.base.pojo.vo.PageQuery;
  * @date 2017年2月26日
  */
 public class GysypmlQueryVo {
+	//添加页面批量提交
+	private List<YpxxCustom> ypxxCustoms;
+	
 	private PageQuery pageQuery;
 	
 	private YpxxCustom ypxxCustom;
@@ -35,6 +40,14 @@ public class GysypmlQueryVo {
 
 	public void setYpxxCustom(YpxxCustom ypxxCustom) {
 		this.ypxxCustom = ypxxCustom;
+	}
+
+	public List<YpxxCustom> getYpxxCustoms() {
+		return ypxxCustoms;
+	}
+
+	public void setYpxxCustoms(List<YpxxCustom> ypxxCustoms) {
+		this.ypxxCustoms = ypxxCustoms;
 	}
 
 }

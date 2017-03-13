@@ -11,6 +11,9 @@
 			<if test="gysypmlCustom.ypxxid != null and gysypmlCustom.ypxxid != ''">
 				and gysypml.ypxxid = #{gysypmlCustom.ypxxid}
 			</if>
+			<if test="gysypmlCustom.controlmc != null and gysypmlCustom.controlmc != ''">
+				and gysypml.ghzt = #{gysypmlCustom.controlmc}
+			</if>
 		</if>
 	</sql>
 

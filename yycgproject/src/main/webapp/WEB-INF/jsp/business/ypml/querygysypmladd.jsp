@@ -24,13 +24,10 @@
 		var rows = dataGrid_obj.datagrid('getSelections');
 		//便利所有选中的行
 		for(var i=0;i<rows.length;i++){
-			
-			//alert(dataGrid_obj.datagrid('getRowIndex',rows[i]));
 			//将返回的选中行的序号加到indexs数组中
 			var index = dataGrid_obj.datagrid('getRowIndex',rows[i]);//选中行的下标
 			//将选中行的序号设置到数组indexs中
 			indexs.push(index);
-			//alert(dataGrid_obj.datagrid('getRowIndex',rows[i]));
 		}
 		//判断如果存在选中的行，indexs数组里边有选中行的序号
 		if(rows.length>0){//如果存在选中的行则将indexs数组中的序号格式化为逗号分隔的并赋给indexs控件
@@ -46,8 +43,6 @@
 	  } 
 	  
 	)
-	
-	
 	
 }; 
 
@@ -86,8 +81,8 @@ var columns = [ [{
 },{
 	field : 'id',
 	hidden:true,
-	formatter:function(value, row, index){//index是每行的序号,gysypmlControls是action中接收的list集合对象名称，ypxxid是list中对象的属性名
-		return '<input type="hidden" name="gysypmlControls['+index+'].ypxxid" value="'+value+'" />';
+	formatter:function(value, row, index){//index是每行的序号,ypxxCustoms是action中接收的list集合对象名称，id是list中对象的属性名
+		return '<input type="hidden" name="ypxxCustoms['+index+'].id" value="'+value+'" />';
 	}
 },{
 	field : 'bm',

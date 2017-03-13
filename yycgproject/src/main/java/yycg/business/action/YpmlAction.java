@@ -1,5 +1,6 @@
 package yycg.business.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,9 +16,14 @@ import yycg.base.pojo.vo.ActiveUser;
 import yycg.base.pojo.vo.PageQuery;
 import yycg.base.process.context.Config;
 import yycg.base.process.result.DataGridResultInfo;
+import yycg.base.process.result.ExceptionResultInfo;
+import yycg.base.process.result.ResultInfo;
+import yycg.base.process.result.ResultUtil;
+import yycg.base.process.result.SubmitResultInfo;
 import yycg.base.service.SystemConfigService;
 import yycg.business.pojo.vo.GysypmlCustom;
 import yycg.business.pojo.vo.GysypmlQueryVo;
+import yycg.business.pojo.vo.YpxxCustom;
 import yycg.business.service.YpmlService;
 
 @Controller
@@ -125,5 +131,60 @@ public class YpmlAction {
 		dataGridResultInfo.setRows(list);
 
 		return dataGridResultInfo;
+	}
+	
+	//供应商药品目录添加提交
+	@RequestMapping("addgysypmlsubmit")
+	public @ResponseBody SubmitResultInfo addGysypmlSubmit(
+			HttpSession session,
+			int[] indexs,//接收页面的行序号
+			GysypmlQueryVo gysypmlQueryVo
+			) throws Exception{
+		
+		ActiveUser activeUser = (ActiveUser) session.getAttribute(Config.ACTIVEUSER_KEY);
+		//当前用户所属单位
+		String usergysid = activeUser.getSysid();
+		
+		//要处理的业务数据(页面提交多个业务数据)
+		List<YpxxCustom> list = gysypmlQueryVo.getYpxxCustoms();
+		//处理数据的总数
+		int count = indexs.length;
+		//处理成功的数量
+		int count_success = 0;
+		//处理失败的数量
+		int count_error = 0;
+		//处理失败的原因
+		List<ResultInfo> msg_error = new ArrayList<ResultInfo>();
+		
+		for (int i = 0; i < count; i++) {
+			ResultInfo resultInfo = null;
+			
+			//根据选中行的序号获取要处理的业务数据
+			YpxxCustom ypxxCustom = list.get(indexs[i]);
+			String ypxxid = ypxxCustom.getId();
+			
+			try {
+				ypmlService.insertGysypml(usergysid, ypxxid);
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (e instanceof ExceptionResultInfo) {
+					resultInfo = ((ExceptionResultInfo) e).getResultInfo();
+				}else {
+					//构造未知错误异常
+					resultInfo = ResultUtil.createFail(Config.MESSAGE, 900, null);
+				}
+			}
+			if (resultInfo == null) {
+				//成功
+				count_success++;
+			}else {
+				count_error++;
+				msg_error.add(resultInfo);
+			}
+		}
+		
+		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[]{
+				count_success,count_error
+		}));
 	}
 }

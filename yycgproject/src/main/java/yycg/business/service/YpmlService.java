@@ -2,6 +2,8 @@ package yycg.business.service;
 
 import java.util.List;
 
+import yycg.business.pojo.po.Gysypml;
+import yycg.business.pojo.po.GysypmlControl;
 import yycg.business.pojo.vo.GysypmlCustom;
 import yycg.business.pojo.vo.GysypmlQueryVo;
 
@@ -27,4 +29,13 @@ public interface YpmlService {
 	// 供应商添加目录总数
 	public int findAddGysypmlCount(String usergysId, GysypmlQueryVo gysypmlQueryVo)
 			throws Exception;
+	
+	//供货商药品目录添加
+	public void insertGysypml(String usergysid, String ypxxid) throws Exception;
+	
+	// 根据供应商id和药品id查询供应商药品目录
+	public Gysypml findGysypmlByUsergysidAndYpxxid(String usergysid, String ypxxid) throws Exception;
+	
+	// 根据供应商id和药品id查询供应商药品目录控制记录
+	public GysypmlControl findGysypmlControlByUsergysidAndYpxxid(String usergysid, String ypxxid) throws Exception;
 }
