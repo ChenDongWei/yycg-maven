@@ -29,8 +29,8 @@
 			<if test="ypxxCustom.spmc != null and ypxxCustom.spmc != ''">
 				and ypxx.spmc like '%${ypxxCustom.spmc}%'
 			</if>
-			<if test="ypxxCustom.price_start != null and ypxxCustom.end != ''">
-				and ypxx.zbjg between #{ypxxCustom.price_start} and #{ypxxCustom.end}
+			<if test="ypxxCustom.price_start != null and ypxxCustom.price_end != ''">
+				and ypxx.zbjg between #{ypxxCustom.price_start} and #{ypxxCustom.price_end}
 			</if>
 			<if test="ypxxCustom.lb != null and ypxxCustom.lb != ''">
 				and ypxx.lb = #{ypxxCustom.lb}

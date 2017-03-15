@@ -54,12 +54,11 @@ function gysypmladd_callback(data) {
 	var result = getCallbackData(data);
 	_alert(result);//输出信息
 	
-	/*
 	//刷新页面重新查询
 	gysypmladdquery();
 	
 	//添加刷新父窗口代码
-	parent.gysypmlquery(); */
+	parent.gysypmlquery();
 }
 
 
@@ -195,9 +194,9 @@ var dataGrid_obj;//datagrid的对象
 						<td ><input type="text" name="ypxxCustom.spmc" /></td>
 						 <td class="left">价格范围：</td>
 				  		<td>
-				      		<input id="ypxxCustom.zbjglower" name="ypxxCustom.zbjglower" style="width:70px"/>
+				      		<input id="ypxxCustom.zbjglower" name="ypxxCustom.price_start" style="width:70px"/>
 							至
-							<input id="ypxxCustom.zbjgupper" name="ypxxCustom.zbjgupper" style="width:70px"/>
+							<input id="ypxxCustom.zbjgupper" name="ypxxCustom.price_end" style="width:70px"/>
 							
 				 		 </td>
 					</tr>

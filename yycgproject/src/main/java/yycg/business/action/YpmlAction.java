@@ -185,6 +185,6 @@ public class YpmlAction {
 		
 		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[]{
 				count_success,count_error
-		}));
+		}), msg_error);
 	}
 }
