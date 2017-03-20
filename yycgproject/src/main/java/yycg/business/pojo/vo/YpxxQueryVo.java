@@ -10,4 +10,5 @@ public class YpxxQueryVo {
 	public void setYpxxCustom(YpxxCustom ypxxCustom) {
 		this.ypxxCustom = ypxxCustom;
 	}
+	
 }

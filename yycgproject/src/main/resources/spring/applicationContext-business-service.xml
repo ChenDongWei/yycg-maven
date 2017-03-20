@@ -19,4 +19,6 @@
 	<bean id="ypxxImportService" class="yycg.business.service.impl.YpxxImportServiceImpl" />
 	<!-- 供货商药品目录 -->
 	<bean id="ypmlService" class="yycg.business.service.impl.YpmlServiceImpl" />
+	<!-- 采购单管理 -->
+	<bean id="cgdService" class="yycg.business.service.impl.CgdServiceImpl"/>
 </beans>

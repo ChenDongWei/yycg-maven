@@ -13,15 +13,15 @@
                  }] 
                },
                {"icon" : "icon-cart","menuid" : "1","menuname" : "采购单管理","url" : "","menus" : [
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "创建采购单","url" : "/yycg/cgd/addcgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "创建采购单","url" : "/cgd/addcgd.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单维护","url" : "/yycg/cgd/querycgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单维护","url" : "/cgd/querycgd.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/yycg/cgd/querycheckcgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/cgd/querycheckcgd.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单受理","url" : "/yycg/cgd/disposecgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单受理","url" : "/cgd/disposecgd.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "入库","url" : "/yycg/cgd/receivecgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "入库","url" : "/cgd/receivecgd.action"
                  }] 
                },
                {"icon" : "icon-chart-curve","menuid" : "1","menuname" : "统计分析","url" : "","menus" : [
