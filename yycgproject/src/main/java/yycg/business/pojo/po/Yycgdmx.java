@@ -1,6 +1,6 @@
 package yycg.business.pojo.po;
 
-public class Yycgdmx {
+public class Yycgdmx extends BusinessBasePo {
     private String id;
 
     private String yycgdid;

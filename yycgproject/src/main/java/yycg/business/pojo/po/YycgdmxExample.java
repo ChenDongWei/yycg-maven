@@ -3,7 +3,7 @@ package yycg.business.pojo.po;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YycgdmxExample {
+public class YycgdmxExample extends BusinessBasePo {
     protected String orderByClause;
 
     protected boolean distinct;

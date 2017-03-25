@@ -13,7 +13,7 @@ public class YycgdmxCustom extends YpxxCustom {
 	private String usergysmc;
 	private String usergysid;
 
-	private String gysypmlid;// 供货商药品目录id
+	private String gysypmlid;// 供药商药品目录id
 	private String ypxxid;
 
 	// 控制状态名称

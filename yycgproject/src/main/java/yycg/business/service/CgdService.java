@@ -2,6 +2,7 @@ package yycg.business.service;
 
 import java.util.List;
 
+import yycg.business.pojo.po.Yycgdmx;
 import yycg.business.pojo.vo.YycgdCustom;
 import yycg.business.pojo.vo.YycgdQueryVo;
 import yycg.business.pojo.vo.YycgdmxCustom;
@@ -26,4 +27,14 @@ public interface CgdService {
 	
 	//查询采购单总数
 	public int findYycgdmxCountByYycgdid(String yycgdid, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//查询药品添加目录
+	public List<YycgdmxCustom> findAddYycgdmxList(String useryyid, String yycgdid, YycgdQueryVo yycgdQueryVo) throws Exception;
+	public int findAddYycgdmxCount(String useryyid, String yycgdid, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购药品添加
+	public void insertYycgdmx(String yycgdid, String ypxxid, String usergysid) throws Exception;
+	
+	//根据采购单id和药品id查询采购单明细
+	public Yycgdmx findYycgdmxByYycgdidAndYpxxid(String yycgdid, String ypxxid) throws Exception;
 }

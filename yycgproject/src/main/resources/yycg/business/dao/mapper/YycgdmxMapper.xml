@@ -79,7 +79,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from YYCGDMX
+    from YYCGDMX${businessyear}
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,21 +90,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from YYCGDMX
+    from YYCGDMX${businessyear}
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from YYCGDMX
+    delete from YYCGDMX${businessyear}
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="yycg.business.pojo.po.YycgdmxExample" >
-    delete from YYCGDMX
+    delete from YYCGDMX${businessyear}
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="yycg.business.pojo.po.Yycgdmx" >
-    insert into YYCGDMX (ID, YYCGDID, YPXXID, 
+    insert into YYCGDMX${businessyear} (ID, YYCGDID, YPXXID, 
       USERGYSID, ZBJG, JYJG, 
       CGL, CGJE, CGZT)
     values (#{id,jdbcType=VARCHAR}, #{yycgdid,jdbcType=VARCHAR}, #{ypxxid,jdbcType=VARCHAR}, 
@@ -112,7 +112,7 @@
       #{cgl,jdbcType=DECIMAL}, #{cgje,jdbcType=FLOAT}, #{cgzt,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="yycg.business.pojo.po.Yycgdmx" >
-    insert into YYCGDMX
+    insert into YYCGDMX${businessyear}
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -173,13 +173,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="yycg.business.pojo.po.YycgdmxExample" resultType="java.lang.Integer" >
-    select count(*) from YYCGDMX
+    select count(*) from YYCGDMX${businessyear}
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update YYCGDMX
+    update YYCGDMX${businessyear}
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
@@ -214,7 +214,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update YYCGDMX
+    update YYCGDMX${businessyear}
     set ID = #{record.id,jdbcType=VARCHAR},
       YYCGDID = #{record.yycgdid,jdbcType=VARCHAR},
       YPXXID = #{record.ypxxid,jdbcType=VARCHAR},
@@ -229,7 +229,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="yycg.business.pojo.po.Yycgdmx" >
-    update YYCGDMX
+    update YYCGDMX${businessyear}
     <set >
       <if test="yycgdid != null" >
         YYCGDID = #{yycgdid,jdbcType=VARCHAR},
@@ -259,7 +259,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="yycg.business.pojo.po.Yycgdmx" >
-    update YYCGDMX
+    update YYCGDMX${businessyear}
     set YYCGDID = #{yycgdid,jdbcType=VARCHAR},
       YPXXID = #{ypxxid,jdbcType=VARCHAR},
       USERGYSID = #{usergysid,jdbcType=VARCHAR},

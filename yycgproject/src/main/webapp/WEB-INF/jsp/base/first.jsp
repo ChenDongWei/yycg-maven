@@ -72,6 +72,11 @@
 	function showhelp() {
 		window.open('${baseurl}help/help.html', '帮助文档');
 	}
+	
+	//修改密码
+	function updatePwd() {
+		createmodalwindow("修改用户信息", 600, 250, '${baseurl}user/editsysuser.action');
+	}
 </script>
 
 </head>
