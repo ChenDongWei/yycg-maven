@@ -179,4 +179,44 @@ public class YpmlServiceImpl implements YpmlService {
 		}
 	}
 
+	@Override
+	public void deleteGysypmlByUsergysidAndYpxxid(String usergysid,
+			String ypxxid) throws Exception {
+		//校验删除的药品是否在供应商药品目录
+		Gysypml gysypml = this.findGysypmlByUsergysidAndYpxxid(usergysid, ypxxid);
+		if (gysypml == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 316, null));
+		}
+		String id = gysypml.getId();
+		gysypmlMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public List<GysypmlCustom> findGysypmlControlList(
+			GysypmlQueryVo gysypmlQueryVo) throws Exception {
+		
+		return gysypmlMapperCustom.findGysypmlControlList(gysypmlQueryVo);
+	}
+
+	@Override
+	public int findGysypmlControlCount(GysypmlQueryVo gysypmlQueryVo)
+			throws Exception {
+		
+		return gysypmlMapperCustom.findGysypmlControlCount(gysypmlQueryVo);
+	}
+
+	@Override
+	public void updateGysypmlControl(String usergysid, String ypxxid,
+			String control, String advice) throws Exception {
+		//根据供应商id和药品id校验是否存在控制记录
+		GysypmlControl gysypmlControl = this.findGysypmlControlByUsergysidAndYpxxid(usergysid, ypxxid);
+		if (gysypmlControl == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 316, null));
+		}
+		gysypmlControl.setControl(control);
+		gysypmlControl.setAdvice(advice);
+		
+		gysypmlControlMapper.updateByPrimaryKey(gysypmlControl);
+	}
+
 }

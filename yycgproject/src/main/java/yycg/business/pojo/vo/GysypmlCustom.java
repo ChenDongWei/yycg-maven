@@ -15,6 +15,8 @@ public class GysypmlCustom extends YpxxCustom {
 	private String controlmc;
 
 	private String control;
+	//监督单位意见
+	private String advice;
 
 	public String getGysypmlid() {
 		return gysypmlid;
@@ -62,5 +64,13 @@ public class GysypmlCustom extends YpxxCustom {
 
 	public void setUsergysmc(String usergysmc) {
 		this.usergysmc = usergysmc;
+	}
+
+	public String getAdvice() {
+		return advice;
+	}
+
+	public void setAdvice(String advice) {
+		this.advice = advice;
 	}
 }

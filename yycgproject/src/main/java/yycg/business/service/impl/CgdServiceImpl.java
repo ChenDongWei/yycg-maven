@@ -248,4 +248,64 @@ public class CgdServiceImpl implements CgdService {
 		yycgdmxMapper.insert(yycgdmx);
 	}
 
+	@Override
+	public void updateYycgdmx(String yycgdid, String ypxxid, Integer cgl)
+			throws Exception {
+		String businessyear = yycgdid.substring(0, 4);
+		//根据采购单id和药品id获得采购明细的记录
+		Yycgdmx yycgdmx = this.findYycgdmxByYycgdidAndYpxxid(yycgdid, ypxxid);
+		if (yycgdmx == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 509, null));
+		}
+		if (cgl == null || cgl <= 0) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 561, null));
+		}
+		
+		Float jyjg = yycgdmx.getJyjg();
+		Float cgje = jyjg * cgl;
+		
+		//定义一个更新的对象
+		Yycgdmx yycgdmx_update = new Yycgdmx();
+		yycgdmx_update.setId(yycgdmx.getId());
+		yycgdmx_update.setCgl(cgl);
+		yycgdmx_update.setCgje(cgje);
+		//设置年份
+		yycgdmx_update.setBusinessyear(businessyear);
+		yycgdmxMapper.updateByPrimaryKeySelective(yycgdmx_update);
+	}
+
+	@Override
+	public List<YycgdCustom> findYycgdList(String useryyid, String year,
+			YycgdQueryVo yycgdQueryVo) throws Exception {
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//设置查询年份
+		yycgdQueryVo.setBusinessyear(year);
+		//设置医院id
+		Useryy useryy = yycgdQueryVo.getUseryy();
+		if (useryy == null) {
+			useryy = new Useryy();
+		}
+		useryy.setId(useryyid);
+		yycgdQueryVo.setUseryy(useryy);
+		
+		return yycgdMapperCustom.findYycgdList(yycgdQueryVo);
+	}
+
+	@Override
+	public int findYycgdCount(String useryyid, String year, YycgdQueryVo yycgdQueryVo)
+			throws Exception {
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//设置查询年份
+		yycgdQueryVo.setBusinessyear(year);
+		//设置医院id
+		Useryy useryy = yycgdQueryVo.getUseryy();
+		if (useryy == null) {
+			useryy = new Useryy();
+		}
+		useryy.setId(useryyid);
+		yycgdQueryVo.setUseryy(useryy);
+		
+		return yycgdMapperCustom.findYycgdCount(yycgdQueryVo);
+	}
+
 }

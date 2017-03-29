@@ -5,9 +5,9 @@ public class YycgdmxCustom extends YpxxCustom {
 	private String yycgdmxid;
 	private String useryyid;
 	private String useryymc;
-	private String jyjg;
-	private String cgl;
-	private String cgje;
+	private Float jyjg;
+	private Integer cgl;
+	private Float cgje;
 	private String cgzt;
 	private String cgztmc;
 	private String usergysmc;
@@ -51,30 +51,6 @@ public class YycgdmxCustom extends YpxxCustom {
 
 	public void setUseryymc(String useryymc) {
 		this.useryymc = useryymc;
-	}
-
-	public String getJyjg() {
-		return jyjg;
-	}
-
-	public void setJyjg(String jyjg) {
-		this.jyjg = jyjg;
-	}
-
-	public String getCgl() {
-		return cgl;
-	}
-
-	public void setCgl(String cgl) {
-		this.cgl = cgl;
-	}
-
-	public String getCgje() {
-		return cgje;
-	}
-
-	public void setCgje(String cgje) {
-		this.cgje = cgje;
 	}
 
 	public String getCgzt() {
@@ -139,6 +115,30 @@ public class YycgdmxCustom extends YpxxCustom {
 
 	public void setControl(String control) {
 		this.control = control;
+	}
+
+	public Float getJyjg() {
+		return jyjg;
+	}
+
+	public void setJyjg(Float jyjg) {
+		this.jyjg = jyjg;
+	}
+
+	public Integer getCgl() {
+		return cgl;
+	}
+
+	public void setCgl(Integer cgl) {
+		this.cgl = cgl;
+	}
+
+	public Float getCgje() {
+		return cgje;
+	}
+
+	public void setCgje(Float cgje) {
+		this.cgje = cgje;
 	}
 
 }

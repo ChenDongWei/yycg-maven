@@ -170,7 +170,6 @@
 	<select id="findAddGysypmlCount" parameterType="yycg.business.pojo.vo.GysypmlQueryVo"
 		resultType="int">
 
-
 		select count(*)
 		from ypxx
 
@@ -182,6 +181,74 @@
 
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+	</select>
+	
+	<!-- 供货商药品目录控制列表 -->
+	<select id="findGysypmlControlList" parameterType="yycg.business.pojo.vo.GysypmlQueryVo"
+		resultType="yycg.business.pojo.vo.GysypmlCustom">
 
+		<!-- 分页头 -->
+		<include refid="yycg.base.commonSql.page_start" />
+
+		select
+		gysypml_control.id gysypmlid,
+		usergys.id usergysid,
+		usergys.mc usergysmc,
+		gysypml_control.control,
+		(select info
+		from dictinfo
+		where typecode = '008'
+		and dictcode = gysypml_control.control) controlmc,
+		gysypml_control.advice,
+		ypxx.id,
+		ypxx.bm,
+		ypxx.mc,
+		ypxx.jx,
+		ypxx.gg,
+		ypxx.zhxs,
+		ypxx.scqymc,
+		ypxx.spmc,
+		ypxx.zbjg,
+		ypxx.jyzt,
+
+		(select info
+		from dictinfo
+		where ypxx.jyzt = dictcode
+		and typecode = '003') jyztmc
+
+		from gysypml_control, ypxx, usergys
+		where ypxx.id = gysypml_control.ypxxid
+		and gysypml_control.usergysid = usergys.id
+
+		<!-- 药品查询条件 -->
+		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+		<!-- 控制状态查询条件 -->
+		<include refid="query_gysypmlcontrol_where" />
+		<!-- 供货商查询条件 -->
+		<include
+			refid="yycg.base.dao.mapper.SysuserMapperCustom.query_usergys_where" />
+
+		<!-- 分页尾 -->
+		<include refid="yycg.base.commonSql.page_end" />
+	</select>
+	
+	<!-- 供货商药品目录控制列表总数 -->
+	<select id="findGysypmlControlCount" parameterType="yycg.business.pojo.vo.GysypmlQueryVo"
+		resultType="int">
+
+		select
+		count(*)
+
+		from gysypml_control, ypxx, usergys
+		where ypxx.id = gysypml_control.ypxxid
+		and gysypml_control.usergysid = usergys.id
+
+		<!-- 药品查询条件 -->
+		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+		<!-- 控制状态查询条件 -->
+		<include refid="query_gysypmlcontrol_where" />
+		<!-- 供货商查询条件 -->
+		<include
+			refid="yycg.base.dao.mapper.SysuserMapperCustom.query_usergys_where" />
 	</select>
 </mapper>

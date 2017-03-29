@@ -7,8 +7,6 @@
 <script type="text/javascript" src="${baseurl}js/custom.box.main.js"></script>
 <script type="text/javascript" src="${baseurl}js/jquery.ajax.custom.extend.js"></script>
 
-<script type="text/javascript" src="${baseurl}js/ChineseCalendar.js"></script>
-
 <script type="text/javascript" src="${baseurl}js/menuload.js"></script>
 
 <script type="text/javascript" src="${baseurl}js/My97DatePicker/WdatePicker.js"></script>

@@ -220,4 +220,108 @@ public class CgdAction {
 				ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
 						count_success, count_error }), msgs_error);
 	}
+	
+	// 采购单药品保存
+		@RequestMapping("/savecgl")
+		public @ResponseBody
+		SubmitResultInfo saveCgl(String id,// 采购单id
+				YycgdQueryVo yycgdQueryVo, int[] indexs // 页面选择序号
+		) throws Exception {
+
+			// 页面提交的业务数据（多个），要处理的业务数据，页面中传入的参数
+			List<YycgdmxCustom> list = yycgdQueryVo.getYycgdmxCustoms();
+
+			// 处理数据的总数
+			int count = indexs.length;
+			// 处理成功的数量
+			int count_success = 0;
+			// 处理失败的数量
+			int count_error = 0;
+
+			// 处理失败的原因
+			List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+
+			for (int i = 0; i < count; i++) {
+
+				ResultInfo resultInfo = null;
+
+				// 根据选中行的序号获取要处理的业务数据(单个)
+				YycgdmxCustom yycgdmxCustom = list.get(indexs[i]);
+				String ypxxid = yycgdmxCustom.getYpxxid();// 药品信息id
+				Integer cgl = yycgdmxCustom.getCgl();// 采购量
+
+				try {
+					cgdService.updateYycgdmx(id, ypxxid, cgl);
+				} catch (Exception e) {
+					e.printStackTrace();
+
+					// 进行异常解析
+					if (e instanceof ExceptionResultInfo) {
+						resultInfo = ((ExceptionResultInfo) e).getResultInfo();
+					} else {
+						// 构造未知错误异常
+						resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
+								null);
+					}
+
+				}
+				if (resultInfo == null) {
+					// 说明成功
+					count_success++;
+				} else {
+					count_error++;
+					// 记录失败原因
+					msgs_error.add(resultInfo);
+				}
+
+			}
+
+			// 提示用户成功数量、失败数量、失败原因
+			// 改成返回详细信息
+			return ResultUtil.createSubmitResult(
+					ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
+							count_success, count_error }), msgs_error);
+		}
+		
+		//跳转到采购单列表维护页面
+		@RequestMapping("/yycgdlist")
+		public String yycgdList(Model model) throws Exception {
+			//采购单状态
+			List <Dictinfo> cgdztlist = systemConfigService.findDictinfoByType("010");
+			model.addAttribute("cgdztlist", cgdztlist);
+			//当前年份
+			model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
+			
+			return "/business/cgd/yycgdlist";
+		}
+		
+		//采购单列表
+		@RequestMapping("/yycgdlist_result")
+		public @ResponseBody DataGridResultInfo yycgdList_result(
+				HttpSession session,
+				String year,
+				YycgdQueryVo yycgdQueryVo,
+				int page,
+				int rows) throws Exception{
+			//当前用户
+			ActiveUser activeUser = (ActiveUser) session.getAttribute(Config.ACTIVEUSER_KEY);
+			String useryyid = activeUser.getSysid();
+			
+			//列表总数
+			int total = cgdService.findYycgdCount(useryyid, year, yycgdQueryVo);
+			
+			//分页参数
+			PageQuery pageQuery = new PageQuery();
+			pageQuery.setPageParams(total, rows, page);
+			yycgdQueryVo.setPageQuery(pageQuery);
+			
+			//分页查询列表
+			List<YycgdCustom> list = cgdService.findYycgdList(useryyid, year, yycgdQueryVo);
+			
+			DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+			dataGridResultInfo.setTotal(total);
+			dataGridResultInfo.setRows(list);
+			
+			return dataGridResultInfo;
+		}
 }

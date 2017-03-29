@@ -87,7 +87,7 @@ var columns = [ [{
 	hidden : true,//隐藏
 	formatter: function(value,row,index){
 		//gysypmls对应action接收对象中list的名称，[]括号中是从0开始序号,id是list中对象属性
-		return '<input type="hidden" name="gysypmlControls['+index+'].ypxxid" value="'+value+'" />';
+		return '<input type="hidden" name="ypxxCustoms['+index+'].id" value="'+value+'" />';
 	}
 },{
 	field : 'usergysmc',

@@ -32,7 +32,7 @@ var columns = [ [
  {
 	field : 'useryymc',
 	title : '医院名称',
-	width : 100
+	width : 130
 },{
 	field : 'bm',
 	title : '采购单编号',
@@ -40,7 +40,7 @@ var columns = [ [
 },{
 	field : 'mc',
 	title : '采购单名称',
-	width : 150
+	width : 290
 },{
 	field : 'cjtime',
 	title : '建单时间',
@@ -116,8 +116,8 @@ var columns = [ [
 	}
 },{
 	field : 'yycgdztmc',
-	title : '采购单<br>状态', 
-	width : 60
+	title : '采购单状态', 
+	width : 70
 },{
 	field : 'opt3',
 	title : '修改',
@@ -133,7 +133,7 @@ function initGrid(){
 		//nowrap : false,
 		striped : true,
 		//collapsible : true,
-		url : '${baseurl}cgd/queryYycgd_result.action',
+		url : '${baseurl}cgd/yycgdlist_result.action',
 		queryParams:{//查询参数，只在加载时使用，点击查询使用load重新加载不使用此参数
 			year:'${year}'
 		}, 
@@ -194,7 +194,7 @@ function initGrid(){
 			<TABLE  class="table_search">
 				<TBODY>
 					<TR>
-						<TD class="left">年份(如2014)：</TD>
+						<TD class="left">年份(如2017)：</TD>
 						<td >
 						<select name="year" id="year">
 						</select>
@@ -223,12 +223,13 @@ function initGrid(){
 					  <TD class="left">采购单状态：</TD>
 						<td >
 							<select id="yycgdCustom.zt" name="yycgdCustom.zt" style="width:150px">
+								<option value="">全部</option>
+								<c:forEach items="${cgdztlist}" var="value">
+									<option value="${value.dictcode}">${value.info}</option>
+								</c:forEach>
 							</select>
 							<a id="btn" href="#" onclick="yycgdquery()" class="easyui-linkbutton" iconCls='icon-search'>查询</a>	
 						</td>
-						
-						
-						
 					</tr>
 					
 				</TBODY>

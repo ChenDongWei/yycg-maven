@@ -147,11 +147,11 @@ var columns = [ [{
 		}
 	}   */
 },{
-	field : 'ypxxid',
+	field : 'id',
 	hidden : true,
 	formatter: function(value,row,index){
 		if(value){//因为有总计行，而总计行中id的值为null，所以这里需要添加判断，不为空则生成hidden
-			return '<input type="hidden" name="yycgdmxs['+index+'].ypxxid" value="'+value+'" />';
+			return '<input type="hidden" name="yycgdmxCustoms['+index+'].ypxxid" value="'+value+'" />';
 		}
 		
 	}
@@ -194,11 +194,11 @@ var columns = [ [{
 	width : 50,
 	formatter:function(value,row,index){
 		/* if(row.ypxxid){//如果有药品信息id表示不是总计行
-			return '<input type="text" name="yycgdmxs['+index+'].cgl" value="'+(value?value:"")+'" />';
+			return '<input type="text" name="yycgdmxCustoms['+index+'].cgl" value="'+(value?value:"")+'" />';
 		}else{
 			return value;
 		} */
-		return '<input type="text" name="yycgdmxs['+index+'].cgl" value="'+(value?value:"")+'" />';  
+		return '<input type="text" name="yycgdmxCustoms['+index+'].cgl" value="'+(value?value:"")+'" />';  
 	}
 },{
 	field : 'cgje',

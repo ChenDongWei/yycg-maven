@@ -37,4 +37,13 @@ public interface CgdService {
 	
 	//根据采购单id和药品id查询采购单明细
 	public Yycgdmx findYycgdmxByYycgdidAndYpxxid(String yycgdid, String ypxxid) throws Exception;
+	
+	//根据采购单id和药品id更新采购单明细表的采购量和采购金额
+	public void updateYycgdmx(String yycgdid, String ypxxid, Integer cgl) throws Exception;
+	
+	//采购单列表
+	public List<YycgdCustom> findYycgdList(String useryyid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购单列表总数
+	public int findYycgdCount(String useryyid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
 }

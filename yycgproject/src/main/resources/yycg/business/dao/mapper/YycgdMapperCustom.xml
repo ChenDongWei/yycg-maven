@@ -19,6 +19,24 @@
 			<if test="yycgdCustom.id != null and yycgdCustom.id != ''">
 				and yycgd.id = #{yycgdCustom.id}
 			</if>
+			<if test="yycgdCustom.useryyid != null and yycgdCustom.useryyid != ''">
+				and yycgd.useryyid = #{yycgdCustom.useryyid}
+			</if>
+			<if test="yycgdCustom.bm != null and yycgdCustom.bm != ''">
+				and yycgd.bm like '%${yycgdCustom.bm}%'
+			</if>
+			<if test="yycgdCustom.mc != null and yycgdCustom.mc != ''">
+				and yycgd.mc like '%${yycgdCustom.useryyid}%'
+			</if>
+			<!-- 根据采购时间查询 -->
+			<if test="yycgdCustom.cjtime_start != null">
+				and yycgd.cjtime >= #{yycgdCustom.cjtime_start} 
+			</if>
+			<if test="yycgdCustom.cjtime_end != null">
+				<![CDATA[
+					and yycgd.cjtime <= #{yycgdCustom.cjtime_end} 
+				]]>
+			</if>
 		</if>
 	</sql>
 
@@ -205,5 +223,42 @@
     and gysypml.ypxxid not in(
         select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where yycgdmx.yycgdid = #{yycgdCustom.id}
     )
+	</select>
+	
+	<!-- 采购单查询列表 -->
+	<select id="findYycgdList"  parameterType="yycg.business.pojo.vo.YycgdQueryVo"
+	resultType="yycg.business.pojo.vo.YycgdCustom" >
+		<!-- 分页头 -->
+		<include refid="yycg.base.commonSql.page_start" />
+		select 
+			useryy.mc useryymc,
+			yycgd.*,
+			(select info 
+			 from dictinfo 
+			 where typecode='010' and dictcode=yycgd.zt)yycgdztmc
+		from yycgd${businessyear} yycgd,useryy 
+		where yycgd.useryyid = useryy.id
+	 
+		 <!-- 采购单本身查询条件 -->
+		 <include refid="query_yycgd_where"/>
+		 <!-- 医院查询条件 -->
+		 <include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where"/>
+		 
+		 <!-- 分页尾部 -->
+			<include refid="yycg.base.commonSql.page_end" />
+	</select>
+	
+	<select id="findYycgdCount"  parameterType="yycg.business.pojo.vo.YycgdQueryVo"
+	resultType="int" >
+	
+		select 
+			 count(*)
+		from yycgd${businessyear} yycgd,useryy 
+		where yycgd.useryyid = useryy.id
+	 
+		 <!-- 采购单本身查询条件 -->
+		 <include refid="query_yycgd_where"/>
+		 <!-- 医院查询条件 -->
+		 <include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where"/>
 	</select>
 </mapper>

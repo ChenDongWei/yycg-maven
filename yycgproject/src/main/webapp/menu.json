@@ -10,12 +10,14 @@
                },
                {"icon" : "icon-sys","menuid" : "1","menuname" : "供货商药品目录 ","url" : "","menus" : [
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "供货商药品目录维护","url" : "/ypml/querygysypml.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "供货商药品目录控制","url" : "/ypml/querygysypmlcontrol.action"
                  }] 
                },
                {"icon" : "icon-cart","menuid" : "1","menuname" : "采购单管理","url" : "","menus" : [
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "创建采购单","url" : "/cgd/addcgd.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单维护","url" : "/cgd/querycgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单维护","url" : "/cgd/yycgdlist.action"
                  },
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/cgd/querycheckcgd.action"
                  },

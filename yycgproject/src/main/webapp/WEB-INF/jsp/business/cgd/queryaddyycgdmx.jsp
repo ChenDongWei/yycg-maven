@@ -45,6 +45,7 @@ function addyycgdmx_callback(data) {
 	var result = getCallbackData(data);
 	_alert(result);//显示失败明细的
      gysypmlquery();//删除完成刷新页面（重新执行查询方法）
+     parent.yycgdmxquery();//调用父页面的查询方法
 }
 
 

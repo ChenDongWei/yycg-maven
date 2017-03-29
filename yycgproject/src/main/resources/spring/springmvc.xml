@@ -17,8 +17,25 @@
 	<context:component-scan base-package="yycg.**.action" />
 
 	<!-- 处理器映射器和适配器，可以使用mvc注解驱动 -->
-	<mvc:annotation-driven />
+	<!-- 注解驱动 -->
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:argument-resolvers>  
+	           <bean class="yycg.base.action.converters.UserArgumentResolver"/>  
+	    </mvc:argument-resolvers> 
+		
+	</mvc:annotation-driven>
 
+	<!-- 自定义注册属性编辑器 -->
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="yycg.base.action.converters.StringTrimConverter" />
+				<bean class="yycg.base.action.converters.DateConverter" />
+				<bean class="yycg.base.action.converters.DatetimeConverter" />
+			</list>
+		</property>
+	</bean>
 
 	<!-- 视图解析器 -->
 	<bean
