@@ -21,6 +21,12 @@
   			<if test="useryy.id != null and useryy.id != ''">
   				and useryy.id like '%${useryy.id}%'
   			</if>
+  			<!-- 根据区域查询医院信息 -->
+  			<if test="useryy.dq != null and useryy.dq != ''">
+  				and useryy.id in (
+  					select id from useryy where dq like '${useryy.dq}%'
+  				)
+  			</if>
   		</if>
   	</sql>
   	

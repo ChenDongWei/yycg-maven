@@ -19,7 +19,7 @@
                  },
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单维护","url" : "/cgd/yycgdlist.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/cgd/querycheckcgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/cgd/checkyycgdlist.action"
                  },
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单受理","url" : "/cgd/disposecgd.action"
                  },

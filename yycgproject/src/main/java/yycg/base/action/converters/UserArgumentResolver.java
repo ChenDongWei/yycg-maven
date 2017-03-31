@@ -9,13 +9,9 @@ import yycg.base.pojo.vo.ActiveUser;
 import yycg.base.process.context.Config;
 
 /**
- * 
- * <p>Title: UserArgumentResolver</p>
- * <p>Description:当前用户身份ActiveUser参数解析器 </p>
- * <p>Company: www.itcast.com</p> 
- * @author	苗润土
- * @date	2014-10-31上午11:33:00
- * @version 1.0
+ * 当前用户身份ActiveUser参数解析器 
+ * @author dongwei
+ * @date 2017年3月29日
  */
 public class UserArgumentResolver implements WebArgumentResolver {
 

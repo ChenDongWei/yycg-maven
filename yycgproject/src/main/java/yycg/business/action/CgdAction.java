@@ -295,16 +295,14 @@ public class CgdAction {
 			return "/business/cgd/yycgdlist";
 		}
 		
-		//采购单列表
+		//采购单列表结果集
 		@RequestMapping("/yycgdlist_result")
 		public @ResponseBody DataGridResultInfo yycgdList_result(
-				HttpSession session,
+				ActiveUser activeUser,
 				String year,
 				YycgdQueryVo yycgdQueryVo,
 				int page,
 				int rows) throws Exception{
-			//当前用户
-			ActiveUser activeUser = (ActiveUser) session.getAttribute(Config.ACTIVEUSER_KEY);
 			String useryyid = activeUser.getSysid();
 			
 			//列表总数
@@ -317,6 +315,53 @@ public class CgdAction {
 			
 			//分页查询列表
 			List<YycgdCustom> list = cgdService.findYycgdList(useryyid, year, yycgdQueryVo);
+			
+			DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+			dataGridResultInfo.setTotal(total);
+			dataGridResultInfo.setRows(list);
+			
+			return dataGridResultInfo;
+		}
+		
+		//采购单提交
+		@RequestMapping("/submityycgd")
+		public @ResponseBody SubmitResultInfo submitYycgd(String id) throws Exception{
+			cgdService.saveYycgdSubmitStatus(id);
+			
+			return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
+		}
+		
+		//采购单审核列表页面
+		@RequestMapping("checkyycgdlist")
+		public String checkYycgdList(Model model) throws Exception{
+			//药品类别
+			List<Dictinfo> cgdztlist = systemConfigService.findDictinfoByType("010");
+			model.addAttribute("cgdztlist", cgdztlist);
+			//当前年份
+			model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
+			
+			return "/business/cgd/checkyycgdlist";
+		}
+		
+		//采购单审核列表结果集
+		@RequestMapping("/checkyycgdlist_result")
+		public @ResponseBody DataGridResultInfo checkYycgdList_result(
+				ActiveUser activeUser,
+				String year,
+				YycgdQueryVo yycgdQueryVo,
+				int page,
+				int rows
+				) throws Exception{
+			//监管单位id
+			String userjdid = activeUser.getSysid();
+			//列表总数
+			int total = cgdService.findCheckYycgdCount(year, userjdid, yycgdQueryVo);
+			//分页参数
+			PageQuery pageQuery = new PageQuery();
+			pageQuery.setPageParams(total, rows, page);
+			yycgdQueryVo.setPageQuery(pageQuery);
+			//分页查询列表
+			List<YycgdCustom> list = cgdService.findCheckYycgdList(year, userjdid, yycgdQueryVo);
 			
 			DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
 			dataGridResultInfo.setTotal(total);

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/base/tag.jsp"%>
 <html> 
 <head>
-<title>医院采购单维护</title>
+<title>医院采购单审核</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -14,25 +14,95 @@
 
 <script type="text/javascript">
 
+function yycgdchecksubmit(){
+	_confirm('您确认提交审核结果吗?',null,
+			  function(){
+				var indexs = [];//记录的序号
+				var rows = $('#yycgdlist').datagrid('getSelections');//获得以datagrid所有选中的行
+				//alert(rows.length);
+				for(var i=0;i<rows.length;i++){
+					var index=$('#yycgdlist').datagrid('getRowIndex',rows[i]);//获取指定行的序号
+					indexs.push(index);
+				}
+				if(rows.length>0){
+					//alert(indexs.join(','));
+					$("#indexs").val(indexs.join(','));//将数组数据中间以逗号分隔拼接成一个串，放在indexs里边
+					jquerySubByFId('yycgdqueryForm', yycgdchecksubmit_callback, null);
+				}else{
+					alert_warn("请选择要提交审核的采购单");
+				}
+				
+			  }
+			)
+}
+function yycgdchecksubmit_callback(data){
+	var result = getCallbackData(data);
+	_alert(result);
+	yycgdquery();//刷新本窗口
+}
 
-function yycgdedit(bm){
-	var sendUrl = "${baseurl}cgd/editcgd.action?id="+bm;
-	parent.opentabwindow(bm+'采购单修改',sendUrl);//打开一个新标签
+function yycgdview(bm){
+	var sendUrl = "${baseurl}cgd/viewcgd.action?id="+bm;
+	parent.opentabwindow(bm+'采购单查看',sendUrl);//打开一个新标签
 }
 
 
 //工具栏
 
-var toolbar = [];
+var toolbar = [ {
+	id : 'yycgdchecksubmit',
+	text : '提交审核结果',
+	iconCls : 'icon-add',
+	handler : yycgdchecksubmit
+	}];
 
 var frozenColumns;
 
 var columns = [ [
+{
+	checkbox:true
+},
+{
+	field : 'id',//采购单id
+	hidden : true,
+	formatter: function(value,row,index){
+		return '<input type="hidden" name="yycgdCustoms['+index+'].id" value="'+value+'" />';
+	}
+},
+{
+	field : 'opt',
+	title : '审核结果',
+	width : 100,
+	formatter: function(value,row,index){
+		var string= '<select name="yycgdCustoms['+index+'].zt">'
+		+'<option value=""></option>'
+		+'<option value="3">审核通过</option>'
+		+'<option value="4">审核不通过</option>'
+		+'</select>';
+		return string
+	}
+},
+{
+	field : 'opt2',
+	title : '审核意见',
+	width : 180,
+	formatter: function(value,row,index){
+		return '<input type="text" name="yycgdCustoms['+index+'].shyj" />';
+
+	}
+},{
+	field : 'opt3',
+	title : '查看',
+	width : 60,
+	formatter:function(value, row, index){
+		return '<a href=javascript:yycgdview("'+row.bm+'")>查看</a>';
+	}
+},
  
  {
 	field : 'useryymc',
 	title : '医院名称',
-	width : 130
+	width : 100
 },{
 	field : 'bm',
 	title : '采购单编号',
@@ -40,7 +110,7 @@ var columns = [ [
 },{
 	field : 'mc',
 	title : '采购单名称',
-	width : 290
+	width : 150
 },{
 	field : 'cjtime',
 	title : '建单时间',
@@ -116,15 +186,8 @@ var columns = [ [
 	}
 },{
 	field : 'yycgdztmc',
-	title : '采购单状态', 
-	width : 70
-},{
-	field : 'opt3',
-	title : '修改',
-	width : 60,
-	formatter:function(value, row, index){
-		return '<a href=javascript:yycgdedit("'+row.bm+'")>修改</a>';
-	}
+	title : '采购单<br>状态', 
+	width : 60
 }]];
 
 function initGrid(){
@@ -133,7 +196,7 @@ function initGrid(){
 		//nowrap : false,
 		striped : true,
 		//collapsible : true,
-		url : '${baseurl}cgd/yycgdlist_result.action',
+		url : '${baseurl}cgd/checkyycgdlist_result.action',
 		queryParams:{//查询参数，只在加载时使用，点击查询使用load重新加载不使用此参数
 			year:'${year}'
 		}, 
@@ -161,7 +224,7 @@ function initGrid(){
 
 	function yycgdquery() {
 		var formdata = $("#yycgdqueryForm").serializeJson();//将form中的input数据取出来
-		//alert(formdata);
+		$('#yycgdlist').datagrid('unselectAll');//清空列表所有选中状态
 		$('#yycgdlist').datagrid('load', formdata);
 	}
 	
@@ -169,28 +232,17 @@ function initGrid(){
 	
 	$(function(){
 		//加载采购单状态
-		
-		getDictinfoCodelist('010','yycgdCustom.zt');
+		//getDictinfoCodelist('010','yycgdCustom.zt');
 		//加载年
-		businessyearlist('year');
+		//businessyearlist('businessyear');
 	
 
 	});
-	//调用的是dwrService中的testdwr方法
-	/* dwrService.testdwr({
-	     callback:function(data) {
-	     	alert(data);
-	     }}); */
-	//调用的是dwrService中的testdwr2方法，传一个参数
-	/* dwrService.testdwr2('张三',{
-	     callback:function(data) {
-	     	alert(data);
-	     }}); */
-
 </script>
 </HEAD>
 <BODY>
-    <form id="yycgdqueryForm" name="yycgdqueryForm" method="post" >
+    <form id="yycgdqueryForm" name="yycgdqueryForm" method="post" action="${baseurl}cgd/checkcgdsubmit.action">
+    <input type="hidden" id="indexs" name="indexs" />
 			<TABLE  class="table_search">
 				<TBODY>
 					<TR>
@@ -221,14 +273,9 @@ function initGrid(){
 						<td><INPUT type="text"  name="yycgdCustom.bm" /></TD>
 					<TD class="left">采购单名称：</TD>
 						<td ><INPUT type="text" name="yycgdCustom.mc" /></td>
-					  <TD class="left">采购单状态：</TD>
-						<td >
-							<select id="yycgdCustom.zt" name="yycgdCustom.zt" style="width:150px">
-								<option value="">全部</option>
-								<c:forEach items="${cgdztlist}" var="value">
-									<option value="${value.dictcode}">${value.info}</option>
-								</c:forEach>
-							</select>
+					  
+						<td colspan=2>
+							
 							<a id="btn" href="#" onclick="yycgdquery()" class="easyui-linkbutton" iconCls='icon-search'>查询</a>	
 						</td>
 					</tr>

@@ -5,10 +5,18 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import yycg.base.dao.mapper.UserjdMapper;
 import yycg.base.dao.mapper.UseryyMapper;
+import yycg.base.pojo.po.Dictinfo;
+import yycg.base.pojo.po.Userjd;
 import yycg.base.pojo.po.Useryy;
+import yycg.base.pojo.vo.ActiveUser;
 import yycg.base.process.context.Config;
+import yycg.base.process.result.DataGridResultInfo;
 import yycg.base.process.result.ResultUtil;
 import yycg.base.service.SystemConfigService;
 import yycg.business.dao.mapper.YpxxMapper;
@@ -24,6 +32,7 @@ import yycg.business.pojo.vo.YycgdCustom;
 import yycg.business.pojo.vo.YycgdQueryVo;
 import yycg.business.pojo.vo.YycgdmxCustom;
 import yycg.business.service.CgdService;
+import yycg.util.MyUtil;
 import yycg.util.UUIDBuild;
 
 public class CgdServiceImpl implements CgdService {
@@ -44,6 +53,9 @@ public class CgdServiceImpl implements CgdService {
 	
 	@Autowired
 	private YycgdmxMapper yycgdmxMapper;
+	
+	@Autowired
+	private UserjdMapper userjdMapper;
 
 	@Override
 	public String insertYycgd(String useryyid, String year,
@@ -305,6 +317,96 @@ public class CgdServiceImpl implements CgdService {
 		useryy.setId(useryyid);
 		yycgdQueryVo.setUseryy(useryy);
 		
+		return yycgdMapperCustom.findYycgdCount(yycgdQueryVo);
+	}
+
+	@Override
+	public void saveYycgdSubmitStatus(String yycgdid) throws Exception {
+		//采购单状态为未提交或审核不通过方可提交
+		Yycgd yycgd = this.findYycgdById(yycgdid);
+		if (yycgd == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 501, null));
+		}
+		String zt = yycgd.getZt();
+		if (!zt.equals("1") && !zt.endsWith("4")) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 502, null));
+		}
+		
+		//采购单必须包含采购药品明细
+		List<YycgdmxCustom> yycgdmxList = this.findYycgdmxListByYycgdid(yycgdid, null);
+		if (yycgdmxList == null || yycgdmxList.size() <= 0) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 504, null));
+		}
+		
+		//采购单的采购药品信息必须包含采购量和金额
+		for (YycgdmxCustom yycgdmxCustom : yycgdmxList) {
+			Integer cgl = yycgdmxCustom.getCgl();
+			Float cgje = yycgdmxCustom.getCgje();
+			if (cgl == null || cgje == null) {
+				ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 505, null));
+			}
+		}
+		
+		String businessyear = yycgdid.substring(0, 4);
+		//更新采购单状态及提交时间
+		Yycgd yycgd_update = new Yycgd();
+		yycgd_update.setId(yycgdid);
+		yycgd_update.setZt("2");
+		yycgd_update.setTjtime(MyUtil.getNowDate());
+		yycgd_update.setBusinessyear(businessyear);
+		
+		yycgdMapper.updateByPrimaryKeySelective(yycgd_update);
+	}
+
+	@Override
+	public List<YycgdCustom> findCheckYycgdList(String year, String userjdid, YycgdQueryVo yycgdQueryVo)
+			throws Exception {
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//采购单状态
+		String zt = "2";//审核中
+		YycgdCustom yycgdCustom = yycgdQueryVo.getYycgdCustom();
+		if (yycgdCustom == null) {
+			yycgdCustom = new YycgdCustom();
+		}
+		yycgdCustom.setZt(zt);
+		yycgdQueryVo.setYycgdCustom(yycgdCustom);
+		//根据监管单位id查询监管单位
+		Userjd userjd = userjdMapper.selectByPrimaryKey(userjdid);
+		//管理地区
+		String dq = userjd.getDq();
+		
+		Useryy useryy = yycgdQueryVo.getUseryy();
+		useryy = useryy != null?useryy : new Useryy();
+		useryy.setDq(dq);
+		yycgdQueryVo.setUseryy(useryy);
+		
+		yycgdQueryVo.setBusinessyear(year);
+		return yycgdMapperCustom.findYycgdList(yycgdQueryVo);
+	}
+
+	@Override
+	public int findCheckYycgdCount(String year, String userjdid,
+			YycgdQueryVo yycgdQueryVo) throws Exception {
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//采购单状态
+		String zt = "2";//审核中
+		YycgdCustom yycgdCustom = yycgdQueryVo.getYycgdCustom();
+		if (yycgdCustom == null) {
+			yycgdCustom = new YycgdCustom();
+		}
+		yycgdCustom.setZt(zt);
+		yycgdQueryVo.setYycgdCustom(yycgdCustom);
+		//根据监管单位id查询监管单位
+		Userjd userjd = userjdMapper.selectByPrimaryKey(userjdid);
+		//管理地区
+		String dq = userjd.getDq();
+		
+		Useryy useryy = yycgdQueryVo.getUseryy();
+		useryy = useryy != null?useryy : new Useryy();
+		useryy.setDq(dq);
+		yycgdQueryVo.setUseryy(useryy);
+		
+		yycgdQueryVo.setBusinessyear(year);
 		return yycgdMapperCustom.findYycgdCount(yycgdQueryVo);
 	}
 

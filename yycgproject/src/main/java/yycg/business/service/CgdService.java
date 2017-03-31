@@ -46,4 +46,13 @@ public interface CgdService {
 	
 	//采购单列表总数
 	public int findYycgdCount(String useryyid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购单提交
+	public void saveYycgdSubmitStatus(String yycgdid) throws Exception;
+	
+	//采购单审批列表
+	public List<YycgdCustom> findCheckYycgdList(String year, String userjdid, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购单审批列表总数
+	public int findCheckYycgdCount(String year, String userjdid, YycgdQueryVo yycgdQueryVo) throws Exception;
 }

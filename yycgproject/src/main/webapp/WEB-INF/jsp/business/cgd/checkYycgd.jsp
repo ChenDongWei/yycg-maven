@@ -246,11 +246,10 @@ function initGrid(){
 			<TABLE  class="table_search">
 				<TBODY>
 					<TR>
-						<TD class="left">年份(如2014)：</TD>
+						<TD class="left">年份(如2017)：</TD>
 						<td >
 						<select name="year" id="year">
-						<option value="2014">2014</option>
-						<option value="2013">2013</option>
+						<option value="2017">2017</option>
 						</select>
 						
 						</td>

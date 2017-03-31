@@ -37,6 +37,9 @@
 					and yycgd.cjtime <= #{yycgdCustom.cjtime_end} 
 				]]>
 			</if>
+			<if test="yycgdCustom.zt != null and yycgdCustom.zt != ''">
+				and yycgd.zt = #{yycgdCustom.zt}
+			</if>
 		</if>
 	</sql>
 
@@ -243,9 +246,9 @@
 		 <include refid="query_yycgd_where"/>
 		 <!-- 医院查询条件 -->
 		 <include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where"/>
-		 
+		 order by yycgd.id desc
 		 <!-- 分页尾部 -->
-			<include refid="yycg.base.commonSql.page_end" />
+		 <include refid="yycg.base.commonSql.page_end" />
 	</select>
 	
 	<select id="findYycgdCount"  parameterType="yycg.business.pojo.vo.YycgdQueryVo"

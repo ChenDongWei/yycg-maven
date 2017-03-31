@@ -29,7 +29,7 @@ function yycgdsave_callback(data) {
 function yycgdsubmit(){
 	_confirm('提交后采购单将不允许修改，是否继续?',null,
 			  function(){
-		$("#yycgdsaveForm").attr("action","${baseurl}cgd/submitYycgd.action");
+		$("#yycgdsaveForm").attr("action","${baseurl}cgd/submityycgd.action");
 		jquerySubByFId('yycgdsaveForm', yycgdsubmit_callback, null);
 	 }
    );
@@ -109,7 +109,7 @@ function yycgdmxsave_callback(data){
 }
 var toolbar=[];
 //如果采购单未提交或审核不通过显示此下操作按钮
-
+<c:if test="${yycgd.zt =='1' or yycgd.zt=='4'}">
 toolbar = [{
 	id : 'yycgdmxaddshow',
 	text : '采购药品添加',
@@ -129,7 +129,7 @@ toolbar = [{
 		handler : yycgdmxsave
 	}
 	];
-
+</c:if>
 //采购单明细列表的列定义
 
 var columns = [ [{
