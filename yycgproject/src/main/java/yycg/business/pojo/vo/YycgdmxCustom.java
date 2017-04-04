@@ -1,5 +1,7 @@
 package yycg.business.pojo.vo;
 
+import java.util.Date;
+
 public class YycgdmxCustom extends YpxxCustom {
 	private String yycgdid;
 	private String yycgdmxid;
@@ -15,6 +17,12 @@ public class YycgdmxCustom extends YpxxCustom {
 
 	private String gysypmlid;// 供药商药品目录id
 	private String ypxxid;
+	
+	//采购单信息
+	private String yycgdbm;
+	private String yycgdmc;
+	private Date cjtime;
+	private String yycgdztmc;
 
 	// 控制状态名称
 	private String controlmc;// 供货状态
@@ -139,6 +147,38 @@ public class YycgdmxCustom extends YpxxCustom {
 
 	public void setCgje(Float cgje) {
 		this.cgje = cgje;
+	}
+
+	public String getYycgdbm() {
+		return yycgdbm;
+	}
+
+	public void setYycgdbm(String yycgdbm) {
+		this.yycgdbm = yycgdbm;
+	}
+
+	public String getYycgdmc() {
+		return yycgdmc;
+	}
+
+	public void setYycgdmc(String yycgdmc) {
+		this.yycgdmc = yycgdmc;
+	}
+
+	public Date getCjtime() {
+		return cjtime;
+	}
+
+	public void setCjtime(Date cjtime) {
+		this.cjtime = cjtime;
+	}
+
+	public String getYycgdztmc() {
+		return yycgdztmc;
+	}
+
+	public void setYycgdztmc(String yycgdztmc) {
+		this.yycgdztmc = yycgdztmc;
 	}
 
 }

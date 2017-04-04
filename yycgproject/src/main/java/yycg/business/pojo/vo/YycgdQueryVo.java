@@ -17,6 +17,8 @@ public class YycgdQueryVo extends BusinessBasePo {
 	
 	private GysypmlCustom gysypmlCustom;//供药商药品目录
 	private List<YycgdmxCustom> yycgdmxCustoms;//药品明细
+	
+	private List<YycgdCustom> yycgdCustoms;//采购单批量信息
 
 	public YycgdCustom getYycgdCustom() {
 		return yycgdCustom;
@@ -72,6 +74,14 @@ public class YycgdQueryVo extends BusinessBasePo {
 
 	public void setYycgdmxCustoms(List<YycgdmxCustom> yycgdmxCustoms) {
 		this.yycgdmxCustoms = yycgdmxCustoms;
+	}
+
+	public List<YycgdCustom> getYycgdCustoms() {
+		return yycgdCustoms;
+	}
+
+	public void setYycgdCustoms(List<YycgdCustom> yycgdCustoms) {
+		this.yycgdCustoms = yycgdCustoms;
 	}
 
 }

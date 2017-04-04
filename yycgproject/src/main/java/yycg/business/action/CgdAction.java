@@ -369,4 +369,56 @@ public class CgdAction {
 			
 			return dataGridResultInfo;
 		}
+		
+		//采购单审核提交
+		@RequestMapping("/checkcgdsubmit")
+		public @ResponseBody SubmitResultInfo checkCgdSubmit(
+				YycgdQueryVo yycgdQueryVo,
+				int[] indexs
+				) throws Exception{
+			//页面提交的业务数据
+			List<YycgdCustom> list = yycgdQueryVo.getYycgdCustoms();
+			//处理数据的总数
+			int count = indexs.length;
+			//处理成功的数量
+			int count_success = 0;
+			//处理失败的数量
+			int count_error = 0;
+			//处理失败的原因
+			List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+			
+			for (int i = 0; i < count; i++) {
+				ResultInfo resultInfo = null;
+				//根据选中的行的序号获取要处理的业务数据
+				YycgdCustom yycgdCustom = list.get(indexs[i]);
+				//采购单id
+				String yycgdid = yycgdCustom.getId();
+				
+				try {
+					cgdService.saveYycgdCheckStatus(yycgdid, yycgdCustom);
+				} catch (Exception e) {
+					e.printStackTrace();
+					if (e instanceof ExceptionResultInfo) {
+						resultInfo = ((ExceptionResultInfo) e).getResultInfo();
+					}else {
+						// 构造未知错误异常
+						resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
+								null);
+					}
+				}
+				if (resultInfo == null) {
+					// 说明成功
+					count_success++;
+				} else {
+					count_error++;
+					// 记录失败原因
+					msgs_error.add(resultInfo);
+				}
+			}
+			// 提示用户成功数量、失败数量、失败原因
+			// 改成返回详细信息
+			return ResultUtil.createSubmitResult(
+					ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
+							count_success, count_error }), msgs_error);
+		}
 }

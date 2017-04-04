@@ -30,7 +30,7 @@
 			</if>
 			<!-- 根据采购时间查询 -->
 			<if test="yycgdCustom.cjtime_start != null">
-				and yycgd.cjtime >= #{yycgdCustom.cjtime_start} 
+				and yycgd.cjtime >= #{yycgdCustom.cjtime_start}
 			</if>
 			<if test="yycgdCustom.cjtime_end != null">
 				<![CDATA[
@@ -52,11 +52,18 @@
 	<select id="findYycgdmxList" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
 		resultType="yycg.business.pojo.vo.YycgdmxCustom">
 		<!-- 引入分页头 -->
-		<include refid="yycg.base.commonSql.page_start"/>
-		
+		<include refid="yycg.base.commonSql.page_start" />
+
 		select yycgdmx.id yycgdmxid,
 		useryy.id useryyid,
 		useryy.mc useryymc,
+		yycgd.bm yycgdbm,
+		yycgd.mc yycgdmc,
+		yycgd.cjtime,
+		(select info
+		from dictinfo
+		where
+		typecode = '010' and dictcode = yycgd.zt)
 		ypxx.id,
 		ypxx.bm,
 		ypxx.mc,
@@ -69,7 +76,8 @@
 		ypxx.jyzt,
 
 		(select info
-		from dictinfo
+		from
+		dictinfo
 		where ypxx.jyzt =
 		dictcode
 		and typecode = '003') jyztmc,
@@ -82,32 +90,37 @@
 		from dictinfo
 		where
 		typecode = '011'
-		and dictcode = yycgdmx.cgzt) cgztmc,
+		and dictcode =
+		yycgdmx.cgzt) cgztmc,
 		usergys.mc
 		usergysmc,
 		usergys.id usergysid
 
-		from yycgdmx${businessyear} yycgdmx,
-		yycgd${businessyear} yycgd, useryy, ypxx, usergys
+		from
+		yycgdmx${businessyear} yycgdmx,
+		yycgd${businessyear} yycgd, useryy,
+		ypxx, usergys
 		where yycgdmx.yycgdid
 		= yycgd.id
-		and yycgd.useryyid = useryy.id
+		and yycgd.useryyid =
+		useryy.id
 		and yycgdmx.ypxxid = ypxx.id
-		and yycgdmx.usergysid = usergys.id
+		and yycgdmx.usergysid =
+		usergys.id
 
 		<!-- 只查询某个采购单下药品明细 -->
-		<include refid="query_yycgdmx_where"/>
+		<include refid="query_yycgdmx_where" />
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
-		
+
 		<!-- 分页尾部 -->
-		<include refid="yycg.base.commonSql.page_end"/>
+		<include refid="yycg.base.commonSql.page_end" />
 	</select>
-	
+
 	<!-- 采购单药品总数查询列表 -->
 	<select id="findYycgdmxCount" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
 		resultType="int">
-		
+
 		select count(*)
 
 		from yycgdmx${businessyear} yycgdmx,
@@ -119,11 +132,11 @@
 		and yycgdmx.usergysid = usergys.id
 
 		<!-- 只查询某个采购单下药品明细 -->
-		<include refid="query_yycgdmx_where"/>
+		<include refid="query_yycgdmx_where" />
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
 	</select>
-	
+
 	<!-- 添加采购药品明细查询列表 -->
 	<select id="findAddYycgdmxList" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
 		resultType="yycg.business.pojo.vo.YycgdmxCustom">
@@ -144,7 +157,8 @@
 		(select info
 		from dictinfo
 		where typecode = '008'
-		and dictcode = gysypml_control.control) controlmc,
+		and dictcode = gysypml_control.control)
+		controlmc,
 
 		ypxx.id,
 		ypxx.bm,
@@ -162,30 +176,33 @@
 		where ypxx.jyzt = dictcode
 		and typecode = '003') jyztmc
 
-		from gysypml, usergys, gysypml_control, ypxx
+		from gysypml,
+		usergys, gysypml_control, ypxx
 		where gysypml.usergysid = usergys.id
-		and gysypml.ypxxid = gysypml_control.ypxxid
-		and gysypml.usergysid = gysypml_control.usergysid
+		and
+		gysypml.ypxxid = gysypml_control.ypxxid
+		and gysypml.usergysid =
+		gysypml_control.usergysid
 		and gysypml.ypxxid = ypxx.id
 
-		<include refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypml_where" />
-		<include refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypmlcontrol_where" />
+		<include
+			refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypml_where" />
+		<include
+			refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypmlcontrol_where" />
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
-	
-	     <!-- 限制只查询医院本区域供货商的药品目录
-	     useryy.dq就是医院区域id
-	      -->
-    and gysypml.usergysid in (
-       select usergysarea.usergysid from usergysarea where #{useryy.dq} like usergysarea.areaid || '%'
-    )
-    <!-- 将采购单中药品过虑掉 
-    yycgdCustom.id存采购单id
-    -->
-    and gysypml.ypxxid not in(
-        select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where yycgdmx.yycgdid = #{yycgdCustom.id}
-    )
-		
+
+		<!-- 限制只查询医院本区域供货商的药品目录 useryy.dq就是医院区域id -->
+		and gysypml.usergysid in (
+		select usergysarea.usergysid from usergysarea where #{useryy.dq} like
+		usergysarea.areaid || '%'
+		)
+		<!-- 将采购单中药品过虑掉 yycgdCustom.id存采购单id -->
+		and gysypml.ypxxid not in(
+		select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where
+		yycgdmx.yycgdid = #{yycgdCustom.id}
+		)
+
 		<!-- 分页尾 -->
 		<if test="pageQuery!=null">
 			) page_1
@@ -195,73 +212,77 @@
 			 ]]>
 		</if>
 	</select>
-	
+
 	<!-- 添加采购药品明细查询列表总数 -->
 	<select id="findAddYycgdmxCount" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
 		resultType="int">
-		
+
 		select
 		count(*)
 
 		from gysypml, usergys, gysypml_control, ypxx
-		where gysypml.usergysid = usergys.id
-		and gysypml.ypxxid = gysypml_control.ypxxid
-		and gysypml.usergysid = gysypml_control.usergysid
+		where
+		gysypml.usergysid = usergys.id
+		and gysypml.ypxxid =
+		gysypml_control.ypxxid
+		and gysypml.usergysid =
+		gysypml_control.usergysid
 		and gysypml.ypxxid = ypxx.id
 
-		<include refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypml_where" />
-		<include refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypmlcontrol_where" />
+		<include
+			refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypml_where" />
+		<include
+			refid="yycg.business.dao.mapper.GysypmlMapperCustom.query_gysypmlcontrol_where" />
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
-	
-	     <!-- 限制只查询医院本区域供货商的药品目录
-	     useryy.dq就是医院区域id
-	      -->
-    and gysypml.usergysid in (
-       select usergysarea.usergysid from usergysarea where #{useryy.dq} like usergysarea.areaid || '%'
-    )
-    <!-- 将采购单中药品过虑掉 
-    yycgdCustom.id存采购单id
-    -->
-    and gysypml.ypxxid not in(
-        select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where yycgdmx.yycgdid = #{yycgdCustom.id}
-    )
+
+		<!-- 限制只查询医院本区域供货商的药品目录 useryy.dq就是医院区域id -->
+		and gysypml.usergysid in (
+		select usergysarea.usergysid from usergysarea where #{useryy.dq} like
+		usergysarea.areaid || '%'
+		)
+		<!-- 将采购单中药品过虑掉 yycgdCustom.id存采购单id -->
+		and gysypml.ypxxid not in(
+		select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where
+		yycgdmx.yycgdid = #{yycgdCustom.id}
+		)
 	</select>
-	
+
 	<!-- 采购单查询列表 -->
-	<select id="findYycgdList"  parameterType="yycg.business.pojo.vo.YycgdQueryVo"
-	resultType="yycg.business.pojo.vo.YycgdCustom" >
+	<select id="findYycgdList" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
+		resultType="yycg.business.pojo.vo.YycgdCustom">
 		<!-- 分页头 -->
 		<include refid="yycg.base.commonSql.page_start" />
-		select 
-			useryy.mc useryymc,
-			yycgd.*,
-			(select info 
-			 from dictinfo 
-			 where typecode='010' and dictcode=yycgd.zt)yycgdztmc
-		from yycgd${businessyear} yycgd,useryy 
+		select
+		useryy.mc useryymc,
+		yycgd.*,
+		(select info
+		from dictinfo
+		where typecode='010' and dictcode=yycgd.zt)yycgdztmc
+		from
+		yycgd${businessyear} yycgd,useryy
 		where yycgd.useryyid = useryy.id
-	 
-		 <!-- 采购单本身查询条件 -->
-		 <include refid="query_yycgd_where"/>
-		 <!-- 医院查询条件 -->
-		 <include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where"/>
-		 order by yycgd.id desc
-		 <!-- 分页尾部 -->
-		 <include refid="yycg.base.commonSql.page_end" />
+
+		<!-- 采购单本身查询条件 -->
+		<include refid="query_yycgd_where" />
+		<!-- 医院查询条件 -->
+		<include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where" />
+		order by yycgd.id desc
+		<!-- 分页尾部 -->
+		<include refid="yycg.base.commonSql.page_end" />
 	</select>
-	
-	<select id="findYycgdCount"  parameterType="yycg.business.pojo.vo.YycgdQueryVo"
-	resultType="int" >
-	
-		select 
-			 count(*)
-		from yycgd${businessyear} yycgd,useryy 
+
+	<select id="findYycgdCount" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
+		resultType="int">
+
+		select
+		count(*)
+		from yycgd${businessyear} yycgd,useryy
 		where yycgd.useryyid = useryy.id
-	 
-		 <!-- 采购单本身查询条件 -->
-		 <include refid="query_yycgd_where"/>
-		 <!-- 医院查询条件 -->
-		 <include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where"/>
+
+		<!-- 采购单本身查询条件 -->
+		<include refid="query_yycgd_where" />
+		<!-- 医院查询条件 -->
+		<include refid="yycg.base.dao.mapper.SysuserMapperCustom.query_useryy_where" />
 	</select>
 </mapper>

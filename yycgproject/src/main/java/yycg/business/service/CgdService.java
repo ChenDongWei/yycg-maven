@@ -55,4 +55,9 @@ public interface CgdService {
 	
 	//采购单审批列表总数
 	public int findCheckYycgdCount(String year, String userjdid, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购单审核提交
+	public void saveYycgdCheckStatus(String yycgdid, YycgdCustom yycgdCustom) throws Exception;
+	
+	
 }

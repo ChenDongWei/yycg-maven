@@ -410,4 +410,33 @@ public class CgdServiceImpl implements CgdService {
 		return yycgdMapperCustom.findYycgdCount(yycgdQueryVo);
 	}
 
+	@Override
+	public void saveYycgdCheckStatus(String yycgdid, YycgdCustom yycgdCustom)
+			throws Exception {
+		//采购单状态为审核中方可提交
+		Yycgd yycgd = this.findYycgdById(yycgdid);
+		if (yycgd == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 501, null));
+		}
+		//采购单状态
+		String zt = yycgd.getZt();
+		if (!zt.equals("2")) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 514, null));
+		}
+		//审核结果必填
+		if (yycgdCustom == null || yycgdCustom.getZt() == null || (!"3".equals(yycgdCustom.getZt()) && !"4".equals(yycgdCustom.getZt()))) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 521, null));
+		}
+		//更新采购单状态
+		Yycgd yycgd_update = new Yycgd();
+		String businessyear = yycgdid.substring(0, 4);
+		yycgd_update.setId(yycgdid);
+		yycgd_update.setZt(yycgdCustom.getZt());
+		yycgd_update.setShtime(yycgdCustom.getShtime());
+		yycgd_update.setShyj(yycgdCustom.getShyj());
+		yycgd_update.setBusinessyear(businessyear);
+		
+		yycgdMapper.updateByPrimaryKeySelective(yycgd_update);
+	}
+
 }
