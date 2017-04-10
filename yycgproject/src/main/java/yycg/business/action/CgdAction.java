@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,11 +21,10 @@ import yycg.base.process.result.ResultInfo;
 import yycg.base.process.result.ResultUtil;
 import yycg.base.process.result.SubmitResultInfo;
 import yycg.base.service.SystemConfigService;
-import yycg.business.pojo.vo.GysypmlQueryVo;
-import yycg.business.pojo.vo.YpxxCustom;
 import yycg.business.pojo.vo.YycgdCustom;
 import yycg.business.pojo.vo.YycgdQueryVo;
 import yycg.business.pojo.vo.YycgdmxCustom;
+import yycg.business.pojo.vo.YycgdrkCustom;
 import yycg.business.service.CgdService;
 import yycg.util.MyUtil;
 
@@ -126,7 +124,11 @@ public class CgdAction {
 		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
 		dataGridResultInfo.setTotal(total);
 		dataGridResultInfo.setRows(list);
-		// dataGridResultInfo.setFooter(footer);
+		if (total > 0) {
+			List<YycgdmxCustom> sumlist = cgdService.findYycgdmxListSum(id, yycgdQueryVo);
+			dataGridResultInfo.setFooter(sumlist);
+		}
+		
 		return dataGridResultInfo;
 	}
 
@@ -222,203 +224,405 @@ public class CgdAction {
 	}
 	
 	// 采购单药品保存
-		@RequestMapping("/savecgl")
-		public @ResponseBody
-		SubmitResultInfo saveCgl(String id,// 采购单id
-				YycgdQueryVo yycgdQueryVo, int[] indexs // 页面选择序号
-		) throws Exception {
+	@RequestMapping("/savecgl")
+	public @ResponseBody
+	SubmitResultInfo saveCgl(String id,// 采购单id
+			YycgdQueryVo yycgdQueryVo, int[] indexs // 页面选择序号
+	) throws Exception {
 
-			// 页面提交的业务数据（多个），要处理的业务数据，页面中传入的参数
-			List<YycgdmxCustom> list = yycgdQueryVo.getYycgdmxCustoms();
+		// 页面提交的业务数据（多个），要处理的业务数据，页面中传入的参数
+		List<YycgdmxCustom> list = yycgdQueryVo.getYycgdmxCustoms();
 
-			// 处理数据的总数
-			int count = indexs.length;
-			// 处理成功的数量
-			int count_success = 0;
-			// 处理失败的数量
-			int count_error = 0;
+		// 处理数据的总数
+		int count = indexs.length;
+		// 处理成功的数量
+		int count_success = 0;
+		// 处理失败的数量
+		int count_error = 0;
 
-			// 处理失败的原因
-			List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+		// 处理失败的原因
+		List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
 
-			for (int i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 
-				ResultInfo resultInfo = null;
+			ResultInfo resultInfo = null;
 
-				// 根据选中行的序号获取要处理的业务数据(单个)
-				YycgdmxCustom yycgdmxCustom = list.get(indexs[i]);
-				String ypxxid = yycgdmxCustom.getYpxxid();// 药品信息id
-				Integer cgl = yycgdmxCustom.getCgl();// 采购量
+			// 根据选中行的序号获取要处理的业务数据(单个)
+			YycgdmxCustom yycgdmxCustom = list.get(indexs[i]);
+			String ypxxid = yycgdmxCustom.getYpxxid();// 药品信息id
+			Integer cgl = yycgdmxCustom.getCgl();// 采购量
 
-				try {
-					cgdService.updateYycgdmx(id, ypxxid, cgl);
-				} catch (Exception e) {
-					e.printStackTrace();
+			try {
+				cgdService.updateYycgdmx(id, ypxxid, cgl);
+			} catch (Exception e) {
+				e.printStackTrace();
 
-					// 进行异常解析
-					if (e instanceof ExceptionResultInfo) {
-						resultInfo = ((ExceptionResultInfo) e).getResultInfo();
-					} else {
-						// 构造未知错误异常
-						resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
-								null);
-					}
-
-				}
-				if (resultInfo == null) {
-					// 说明成功
-					count_success++;
+				// 进行异常解析
+				if (e instanceof ExceptionResultInfo) {
+					resultInfo = ((ExceptionResultInfo) e).getResultInfo();
 				} else {
-					count_error++;
-					// 记录失败原因
-					msgs_error.add(resultInfo);
+					// 构造未知错误异常
+					resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
+							null);
 				}
 
 			}
+			if (resultInfo == null) {
+				// 说明成功
+				count_success++;
+			} else {
+				count_error++;
+				// 记录失败原因
+				msgs_error.add(resultInfo);
+			}
 
-			// 提示用户成功数量、失败数量、失败原因
-			// 改成返回详细信息
-			return ResultUtil.createSubmitResult(
-					ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
-							count_success, count_error }), msgs_error);
 		}
+
+		// 提示用户成功数量、失败数量、失败原因
+		// 改成返回详细信息
+		return ResultUtil.createSubmitResult(
+				ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
+						count_success, count_error }), msgs_error);
+	}
+	
+	//跳转到采购单列表维护页面
+	@RequestMapping("/yycgdlist")
+	public String yycgdList(Model model) throws Exception {
+		//采购单状态
+		List <Dictinfo> cgdztlist = systemConfigService.findDictinfoByType("010");
+		model.addAttribute("cgdztlist", cgdztlist);
+		//当前年份
+		model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
 		
-		//跳转到采购单列表维护页面
-		@RequestMapping("/yycgdlist")
-		public String yycgdList(Model model) throws Exception {
-			//采购单状态
-			List <Dictinfo> cgdztlist = systemConfigService.findDictinfoByType("010");
-			model.addAttribute("cgdztlist", cgdztlist);
-			//当前年份
-			model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
-			
-			return "/business/cgd/yycgdlist";
-		}
+		return "/business/cgd/yycgdlist";
+	}
+	
+	//采购单列表结果集
+	@RequestMapping("/yycgdlist_result")
+	public @ResponseBody DataGridResultInfo yycgdList_result(
+			ActiveUser activeUser,
+			String year,
+			YycgdQueryVo yycgdQueryVo,
+			int page,
+			int rows) throws Exception{
+		String useryyid = activeUser.getSysid();
 		
-		//采购单列表结果集
-		@RequestMapping("/yycgdlist_result")
-		public @ResponseBody DataGridResultInfo yycgdList_result(
-				ActiveUser activeUser,
-				String year,
-				YycgdQueryVo yycgdQueryVo,
-				int page,
-				int rows) throws Exception{
-			String useryyid = activeUser.getSysid();
-			
-			//列表总数
-			int total = cgdService.findYycgdCount(useryyid, year, yycgdQueryVo);
-			
-			//分页参数
-			PageQuery pageQuery = new PageQuery();
-			pageQuery.setPageParams(total, rows, page);
-			yycgdQueryVo.setPageQuery(pageQuery);
-			
-			//分页查询列表
-			List<YycgdCustom> list = cgdService.findYycgdList(useryyid, year, yycgdQueryVo);
-			
-			DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
-			dataGridResultInfo.setTotal(total);
-			dataGridResultInfo.setRows(list);
-			
-			return dataGridResultInfo;
-		}
+		//列表总数
+		int total = cgdService.findYycgdCount(useryyid, year, yycgdQueryVo);
 		
-		//采购单提交
-		@RequestMapping("/submityycgd")
-		public @ResponseBody SubmitResultInfo submitYycgd(String id) throws Exception{
-			cgdService.saveYycgdSubmitStatus(id);
-			
-			return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
-		}
+		//分页参数
+		PageQuery pageQuery = new PageQuery();
+		pageQuery.setPageParams(total, rows, page);
+		yycgdQueryVo.setPageQuery(pageQuery);
 		
-		//采购单审核列表页面
-		@RequestMapping("checkyycgdlist")
-		public String checkYycgdList(Model model) throws Exception{
-			//药品类别
-			List<Dictinfo> cgdztlist = systemConfigService.findDictinfoByType("010");
-			model.addAttribute("cgdztlist", cgdztlist);
-			//当前年份
-			model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
-			
-			return "/business/cgd/checkyycgdlist";
-		}
+		//分页查询列表
+		List<YycgdCustom> list = cgdService.findYycgdList(useryyid, year, yycgdQueryVo);
 		
-		//采购单审核列表结果集
-		@RequestMapping("/checkyycgdlist_result")
-		public @ResponseBody DataGridResultInfo checkYycgdList_result(
-				ActiveUser activeUser,
-				String year,
-				YycgdQueryVo yycgdQueryVo,
-				int page,
-				int rows
-				) throws Exception{
-			//监管单位id
-			String userjdid = activeUser.getSysid();
-			//列表总数
-			int total = cgdService.findCheckYycgdCount(year, userjdid, yycgdQueryVo);
-			//分页参数
-			PageQuery pageQuery = new PageQuery();
-			pageQuery.setPageParams(total, rows, page);
-			yycgdQueryVo.setPageQuery(pageQuery);
-			//分页查询列表
-			List<YycgdCustom> list = cgdService.findCheckYycgdList(year, userjdid, yycgdQueryVo);
-			
-			DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
-			dataGridResultInfo.setTotal(total);
-			dataGridResultInfo.setRows(list);
-			
-			return dataGridResultInfo;
-		}
+		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+		dataGridResultInfo.setTotal(total);
+		dataGridResultInfo.setRows(list);
 		
-		//采购单审核提交
-		@RequestMapping("/checkcgdsubmit")
-		public @ResponseBody SubmitResultInfo checkCgdSubmit(
-				YycgdQueryVo yycgdQueryVo,
-				int[] indexs
-				) throws Exception{
-			//页面提交的业务数据
-			List<YycgdCustom> list = yycgdQueryVo.getYycgdCustoms();
-			//处理数据的总数
-			int count = indexs.length;
-			//处理成功的数量
-			int count_success = 0;
-			//处理失败的数量
-			int count_error = 0;
-			//处理失败的原因
-			List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+		return dataGridResultInfo;
+	}
+	
+	//采购单提交
+	@RequestMapping("/submityycgd")
+	public @ResponseBody SubmitResultInfo submitYycgd(String id) throws Exception{
+		cgdService.saveYycgdSubmitStatus(id);
+		
+		return ResultUtil.createSubmitResult(ResultUtil.createSuccess(Config.MESSAGE, 906, null));
+	}
+	
+	//采购单审核列表页面
+	@RequestMapping("checkyycgdlist")
+	public String checkYycgdList(Model model) throws Exception{
+		//药品类别
+		List<Dictinfo> cgdztlist = systemConfigService.findDictinfoByType("010");
+		model.addAttribute("cgdztlist", cgdztlist);
+		//当前年份
+		model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
+		
+		return "/business/cgd/checkyycgdlist";
+	}
+	
+	//采购单审核列表结果集
+	@RequestMapping("/checkyycgdlist_result")
+	public @ResponseBody DataGridResultInfo checkYycgdList_result(
+			ActiveUser activeUser,
+			String year,
+			YycgdQueryVo yycgdQueryVo,
+			int page,
+			int rows
+			) throws Exception{
+		//监管单位id
+		String userjdid = activeUser.getSysid();
+		//列表总数
+		int total = cgdService.findCheckYycgdCount(year, userjdid, yycgdQueryVo);
+		//分页参数
+		PageQuery pageQuery = new PageQuery();
+		pageQuery.setPageParams(total, rows, page);
+		yycgdQueryVo.setPageQuery(pageQuery);
+		//分页查询列表
+		List<YycgdCustom> list = cgdService.findCheckYycgdList(year, userjdid, yycgdQueryVo);
+		
+		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+		dataGridResultInfo.setTotal(total);
+		dataGridResultInfo.setRows(list);
+		
+		return dataGridResultInfo;
+	}
+	
+	//采购单审核提交
+	@RequestMapping("/checkcgdsubmit")
+	public @ResponseBody SubmitResultInfo checkCgdSubmit(
+			YycgdQueryVo yycgdQueryVo,
+			int[] indexs
+			) throws Exception{
+		//页面提交的业务数据
+		List<YycgdCustom> list = yycgdQueryVo.getYycgdCustoms();
+		//处理数据的总数
+		int count = indexs.length;
+		//处理成功的数量
+		int count_success = 0;
+		//处理失败的数量
+		int count_error = 0;
+		//处理失败的原因
+		List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+		
+		for (int i = 0; i < count; i++) {
+			ResultInfo resultInfo = null;
+			//根据选中的行的序号获取要处理的业务数据
+			YycgdCustom yycgdCustom = list.get(indexs[i]);
+			//采购单id
+			String yycgdid = yycgdCustom.getId();
 			
-			for (int i = 0; i < count; i++) {
-				ResultInfo resultInfo = null;
-				//根据选中的行的序号获取要处理的业务数据
-				YycgdCustom yycgdCustom = list.get(indexs[i]);
-				//采购单id
-				String yycgdid = yycgdCustom.getId();
-				
-				try {
-					cgdService.saveYycgdCheckStatus(yycgdid, yycgdCustom);
-				} catch (Exception e) {
-					e.printStackTrace();
-					if (e instanceof ExceptionResultInfo) {
-						resultInfo = ((ExceptionResultInfo) e).getResultInfo();
-					}else {
-						// 构造未知错误异常
-						resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
-								null);
-					}
-				}
-				if (resultInfo == null) {
-					// 说明成功
-					count_success++;
-				} else {
-					count_error++;
-					// 记录失败原因
-					msgs_error.add(resultInfo);
+			try {
+				cgdService.saveYycgdCheckStatus(yycgdid, yycgdCustom);
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (e instanceof ExceptionResultInfo) {
+					resultInfo = ((ExceptionResultInfo) e).getResultInfo();
+				}else {
+					// 构造未知错误异常
+					resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
+							null);
 				}
 			}
-			// 提示用户成功数量、失败数量、失败原因
-			// 改成返回详细信息
-			return ResultUtil.createSubmitResult(
-					ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
-							count_success, count_error }), msgs_error);
+			if (resultInfo == null) {
+				// 说明成功
+				count_success++;
+			} else {
+				count_error++;
+				// 记录失败原因
+				msgs_error.add(resultInfo);
+			}
 		}
+		// 提示用户成功数量、失败数量、失败原因
+		// 改成返回详细信息
+		return ResultUtil.createSubmitResult(
+				ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
+						count_success, count_error }), msgs_error);
+	}
+		
+	//采购单受理页面
+	@RequestMapping("/disposeyycgd")
+	public String disposeYycgd(Model model) throws Exception{
+		model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
+		
+		return "/business/cgd/disposeyycgd";
+	}
+	
+	//采购单受理列表结果集
+	@RequestMapping("/disposeyycgd_result")
+	public @ResponseBody DataGridResultInfo disposeYycgd_result(
+			ActiveUser activeUser,
+			String year,
+			YycgdQueryVo yycgdQueryVo,
+			int page,
+			int rows
+			) throws Exception{
+		//供应商id
+		String usergysid = activeUser.getSysid();
+		
+		//列表的总数
+		int total = cgdService.findDisposeYycgdCount(usergysid, year, yycgdQueryVo);
+		//分页参数
+		PageQuery pageQuery = new PageQuery();
+		pageQuery.setPageParams(total, rows, page);
+		yycgdQueryVo.setPageQuery(pageQuery);
+		
+		//分页查询列表
+		List<YycgdmxCustom> list = cgdService.findDisposeYycgdList(usergysid, year, yycgdQueryVo);
+		
+		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+		dataGridResultInfo.setTotal(total);
+		dataGridResultInfo.setRows(list);
+		
+		return dataGridResultInfo;
+	}
+	
+	// 采购单受理提交
+	@RequestMapping("/disposeyycgdsubmit")
+	public @ResponseBody
+	SubmitResultInfo disposeYycgdSubmit(YycgdQueryVo yycgdQueryVo, int[] indexs // 页面选择序号
+	) throws Exception {
+
+		// 页面提交的业务数据（多个），要处理的业务数据，页面中传入的参数
+		List<YycgdmxCustom> list = yycgdQueryVo.getYycgdmxCustoms();
+
+		// 处理数据的总数
+		int count = indexs.length;
+		// 处理成功的数量
+		int count_success = 0;
+		// 处理失败的数量
+		int count_error = 0;
+
+		// 处理失败的原因
+		List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+
+		for (int i = 0; i < count; i++) {
+
+			ResultInfo resultInfo = null;
+
+			// 根据选中行的序号获取要处理的业务数据(单个)
+			YycgdmxCustom yycgdmxCustom = list.get(indexs[i]);
+			// 采购单id
+			String yycgdid = yycgdmxCustom.getYycgdid();
+			// 药品id
+			String ypxxid = yycgdmxCustom.getYpxxid();
+
+			try {
+				cgdService.saveSendStatus(yycgdid, ypxxid);
+			} catch (Exception e) {
+				e.printStackTrace();
+
+				// 进行异常解析
+				if (e instanceof ExceptionResultInfo) {
+					resultInfo = ((ExceptionResultInfo) e).getResultInfo();
+				} else {
+					// 构造未知错误异常
+					resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
+							null);
+				}
+
+			}
+			if (resultInfo == null) {
+				// 说明成功
+				count_success++;
+			} else {
+				count_error++;
+				// 记录失败原因
+				msgs_error.add(resultInfo);
+			}
+
+		}
+
+		// 提示用户成功数量、失败数量、失败原因
+		// 改成返回详细信息
+		return ResultUtil.createSubmitResult(
+				ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
+						count_success, count_error }), msgs_error);
+	}
+
+	// 采购单入库页面
+	@RequestMapping("/receiveyycgd")
+	public String receivceYycgd(Model model) throws Exception {
+
+		// 当前年份
+		model.addAttribute("year", MyUtil.get_YYYY(MyUtil.getDate()));
+
+		return "/business/cgd/receiveyycgd";
+	}
+
+	// 采购单入库列表结果集,json
+	@RequestMapping("/receiveyycgd_result")
+	public @ResponseBody
+	DataGridResultInfo receiveYycgd_result(
+			ActiveUser activeUser, String year,
+			YycgdQueryVo yycgdQueryVo,
+			int page, int rows) throws Exception {
+
+		// 医院id
+		String useryyid = activeUser.getSysid();
+		// 列表的总数
+		int total = cgdService.findYycgdReceivceCount(useryyid, year,
+				yycgdQueryVo);
+
+		// 分页参数
+		PageQuery pageQuery = new PageQuery();
+		pageQuery.setPageParams(total, rows, page);
+		yycgdQueryVo.setPageQuery(pageQuery);// 设置分页参数
+
+		// 分页查询列表
+		List<YycgdmxCustom> list = cgdService.findYycgdReceivceList(useryyid,
+				year, yycgdQueryVo);
+
+		DataGridResultInfo dataGridResultInfo = new DataGridResultInfo();
+		dataGridResultInfo.setTotal(total);
+		dataGridResultInfo.setRows(list);
+
+		return dataGridResultInfo;
+	}
+
+	// 采购单入库提交
+	@RequestMapping("/receiveyycgdsubmit")
+	public @ResponseBody
+	SubmitResultInfo receiveYycgdSubmit(YycgdQueryVo yycgdQueryVo, int[] indexs // 页面选择序号
+	) throws Exception {
+
+		// 页面提交的业务数据（多个），要处理的业务数据，页面中传入的参数
+		List<YycgdrkCustom> list = yycgdQueryVo.getYycgdrkCustoms();
+
+		// 处理数据的总数
+		int count = indexs.length;
+		// 处理成功的数量
+		int count_success = 0;
+		// 处理失败的数量
+		int count_error = 0;
+
+		// 处理失败的原因
+		List<ResultInfo> msgs_error = new ArrayList<ResultInfo>();
+
+		for (int i = 0; i < count; i++) {
+
+			ResultInfo resultInfo = null;
+
+			// 根据选中行的序号获取要处理的业务数据(单个)
+			YycgdrkCustom yycgdrkCustom = list.get(indexs[i]);
+			//采购单id
+			String yycgdid = yycgdrkCustom.getYycgdid();
+			//药品id
+			String ypxxid = yycgdrkCustom.getYpxxid();
+			try {
+				cgdService.saveYycgdrk(yycgdid, ypxxid, yycgdrkCustom);
+			} catch (Exception e) {
+				e.printStackTrace();
+
+				// 进行异常解析
+				if (e instanceof ExceptionResultInfo) {
+					resultInfo = ((ExceptionResultInfo) e).getResultInfo();
+				} else {
+					// 构造未知错误异常
+					resultInfo = ResultUtil.createFail(Config.MESSAGE, 900,
+							null);
+				}
+
+			}
+			if (resultInfo == null) {
+				// 说明成功
+				count_success++;
+			} else {
+				count_error++;
+				// 记录失败原因
+				msgs_error.add(resultInfo);
+			}
+
+		}
+
+		// 提示用户成功数量、失败数量、失败原因
+		// 改成返回详细信息
+		return ResultUtil.createSubmitResult(
+				ResultUtil.createSuccess(Config.MESSAGE, 907, new Object[] {
+						count_success, count_error }), msgs_error);
+	}
 }

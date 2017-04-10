@@ -10,6 +10,11 @@
 			<if test="yycgdmxCustom.cgzt != null and yycgdmxCustom.cgzt != ''">
 				and yycgdmx.cgzt = #{yycgdmxCustom.cgzt}
 			</if>
+			<!-- 供应商id -->
+			<if
+				test="yycgdmxCustom.usergysid != null and yycgdmxCustom.usergysid != ''">
+				and yycgdmx.usergysid = #{yycgdmxCustom.usergysid}
+			</if>
 		</if>
 	</sql>
 
@@ -61,9 +66,10 @@
 		yycgd.mc yycgdmc,
 		yycgd.cjtime,
 		(select info
-		from dictinfo
-		where
-		typecode = '010' and dictcode = yycgd.zt)
+		from
+		dictinfo
+		where typecode = '010'
+		and dictcode = yycgd.zt) yycgdztmc,
 		ypxx.id,
 		ypxx.bm,
 		ypxx.mc,
@@ -89,7 +95,8 @@
 		(select info
 		from dictinfo
 		where
-		typecode = '011'
+		typecode =
+		'011'
 		and dictcode =
 		yycgdmx.cgzt) cgztmc,
 		usergys.mc
@@ -110,6 +117,8 @@
 
 		<!-- 只查询某个采购单下药品明细 -->
 		<include refid="query_yycgdmx_where" />
+		<!-- 采购单查询条件 -->
+		<include refid="query_yycgd_where"></include>
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
 
@@ -117,7 +126,27 @@
 		<include refid="yycg.base.commonSql.page_end" />
 	</select>
 
-	<!-- 采购单药品总数查询列表 -->
+	<!-- 采购单明细总计(采购量、采购金额) -->
+	<select id="findYycgdmxListSum" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
+		resultType="yycg.business.pojo.vo.YycgdmxCustom">
+
+		select sum(nvl(yycgdmx.cgl, 0)) cgl, sum(nvl(yycgdmx.cgje, 0)) cgje
+
+		from yycgdmx${businessyear} yycgdmx, yycgd${businessyear} yycgd,
+		useryy, ypxx, usergys
+		where yycgdmx.yycgdid = yycgd.id
+		and yycgd.useryyid = useryy.id
+		and yycgdmx.ypxxid = ypxx.id
+		and yycgdmx.usergysid = usergys.id
+		<!-- 只查询某个采购单下药品明细 -->
+		<include refid="query_yycgdmx_where" />
+		<!-- 采购单查询条件 -->
+		<include refid="query_yycgd_where" />
+		<!-- 药品查询条件 -->
+		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+	</select>
+
+	<!-- 采购单药品总数查询 -->
 	<select id="findYycgdmxCount" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
 		resultType="int">
 
@@ -125,14 +154,16 @@
 
 		from yycgdmx${businessyear} yycgdmx,
 		yycgd${businessyear} yycgd, useryy, ypxx, usergys
-		where yycgdmx.yycgdid
-		= yycgd.id
+		where
+		yycgdmx.yycgdid = yycgd.id
 		and yycgd.useryyid = useryy.id
 		and yycgdmx.ypxxid = ypxx.id
 		and yycgdmx.usergysid = usergys.id
 
 		<!-- 只查询某个采购单下药品明细 -->
 		<include refid="query_yycgdmx_where" />
+		<!-- 采购单查询条件 -->
+		<include refid="query_yycgd_where"></include>
 		<!-- 药品查询条件 -->
 		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
 	</select>
@@ -194,13 +225,16 @@
 
 		<!-- 限制只查询医院本区域供货商的药品目录 useryy.dq就是医院区域id -->
 		and gysypml.usergysid in (
-		select usergysarea.usergysid from usergysarea where #{useryy.dq} like
+		select usergysarea.usergysid from
+		usergysarea where #{useryy.dq} like
 		usergysarea.areaid || '%'
 		)
 		<!-- 将采购单中药品过虑掉 yycgdCustom.id存采购单id -->
 		and gysypml.ypxxid not in(
-		select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where
-		yycgdmx.yycgdid = #{yycgdCustom.id}
+		select yycgdmx.ypxxid from
+		yycgdmx${businessyear} yycgdmx where
+		yycgdmx.yycgdid =
+		#{yycgdCustom.id}
 		)
 
 		<!-- 分页尾 -->
@@ -238,13 +272,16 @@
 
 		<!-- 限制只查询医院本区域供货商的药品目录 useryy.dq就是医院区域id -->
 		and gysypml.usergysid in (
-		select usergysarea.usergysid from usergysarea where #{useryy.dq} like
+		select usergysarea.usergysid from
+		usergysarea where #{useryy.dq} like
 		usergysarea.areaid || '%'
 		)
 		<!-- 将采购单中药品过虑掉 yycgdCustom.id存采购单id -->
 		and gysypml.ypxxid not in(
-		select yycgdmx.ypxxid from yycgdmx${businessyear} yycgdmx where
-		yycgdmx.yycgdid = #{yycgdCustom.id}
+		select yycgdmx.ypxxid from
+		yycgdmx${businessyear} yycgdmx where
+		yycgdmx.yycgdid =
+		#{yycgdCustom.id}
 		)
 	</select>
 
@@ -258,7 +295,8 @@
 		yycgd.*,
 		(select info
 		from dictinfo
-		where typecode='010' and dictcode=yycgd.zt)yycgdztmc
+		where
+		typecode='010' and dictcode=yycgd.zt)yycgdztmc
 		from
 		yycgd${businessyear} yycgd,useryy
 		where yycgd.useryyid = useryy.id
@@ -278,7 +316,8 @@
 		select
 		count(*)
 		from yycgd${businessyear} yycgd,useryy
-		where yycgd.useryyid = useryy.id
+		where
+		yycgd.useryyid = useryy.id
 
 		<!-- 采购单本身查询条件 -->
 		<include refid="query_yycgd_where" />

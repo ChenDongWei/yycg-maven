@@ -137,7 +137,7 @@ var columns = [ [{
 },{
 	field : 'useryymc',
 	title : '医院',
-	width : 100 /* ,
+	width : 100 ,
 	formatter:function (value,row,index){
 		//如果从json中取不出useryymc则显示成总计两个字
 		if(value){
@@ -145,7 +145,7 @@ var columns = [ [{
 		}else{
 			return "总计";
 		}
-	}   */
+	} 
 },{
 	field : 'id',
 	hidden : true,
@@ -193,12 +193,11 @@ var columns = [ [{
 	title : '采购量',
 	width : 50,
 	formatter:function(value,row,index){
-		/* if(row.ypxxid){//如果有药品信息id表示不是总计行
+		if(row.ypxxid){//如果有药品信息id表示不是总计行
 			return '<input type="text" name="yycgdmxCustoms['+index+'].cgl" value="'+(value?value:"")+'" />';
 		}else{
 			return value;
-		} */
-		return '<input type="text" name="yycgdmxCustoms['+index+'].cgl" value="'+(value?value:"")+'" />';  
+		}
 	}
 },{
 	field : 'cgje',

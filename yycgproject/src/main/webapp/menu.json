@@ -21,9 +21,9 @@
                  },
                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单审核","url" : "/cgd/checkyycgdlist.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单受理","url" : "/cgd/disposecgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "采购单受理","url" : "/cgd/disposeyycgd.action"
                  },
-                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "入库","url" : "/cgd/receivecgd.action"
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "药品入库","url" : "/cgd/receiveyycgd.action"
                  }] 
                },
                {"icon" : "icon-chart-curve","menuid" : "1","menuname" : "统计分析","url" : "","menus" : [

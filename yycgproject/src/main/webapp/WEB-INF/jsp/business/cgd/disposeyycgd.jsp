@@ -64,16 +64,16 @@ var frozenColumns;
 var columns = [ [ {
 	checkbox:true
 },{
-	field : 'ypxxid',
+	field : 'id',
 	hidden : true,
 	formatter: function(value,row,index){
-		return '<input type="hidden" name="yycgdmxs['+index+'].ypxxid" value="'+value+'" />';
+		return '<input type="hidden" name="yycgdmxCustoms['+index+'].ypxxid" value="'+value+'" />';
 	}
 },{
 	field : 'yycgdid',
 	hidden : true,
 	formatter: function(value,row,index){
-		return '<input type="hidden" name="yycgdmxs['+index+'].yycgdid" value="'+value+'" />';
+		return '<input type="hidden" name="yycgdmxCustoms['+index+'].yycgdid" value="'+row.yycgdbm+'" />';
 	}
 },
  {
@@ -141,11 +141,11 @@ var columns = [ [ {
 },{
 	field : 'cgje',
 	title : '采购金额',
-	width : 50
+	width : 60
 },{
 	field : 'cgztmc',
 	title : '采购状态', 
-	width : 60
+	width : 70
 },{
 	field : 'opt3',
 	title : '查看',
@@ -197,18 +197,19 @@ function initGrid(){
 	}
 	$(function(){
 		//通过dwr加载年份
-		businessyearlist('year');
+		//businessyearlist('year');
 	});
 </script>
 </HEAD>
 <BODY>
-    <form id="yycgddisposeForm" name="yycgddisposeForm" method="post" action="${baseurl}cgd/disposesubmit.action">
+    <form id="yycgddisposeForm" name="yycgddisposeForm" method="post" action="${baseurl}cgd/disposeyycgdsubmit.action">
 			<input type="hidden" name="indexs" id="indexs" />
 			<TABLE  class="table_search">
 				<TBODY>
 					<TR>
-						<TD class="left">年份(如2014)：</TD>
+						<TD class="left">年份(如2017)：</TD>
 						<td ><select id="year" name="year">
+						<option value="2017">2017</option>
 						</select></td>
 						<TD class="left">医院名称：</TD>
 						<td ><INPUT type="text" name="useryyCustom.mc" /></td>

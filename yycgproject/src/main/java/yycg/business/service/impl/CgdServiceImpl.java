@@ -23,14 +23,17 @@ import yycg.business.dao.mapper.YpxxMapper;
 import yycg.business.dao.mapper.YycgdMapper;
 import yycg.business.dao.mapper.YycgdMapperCustom;
 import yycg.business.dao.mapper.YycgdmxMapper;
+import yycg.business.dao.mapper.YycgdrkMapper;
 import yycg.business.pojo.po.Ypxx;
 import yycg.business.pojo.po.Yycgd;
 import yycg.business.pojo.po.YycgdExample;
 import yycg.business.pojo.po.Yycgdmx;
 import yycg.business.pojo.po.YycgdmxExample;
+import yycg.business.pojo.po.Yycgdrk;
 import yycg.business.pojo.vo.YycgdCustom;
 import yycg.business.pojo.vo.YycgdQueryVo;
 import yycg.business.pojo.vo.YycgdmxCustom;
+import yycg.business.pojo.vo.YycgdrkCustom;
 import yycg.business.service.CgdService;
 import yycg.util.MyUtil;
 import yycg.util.UUIDBuild;
@@ -56,6 +59,9 @@ public class CgdServiceImpl implements CgdService {
 	
 	@Autowired
 	private UserjdMapper userjdMapper;
+	
+	@Autowired
+	private YycgdrkMapper yycgdrkMapper;
 
 	@Override
 	public String insertYycgd(String useryyid, String year,
@@ -437,6 +443,185 @@ public class CgdServiceImpl implements CgdService {
 		yycgd_update.setBusinessyear(businessyear);
 		
 		yycgdMapper.updateByPrimaryKeySelective(yycgd_update);
+	}
+
+	@Override
+	public List<YycgdmxCustom> findDisposeYycgdList(String usergysid,
+			String year, YycgdQueryVo yycgdQueryVo) throws Exception {
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//供应商只允许查询自己供应的采购药品信息
+		YycgdmxCustom yycgdmxCustom = yycgdQueryVo.getYycgdmxCustom();
+		yycgdmxCustom = yycgdmxCustom != null?yycgdmxCustom : new YycgdmxCustom();
+		//设置供应商id
+		yycgdmxCustom.setUsergysid(usergysid);
+		//采购药品明细状态为"未确认送货"
+		String cgzt = "1";
+		yycgdmxCustom.setCgzt(cgzt);
+		yycgdQueryVo.setYycgdmxCustom(yycgdmxCustom);
+		//采购单为审核通过
+		String zt = "3";
+		YycgdCustom yycgdCustom = yycgdQueryVo.getYycgdCustom();
+		yycgdCustom = yycgdCustom != null?yycgdCustom : new YycgdCustom();
+		yycgdCustom.setZt(zt);
+		yycgdQueryVo.setYycgdCustom(yycgdCustom);
+		//设置年份
+		yycgdQueryVo.setBusinessyear(year);
+		return yycgdMapperCustom.findYycgdmxList(yycgdQueryVo);
+	}
+
+	@Override
+	public int findDisposeYycgdCount(String usergysid, String year,
+			YycgdQueryVo yycgdQueryVo) throws Exception {
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//供应商只允许查询自己供应的采购药品信息
+		YycgdmxCustom yycgdmxCustom = yycgdQueryVo.getYycgdmxCustom();
+		yycgdmxCustom = yycgdmxCustom != null?yycgdmxCustom : new YycgdmxCustom();
+		//设置供应商id
+		yycgdmxCustom.setUsergysid(usergysid);
+		//采购药品明细状态为"未确认送货"
+		String cgzt = "1";
+		yycgdmxCustom.setCgzt(cgzt);
+		yycgdQueryVo.setYycgdmxCustom(yycgdmxCustom);
+		//采购单为审核通过
+		String zt = "3";
+		YycgdCustom yycgdCustom = yycgdQueryVo.getYycgdCustom();
+		yycgdCustom = yycgdCustom != null?yycgdCustom : new YycgdCustom();
+		yycgdCustom.setZt(zt);
+		yycgdQueryVo.setYycgdCustom(yycgdCustom);
+		//设置年份
+		yycgdQueryVo.setBusinessyear(year);
+		return yycgdMapperCustom.findYycgdmxCount(yycgdQueryVo);
+	}
+
+	@Override
+	public void saveSendStatus(String yycgdid, String ypxxid) throws Exception {
+		//查询采购药品记录
+		Yycgdmx yycgdmx = this.findYycgdmxByYycgdidAndYpxxid(yycgdid, ypxxid);
+		if (yycgdmx == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 509, null));
+		}
+		//采购状态
+		String cgzt = yycgdmx.getCgzt();
+		if (!"1".equals(cgzt)) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 552, null));
+		}
+		//设置为已发货
+		yycgdmx.setCgzt("2");
+		//年份
+		String businessyear = yycgdid.substring(0, 4);
+		yycgdmx.setBusinessyear(businessyear);
+		
+		yycgdmxMapper.updateByPrimaryKey(yycgdmx);
+	}
+
+	@Override
+	public List<YycgdmxCustom> findYycgdReceivceList(String useryyid,
+			String year, YycgdQueryVo yycgdQueryVo) throws Exception {
+		//获取本医院的采购信息
+		YycgdCustom yycgdCustom = yycgdQueryVo.getYycgdCustom();
+		yycgdCustom = yycgdCustom != null?yycgdCustom : new YycgdCustom();
+		//设置医院id
+		yycgdCustom.setUseryyid(useryyid);
+		yycgdQueryVo.setYycgdCustom(yycgdCustom);
+		
+		//药品的采购状态为"已发货"
+		YycgdmxCustom yycgdmxCustom = yycgdQueryVo.getYycgdmxCustom();
+		yycgdmxCustom = yycgdmxCustom != null?yycgdmxCustom : new YycgdmxCustom();
+		yycgdmxCustom.setCgzt("2");
+		yycgdQueryVo.setYycgdmxCustom(yycgdmxCustom);
+		//设置年份
+		yycgdQueryVo.setBusinessyear(year);
+		
+		return yycgdMapperCustom.findYycgdmxList(yycgdQueryVo);
+	}
+
+	@Override
+	public int findYycgdReceivceCount(String useryyid, String year,
+			YycgdQueryVo yycgdQueryVo) throws Exception {
+		//获取本医院的采购信息
+		YycgdCustom yycgdCustom = yycgdQueryVo.getYycgdCustom();
+		yycgdCustom = yycgdCustom != null?yycgdCustom : new YycgdCustom();
+		//设置医院id
+		yycgdCustom.setUseryyid(useryyid);
+		yycgdQueryVo.setYycgdCustom(yycgdCustom);
+		
+		//药品的采购状态为"已发货"
+		YycgdmxCustom yycgdmxCustom = yycgdQueryVo.getYycgdmxCustom();
+		yycgdmxCustom = yycgdmxCustom != null?yycgdmxCustom : new YycgdmxCustom();
+		yycgdmxCustom.setCgzt("2");
+		yycgdQueryVo.setYycgdmxCustom(yycgdmxCustom);
+		//设置年份
+		yycgdQueryVo.setBusinessyear(year);
+		
+		return yycgdMapperCustom.findYycgdmxCount(yycgdQueryVo);
+	}
+
+	@Override
+	public void saveYycgdrk(String yycgdid, String ypxxid,
+			YycgdrkCustom yycgdrkCustom) throws Exception {
+		//年份
+		String businessyear = yycgdid.substring(0, 4);
+		
+		//采购单状态为"已发货"，方可入库
+		Yycgdmx yycgdmx = this.findYycgdmxByYycgdidAndYpxxid(yycgdid, ypxxid);
+		if (yycgdmx == null) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 509, null));
+		}
+		
+		//采购状态
+		String cgzt = yycgdmx.getCgzt();
+		if (!"2".equals(cgzt)) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 553, null));
+		}
+		
+		//入库量小于等于采购量
+		Integer cgl = yycgdmx.getCgl();
+		Integer rkl = yycgdrkCustom.getRkl();
+		if (rkl > cgl) {
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 519, null));
+		}
+		
+		//更新采购单明细表状态为"已入库"
+		yycgdmx.setCgzt("3");
+		yycgdmx.setBusinessyear(businessyear);
+		yycgdmxMapper.updateByPrimaryKey(yycgdmx);
+		
+		//向入库信息表插入记录
+		Yycgdrk yycgdrk = new Yycgdrk();
+		//将页面提交的入库信息拷贝到yycgdrk
+		BeanUtils.copyProperties(yycgdrkCustom, yycgdrk);
+		
+		yycgdrk.setBusinessyear(businessyear);
+		yycgdrk.setId(UUIDBuild.getUUID());
+		yycgdrk.setYycgdid(yycgdid);
+		yycgdrk.setYpxxid(ypxxid);
+		yycgdrk.setRktime(MyUtil.getNowDate());
+		//设置入库金额
+		Float jyjg = yycgdmx.getJyjg();
+		Float rkje = jyjg * rkl;
+		yycgdrk.setRkje(rkje);
+		
+		//采购状态固定设置为"已入库"，用于统计分析聚合时使用
+		yycgdrk.setCgzt("3");
+		
+		yycgdrkMapper.insert(yycgdrk);
+	}
+
+	@Override
+	public List<YycgdmxCustom> findYycgdmxListSum(String yycgdid,
+			YycgdQueryVo yycgdQueryVo) throws Exception {
+		//设置采购单id
+		yycgdQueryVo = yycgdQueryVo != null?yycgdQueryVo : new YycgdQueryVo();
+		//设置采购单id
+		YycgdmxCustom yycgdmxCustom = yycgdQueryVo.getYycgdmxCustom();
+		yycgdmxCustom = yycgdmxCustom != null? yycgdmxCustom : new YycgdmxCustom();
+		yycgdmxCustom.setYycgdid(yycgdid);
+		yycgdQueryVo.setYycgdmxCustom(yycgdmxCustom);
+		//设置年份
+		String businessyear = yycgdid.substring(0, 4);
+		yycgdQueryVo.setBusinessyear(businessyear);
+		
+		return yycgdMapperCustom.findYycgdmxListSum(yycgdQueryVo);
 	}
 
 }

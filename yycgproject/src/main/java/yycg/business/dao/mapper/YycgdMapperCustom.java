@@ -14,6 +14,9 @@ public interface YycgdMapperCustom {
 	public List<YycgdmxCustom> findYycgdmxList(YycgdQueryVo yycgdQueryVo) throws Exception;
 	public int findYycgdmxCount(YycgdQueryVo yycgdQueryVo) throws Exception;
 	
+	//采购单明细总计(采购量，采购金额)
+	public List<YycgdmxCustom> findYycgdmxListSum(YycgdQueryVo yycgdQueryVo) throws Exception;
+	
 	//采购药品添加查询
 	public List<YycgdmxCustom> findAddYycgdmxList(YycgdQueryVo yycgdQueryVo) throws Exception;
 	public int findAddYycgdmxCount(YycgdQueryVo yycgdQueryVo) throws Exception;

@@ -6,6 +6,7 @@ import yycg.business.pojo.po.Yycgdmx;
 import yycg.business.pojo.vo.YycgdCustom;
 import yycg.business.pojo.vo.YycgdQueryVo;
 import yycg.business.pojo.vo.YycgdmxCustom;
+import yycg.business.pojo.vo.YycgdrkCustom;
 
 /**
  * 采购单管理
@@ -59,5 +60,24 @@ public interface CgdService {
 	//采购单审核提交
 	public void saveYycgdCheckStatus(String yycgdid, YycgdCustom yycgdCustom) throws Exception;
 	
+	//采购单发货列表
+	public List<YycgdmxCustom> findDisposeYycgdList(String usergysid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
 	
+	//采购单发货列表总数
+	public int findDisposeYycgdCount(String usergysid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//保存发货状态
+	public void saveSendStatus(String yycgdid, String ypxxid) throws Exception;
+	
+	//采购入库列表
+	public List<YycgdmxCustom> findYycgdReceivceList(String useryyid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购入库列表总数
+	public int findYycgdReceivceCount(String useryyid, String year, YycgdQueryVo yycgdQueryVo) throws Exception;
+	
+	//采购入库保存
+	public void saveYycgdrk(String yycgdid, String ypxxid, YycgdrkCustom yycgdrkCustom) throws Exception;
+	
+	//采购单明细总计(采购量、采购金额)
+	public List<YycgdmxCustom> findYycgdmxListSum(String yycgdid, YycgdQueryVo yycgdQueryVo) throws Exception;
 }

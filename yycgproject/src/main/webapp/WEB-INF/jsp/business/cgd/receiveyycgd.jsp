@@ -58,16 +58,16 @@ var frozenColumns;
 var columns = [ [ {
 	checkbox:true
 },{
-	field : 'ypxxid',
+	field : 'id',
 	hidden : true,
 	formatter: function(value,row,index){
-		return '<input type="hidden" name="yycgdrks['+index+'].ypxxid" value="'+value+'" />';
+		return '<input type="hidden" name="yycgdrkCustoms['+index+'].ypxxid" value="'+value+'" />';
 	}
 },{
 	field : 'yycgdid',
 	hidden : true,
 	formatter: function(value,row,index){
-		return '<input type="hidden" name="yycgdrks['+index+'].yycgdid" value="'+value+'" />';
+		return '<input type="hidden" name="yycgdrkCustoms['+index+'].yycgdid" value="'+row.yycgdbm+'" />';
 	}
 },
  {
@@ -137,7 +137,7 @@ var columns = [ [ {
 	title : '入库量',
 	width : 50,
 	formatter:function(value,row,index){
-		   return '<input type="text" name="yycgdrks['+index+'].rkl" />';
+		   return '<input type="text" name="yycgdrkCustoms['+index+'].rkl" />';
 	}
 }
 ,{
@@ -145,21 +145,21 @@ var columns = [ [ {
 	title : '发票号或入库单号',
 	width : 90,
 	formatter:function(value,row,index){
-		   return '<input type="text" name="yycgdrks['+index+'].rkdh" />';
+		   return '<input type="text" name="yycgdrkCustoms['+index+'].rkdh" />';
 	}
 },{
 	field : 'ypph',
 	title : '药品批号',
 	width : 70,
 	formatter:function(value,row,index){
-		   return '<input type="text" name="yycgdrks['+index+'].ypph" />';
+		   return '<input type="text" name="yycgdrkCustoms['+index+'].ypph" />';
 	}
 },{
 	field : 'ypyxq',
 	title : '药品有效期(年)',
 	width : 70,
 	formatter:function(value,row,index){
-		   return '<input type="text" name="yycgdrks['+index+'].ypyxq"/>';
+		   return '<input type="text" name="yycgdrkCustoms['+index+'].ypyxq"/>';
 	}
 }
 ,{
@@ -243,13 +243,15 @@ function initGrid(){
 </script>
 </HEAD>
 <BODY>
-    <form id="yycgdrkForm" name="yycgdrkForm" method="post" action="${baseurl}cgd/receivesubmit.action">
+    <form id="yycgdrkForm" name="yycgdrkForm" method="post" action="${baseurl}cgd/receiveyycgdsubmit.action">
 			<input type="hidden" name="indexs" id="indexs" />
 			<TABLE  class="table_search">
 			<TBODY>
 				<TR>
-					<TD class="left">年份(如2014)：</TD>
-					<td><select id="year" name="year"></select>
+					<TD class="left">年份(如2017)：</TD>
+					<td><select id="year" name="year">
+						<option value="2017">2017</option>
+					</select>
 					</td>
 					<TD class="left">医院名称：</TD>
 					<td><INPUT type="text" name="useryyCustom.mc" /></td>
