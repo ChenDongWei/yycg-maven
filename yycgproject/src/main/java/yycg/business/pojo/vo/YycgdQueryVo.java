@@ -2,6 +2,7 @@ package yycg.business.pojo.vo;
 
 import java.util.List;
 
+import yycg.base.pojo.po.Usergys;
 import yycg.base.pojo.po.Useryy;
 import yycg.base.pojo.vo.PageQuery;
 import yycg.business.pojo.po.BusinessBasePo;
@@ -11,6 +12,7 @@ public class YycgdQueryVo extends BusinessBasePo {
 	private PageQuery pageQuery;
 	
 	private Useryy useryy;//医院信息
+	private Usergys usergys;
 	private YycgdCustom yycgdCustom;// 采购单基本信息
 	private YycgdmxCustom yycgdmxCustom;// 采购单明细信息
 	private YpxxCustom ypxxCustom;//药品信息
@@ -91,6 +93,14 @@ public class YycgdQueryVo extends BusinessBasePo {
 
 	public void setYycgdrkCustoms(List<YycgdrkCustom> yycgdrkCustoms) {
 		this.yycgdrkCustoms = yycgdrkCustoms;
+	}
+
+	public Usergys getUsergys() {
+		return usergys;
+	}
+
+	public void setUsergys(Usergys usergys) {
+		this.usergys = usergys;
 	}
 
 }

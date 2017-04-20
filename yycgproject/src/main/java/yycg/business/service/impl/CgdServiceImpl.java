@@ -20,11 +20,13 @@ import yycg.base.process.result.DataGridResultInfo;
 import yycg.base.process.result.ResultUtil;
 import yycg.base.service.SystemConfigService;
 import yycg.business.dao.mapper.YpxxMapper;
+import yycg.business.dao.mapper.YybusinessMapper;
 import yycg.business.dao.mapper.YycgdMapper;
 import yycg.business.dao.mapper.YycgdMapperCustom;
 import yycg.business.dao.mapper.YycgdmxMapper;
 import yycg.business.dao.mapper.YycgdrkMapper;
 import yycg.business.pojo.po.Ypxx;
+import yycg.business.pojo.po.Yybusiness;
 import yycg.business.pojo.po.Yycgd;
 import yycg.business.pojo.po.YycgdExample;
 import yycg.business.pojo.po.Yycgdmx;
@@ -62,6 +64,9 @@ public class CgdServiceImpl implements CgdService {
 	
 	@Autowired
 	private YycgdrkMapper yycgdrkMapper;
+	
+	@Autowired
+	private YybusinessMapper yybusinessMapper;
 
 	@Override
 	public String insertYycgd(String useryyid, String year,
@@ -443,6 +448,29 @@ public class CgdServiceImpl implements CgdService {
 		yycgd_update.setBusinessyear(businessyear);
 		
 		yycgdMapper.updateByPrimaryKeySelective(yycgd_update);
+		
+		//采购明细数据聚合
+		if (yycgdCustom.getZt().equals("3")) {//审核通过
+			//将采购单明显表记录插入交易明细表
+			List<YycgdmxCustom> yycgdmxList = this.findYycgdmxListByYycgdid(yycgdid, null);
+			for (YycgdmxCustom yycgdmxCustom : yycgdmxList) {
+				Yybusiness yybusiness = new Yybusiness();
+				yybusiness.setBusinessyear(businessyear);
+				
+				yybusiness.setId(UUIDBuild.getUUID());
+				yybusiness.setYycgdid(yycgdid);//采购单id
+				yybusiness.setYpxxid(yycgdmxCustom.getId());//药品id
+				yybusiness.setUseryyid(yycgdmxCustom.getUseryyid());//医院id
+				yybusiness.setZbjg(yycgdmxCustom.getZbjg());
+				yybusiness.setJyjg(yycgdmxCustom.getJyjg());
+				yybusiness.setCgl(yycgdmxCustom.getCgl());
+				yybusiness.setCgje(yycgdmxCustom.getCgje());
+				yybusiness.setCgzt(yycgdmxCustom.getCgzt());
+				yybusiness.setUsergysid(yycgdmxCustom.getUsergysid());
+				
+				yybusinessMapper.insert(yybusiness);
+			}
+		}
 	}
 
 	@Override

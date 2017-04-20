@@ -72,7 +72,7 @@ function yycgdsave_callback(data) {
 								<TD height=30 width="15%" align=right >采购单名称：</TD>
 								<TD class=category width="35%">
 								<div>
-								<input type="text" id="yycgd_mc" name="yycgdCustom.mc" value="${yycgdmc}"  style="width:260px" />
+								<input type="text" id="yycgd_mc" name="yycgdCustom.mc" value="${yycgdmc}" style="width:260px" />
 								</div>
 								<div id="yycgd_mcTip"></div>
 								</TD>

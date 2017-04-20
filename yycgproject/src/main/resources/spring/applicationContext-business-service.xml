@@ -21,4 +21,8 @@
 	<bean id="ypmlService" class="yycg.business.service.impl.YpmlServiceImpl" />
 	<!-- 采购单管理 -->
 	<bean id="cgdService" class="yycg.business.service.impl.CgdServiceImpl"/>
+	<!-- 交易统计 -->
+	<bean id="businessService" class="yycg.business.service.impl.BusinessServiceImpl"></bean>
+	<!-- dwrService -->
+	<bean id="dwrService" class="yycg.base.service.impl.DwrServiceImpl"/>
 </beans>

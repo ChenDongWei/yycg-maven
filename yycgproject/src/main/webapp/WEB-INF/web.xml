@@ -62,15 +62,15 @@
 		<url-pattern>/qqq</url-pattern>
 	</servlet-mapping>
 	<!-- dwr的servlet配置 -->
-	<!-- <servlet>
+	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
 		<servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
-		是否允许调试，如果要在浏览器中调试则必须设置为true
+		<!-- 是否允许调试，如果要在浏览器中调试则必须设置为true -->
 		<init-param>
 			<param-name>debug</param-name>
 			<param-value>true</param-value>
 		</init-param>
-		如果允许跨域请求，则必须将此值设置为false，默认值为true
+		<!-- 如果允许跨域请求，则必须将此值设置为false，默认值为true -->
 		<init-param>
 			<param-name>crossDomainSessionSecurity</param-name>
 			<param-value>false</param-value>
@@ -79,11 +79,11 @@
 			<param-name>allowScriptTagRemoting</param-name>
 			<param-value>true</param-value>
 		</init-param>
-	</servlet> -->
-	<!-- <servlet-mapping>
+	</servlet>
+	<servlet-mapping>
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
-	</servlet-mapping> -->
+	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

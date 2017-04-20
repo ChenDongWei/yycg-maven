@@ -193,7 +193,7 @@ var columns = [ [{
 	title : '采购量',
 	width : 50,
 	formatter:function(value,row,index){
-		if(row.ypxxid){//如果有药品信息id表示不是总计行
+		if(row.id){//如果有药品信息id表示不是总计行
 			return '<input type="text" name="yycgdmxCustoms['+index+'].cgl" value="'+(value?value:"")+'" />';
 		}else{
 			return value;

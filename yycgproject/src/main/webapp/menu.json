@@ -27,8 +27,9 @@
                  }] 
                },
                {"icon" : "icon-chart-curve","menuid" : "1","menuname" : "统计分析","url" : "","menus" : [
-                 {"icon" : "icon-application-form-edit","menuid" : "1_1","menuname" : "交易明细查询","url" : "/yycg/statistics/businesslist.action"
-                 }, {"icon" : "icon-log","menuid" : "1_1","menuname" : "按药品统计","url" : "/yycg/statistics/businessypxxsum.action"
+                 {"icon" : "icon-application-form-edit","menuid" : "1_1","menuname" : "交易明细查询","url" : "/tj/businesslist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "按药品统计","url" : "/tj/groupbyypxx.action"
                  }] 
                }
              ]

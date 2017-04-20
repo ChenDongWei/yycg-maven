@@ -28,6 +28,18 @@ public class YycgdmxCustom extends YpxxCustom {
 	private String controlmc;// 供货状态
 
 	private String control;
+	
+	//入库信息
+	private Integer rkl;
+	private Float rkje;
+	
+	//退货信息
+	private Integer thl;
+	private Float thje;
+	
+	//结算信息
+	private Integer jsl;
+	private Float jsje;
 
 	public String getYycgdid() {
 		return yycgdid;
@@ -179,6 +191,54 @@ public class YycgdmxCustom extends YpxxCustom {
 
 	public void setYycgdztmc(String yycgdztmc) {
 		this.yycgdztmc = yycgdztmc;
+	}
+
+	public Integer getRkl() {
+		return rkl;
+	}
+
+	public void setRkl(Integer rkl) {
+		this.rkl = rkl;
+	}
+
+	public Float getRkje() {
+		return rkje;
+	}
+
+	public void setRkje(Float rkje) {
+		this.rkje = rkje;
+	}
+
+	public Integer getThl() {
+		return thl;
+	}
+
+	public void setThl(Integer thl) {
+		this.thl = thl;
+	}
+
+	public Float getThje() {
+		return thje;
+	}
+
+	public void setThje(Float thje) {
+		this.thje = thje;
+	}
+
+	public Integer getJsl() {
+		return jsl;
+	}
+
+	public void setJsl(Integer jsl) {
+		this.jsl = jsl;
+	}
+
+	public Float getJsje() {
+		return jsje;
+	}
+
+	public void setJsje(Float jsje) {
+		this.jsje = jsje;
 	}
 
 }

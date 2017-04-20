@@ -105,7 +105,7 @@
 	<!-- begin of footer -->
 	<div class="chen-footer" data-options="region:'south',border:true,split:false">
     	<div class="footer">
-			&copy; 系统版本号：${version_number}&nbsp;&nbsp;&nbsp;发布日期：${version_date}</div>
+			&copy; 2017 ChenDongWei All Rights Reserved </div>
 		</div>
     </div>
     <!-- end of footer -->
